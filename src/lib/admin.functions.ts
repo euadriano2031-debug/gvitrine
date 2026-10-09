@@ -1,62 +1,76 @@
-import { createServerFn } from "@tanstack/react-start";
-import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import { supabase } from "@/integrations/supabase/client";
+
+export type AdminOrganization = {
+  id: string;
+  name: string;
+  slug: string;
+  description: string;
+  logo_url: string | null;
+  primary_color: string;
+  status: string;
+};
+
+export type AdminAccess = {
+  admin: boolean;
+  organizations: AdminOrganization[];
+};
 
 /**
- * Resolve o acesso administrativo usando a role persistida no banco.
- * A consulta é limitada ao usuário autenticado pelo middleware e pelas políticas RLS;
- * não depende de um e-mail fixo, que poderia bloquear o administrador legítimo.
+ * Loads the current user's access using the user's own Supabase session.
+ *
+ * This intentionally runs in the browser: the app stores the Supabase session in
+ * localStorage, which does not automatically attach an Authorization header to a
+ * TanStack server-function request. All reads here are restricted by Supabase RLS;
+ * this helper only controls UI navigation and is not an authorization boundary.
  */
-export const ensureAdminRole = createServerFn({ method: "POST" })
-  .middleware([requireSupabaseAuth])
-  .handler(async ({ context }) => {
-    const { data: role, error: roleError } = await context.supabase
-      .from("user_roles")
-      .select("role")
-      .eq("user_id", context.userId)
-      .eq("role", "admin")
-      .maybeSingle();
+export async function ensureAdminRole(): Promise<AdminAccess> {
+  const { data: userData, error: userError } = await supabase.auth.getUser();
+  if (userError || !userData.user) {
+    throw new Error("Sua sessão expirou. Entre novamente para continuar.");
+  }
 
-    // Falha fechada: um erro de consulta nunca concede privilégio administrativo.
-    const admin = !roleError && role?.role === "admin";
+  const userId = userData.user.id;
+  const { data: role, error: roleError } = await supabase
+    .from("user_roles")
+    .select("role")
+    .eq("user_id", userId)
+    .eq("role", "admin")
+    .maybeSingle();
 
-    if (admin) {
-      const { data: organizations, error } = await context.supabase
-        .from("organizations")
-        .select("id,name,slug,description,logo_url,primary_color,status")
-        .eq("status", "active")
-        .order("name", { ascending: true });
+  if (roleError) throw roleError;
+  const admin = role?.role === "admin";
 
-      if (error) throw error;
-
-      return {
-        admin: true,
-        organizations: organizations ?? [],
-      };
-    }
-
-    const { data: memberships, error: membershipsError } = await context.supabase
-      .from("organization_members")
-      .select("organization_id")
-      .eq("user_id", context.userId);
-
-    if (membershipsError) throw membershipsError;
-
-    const ids = memberships?.map((item) => item.organization_id) ?? [];
-    if (ids.length === 0) {
-      return { admin: false, organizations: [] };
-    }
-
-    const { data: organizations, error: organizationsError } = await context.supabase
+  if (admin) {
+    const { data: organizations, error } = await supabase
       .from("organizations")
       .select("id,name,slug,description,logo_url,primary_color,status")
-      .in("id", ids)
       .eq("status", "active")
       .order("name", { ascending: true });
 
-    if (organizationsError) throw organizationsError;
+    if (error) throw error;
+    return { admin: true, organizations: (organizations ?? []) as AdminOrganization[] };
+  }
 
-    return {
-      admin: false,
-      organizations: organizations ?? [],
-    };
-  });
+  const { data: memberships, error: membershipError } = await supabase
+    .from("organization_members")
+    .select("organization_id")
+    .eq("user_id", userId);
+
+  if (membershipError) throw membershipError;
+
+  const organizationIds = (memberships ?? []).map((item) => item.organization_id);
+  if (organizationIds.length === 0) {
+    return { admin: false, organizations: [] };
+  }
+
+  const { data: organizations, error: organizationError } = await supabase
+    .from("organizations")
+    .select("id,name,slug,description,logo_url,primary_color,status")
+    .in("id", organizationIds)
+    .eq("status", "active")
+    .order("name", { ascending: true });
+
+  if (organizationError) throw organizationError;
+
+  return { admin: false, organizations: (organizations ?? []) as AdminOrganization[] };
+}
