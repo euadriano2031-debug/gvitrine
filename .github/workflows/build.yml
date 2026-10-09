@@ -1,0 +1,30 @@
+name: Build and validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Build application
+        run: npm run build
+        env:
+          VITE_SUPABASE_URL: https://jxyhzpvgihfkeduvomlu.supabase.co
+          VITE_SUPABASE_PUBLISHABLE_KEY: sb_publishable_Vptw5SjTwqx3fVWAQHLu7w_acKRxbHs
