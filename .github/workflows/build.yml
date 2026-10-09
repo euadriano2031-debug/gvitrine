@@ -10,8 +10,13 @@ on:
 permissions:
   contents: read
 
+env:
+  VITE_SUPABASE_URL: https://jxyhzpvgihfkeduvomlu.supabase.co
+  VITE_SUPABASE_PUBLISHABLE_KEY: sb_publishable_Vptw5SjTwqx3fVWAQHLu7w_acKRxbHs
+
 jobs:
-  build:
+  build-lovable:
+    name: Build (Lovable / default runtime)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -25,6 +30,26 @@ jobs:
         run: npm ci
       - name: Build application
         run: npm run build
-        env:
-          VITE_SUPABASE_URL: https://jxyhzpvgihfkeduvomlu.supabase.co
-          VITE_SUPABASE_PUBLISHABLE_KEY: sb_publishable_Vptw5SjTwqx3fVWAQHLu7w_acKRxbHs
+
+  build-vercel:
+    name: Build (Vercel production bundle)
+    runs-on: ubuntu-latest
+    env:
+      VERCEL: "1"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Build Vercel output
+        run: npm run build
+      - name: Verify Vercel deployment output
+        run: |
+          test -s .vercel/output/config.json
+          test -d .vercel/output/functions
+          test -d .vercel/output/static
