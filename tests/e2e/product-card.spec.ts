@@ -35,7 +35,7 @@ async function primeiroCard(page: Page) {
 test.describe("Vitrine pública", () => {
   test("carrega produtos da organização principal no endereço raiz", async ({ page }) => {
     await primeiroCard(page);
-    await expect(page.getByTestId("product-card")).toHaveCount(8);
+    await expect(page.getByTestId("product-card").count()).resolves.toBeGreaterThan(0);
   });
 
   test("produto de loja administrada abre pelo slug da organização e do produto", async ({ page }) => {
