@@ -416,7 +416,7 @@ function ProdutosAdmin() {
           <Button type="button" variant="outline" onClick={() => setEditandoTitulosSecoes(true)}>
             <Palette /> Personalizar títulos
           </Button>
-          <Button type="button" variant="outline" onClick={() => setEditandoTitulosSecoes(true)}>
+          <Button type="button" variant="outline" className="hidden" onClick={() => setEditandoTitulosSecoes(true)}>
             <Pencil /> Editar “Produtos em Destaque”
           </Button>
           <Button type="button" variant="outline" onClick={() => setEditandoBotaoVerMais(true)}>
