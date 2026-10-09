@@ -1,30 +1,23 @@
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
-const ADMIN_EMAILS = ["diano.baiano2015@gmail.com"];
-
 /**
- * Concede o papel de administrador para os e-mails autorizados da loja.
- * Chamada logo após o login.
+ * Resolve o acesso administrativo usando a role persistida no banco.
+ * A consulta é limitada ao usuário autenticado pelo middleware e pelas políticas RLS;
+ * não depende de um e-mail fixo, que poderia bloquear o administrador legítimo.
  */
 export const ensureAdminRole = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
-    const claims = context.claims as { email?: string } | null;
-    const email = claims?.email?.toLowerCase();
-    const isGlobalAdminEmail = Boolean(email && ADMIN_EMAILS.includes(email));
-    let admin = false;
+    const { data: role, error: roleError } = await context.supabase
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", context.userId)
+      .eq("role", "admin")
+      .maybeSingle();
 
-    if (isGlobalAdminEmail) {
-      const { data: role, error } = await context.supabase
-        .from("user_roles")
-        .select("role")
-        .eq("user_id", context.userId)
-        .eq("role", "admin")
-        .maybeSingle();
-
-      admin = !error && role?.role === "admin";
-    }
+    // Falha fechada: um erro de consulta nunca concede privilégio administrativo.
+    const admin = !roleError && role?.role === "admin";
 
     if (admin) {
       const { data: organizations, error } = await context.supabase
@@ -33,9 +26,11 @@ export const ensureAdminRole = createServerFn({ method: "POST" })
         .eq("status", "active")
         .order("name", { ascending: true });
 
+      if (error) throw error;
+
       return {
         admin: true,
-        organizations: error ? [] : organizations ?? [],
+        organizations: organizations ?? [],
       };
     }
 
@@ -44,9 +39,7 @@ export const ensureAdminRole = createServerFn({ method: "POST" })
       .select("organization_id")
       .eq("user_id", context.userId);
 
-    if (membershipsError) {
-      return { admin: false, organizations: [] };
-    }
+    if (membershipsError) throw membershipsError;
 
     const ids = memberships?.map((item) => item.organization_id) ?? [];
     if (ids.length === 0) {
@@ -60,8 +53,10 @@ export const ensureAdminRole = createServerFn({ method: "POST" })
       .eq("status", "active")
       .order("name", { ascending: true });
 
+    if (organizationsError) throw organizationsError;
+
     return {
       admin: false,
-      organizations: organizationsError ? [] : organizations ?? [],
+      organizations: organizations ?? [],
     };
   });
