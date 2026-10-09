@@ -2,7 +2,6 @@ import { createFileRoute, Link, Outlet, useNavigate, useRouter, useRouterState }
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { AlertTriangle, Building2, DatabaseBackup, KeyRound, LayoutDashboard, LogOut, Package, PlayCircle, LifeBuoy, Store, Inbox, Sparkles, Sun, Moon, Tags, Menu, Paintbrush, ShoppingBag } from "lucide-react";
-import { useServerFn } from "@tanstack/react-start";
 import { supabase } from "@/integrations/supabase/client";
 import { ensureAdminRole } from "@/lib/admin.functions";
 import { Button } from "@/components/ui/button";
@@ -48,7 +47,7 @@ function AdminLayout() {
   const navigate = useNavigate();
   const router = useRouter();
   const queryClient = useQueryClient();
-  const garantirAdmin = useServerFn(ensureAdminRole);
+  const garantirAdmin = ensureAdminRole;
   const [theme, setTheme] = useState<"light" | "dark">("light");
   const [verificandoAcesso, setVerificandoAcesso] = useState(true);
   const [administradorGlobal, setAdministradorGlobal] = useState(false);
