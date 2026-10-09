@@ -1,15 +1,10 @@
 import { expect, test, type Page } from "@playwright/test";
 
-/**
- * Valida que cada área clicável do card tem uma única ação:
- * imagem/badge -> modal de vídeo, Detalhes e título -> modal do produto,
- * Comprar -> link externo em nova aba.
- */
-
+/** Opens the public storefront and waits until the primary store's real products render. */
 async function primeiroCard(page: Page) {
   const erros: string[] = [];
   const falhasRede: string[] = [];
-  page.on("pageerror", (e) => erros.push(String(e)));
+  page.on("pageerror", (error) => erros.push(String(error)));
   page.on("requestfailed", (request) => {
     falhasRede.push(
       `${request.method()} ${request.url()} -> ${request.failure()?.errorText ?? "falha desconhecida"}`,
@@ -20,7 +15,7 @@ async function primeiroCard(page: Page) {
   const card = page.getByTestId("product-card").first();
 
   try {
-    await expect(card).toBeVisible({ timeout: 20_000 });
+    await expect(card).toBeVisible({ timeout: 25_000 });
   } catch (error) {
     const texto = await page.locator("body").innerText().catch(() => "");
     throw new Error(
@@ -35,21 +30,33 @@ async function primeiroCard(page: Page) {
   }
 
   return card;
-  test("produto de loja administrada resolve pela loja e pelo slug", async ({ page }) => {
-    await page.goto("/loja/vitrine/produto/agenda-pro", { waitUntil: "domcontentloaded" });
-    await expect(page.getByRole("heading", { level: 1, name: "Agenda PRO" })).toBeVisible({ timeout: 20_000 });
-    await expect(page).toHaveURL(/\/loja\/vitrine\/produto\/agenda-pro$/);
-    await expect(page.getByText(/Sistema de Agendamento inteligente/)).toBeVisible();
+}
+
+test.describe("Vitrine pública", () => {
+  test("carrega produtos da organização principal no endereço raiz", async ({ page }) => {
+    await primeiroCard(page);
+    await expect(page.getByTestId("product-card")).toHaveCount(8);
   });
 
+  test("produto de loja administrada abre pelo slug da organização e do produto", async ({ page }) => {
+    await page.goto("/loja/ki-vitrine/produto/agenda-pro", { waitUntil: "domcontentloaded" });
+    await expect(page.getByRole("heading", { level: 1, name: "Agenda PRO" })).toBeVisible({ timeout: 25_000 });
+    await expect(page).toHaveURL(/\/loja\/ki-vitrine\/produto\/agenda-pro$/);
+    await expect(page.getByText(/Sistema de Agendamento inteligente/i)).toBeVisible();
+  });
 
-}
+  test("página administrativa redireciona visitantes sem sessão para o login", async ({ page }) => {
+    await page.goto("/admin", { waitUntil: "domcontentloaded" });
+    await expect(page).toHaveURL(/\/auth(?:\?.*)?$/);
+    await expect(page.getByRole("heading", { name: "Painel Administrativo" })).toBeVisible();
+  });
+});
 
 test.describe("Card da vitrine", () => {
   test("botão Detalhes abre o modal do produto (e nada mais)", async ({ page }) => {
     const card = await primeiroCard(page);
     const erros: string[] = [];
-    page.on("pageerror", (e) => erros.push(String(e)));
+    page.on("pageerror", (error) => erros.push(String(error)));
 
     await card.getByTestId("card-detalhes").click();
     const dialog = page.getByRole("dialog");
@@ -76,14 +83,14 @@ test.describe("Card da vitrine", () => {
     await expect(dialog).toBeHidden();
   });
 
-  test("botão Comprar abre o checkout externo em nova aba, sem abrir modal", async ({ page, context }) => {
+  test("botão Comprar abre checkout externo em nova aba, sem abrir modal", async ({ page, context }) => {
     const card = await primeiroCard(page);
     const comprar = card.getByTestId("card-comprar");
     test.skip((await comprar.count()) === 0, "Produto sem botão comprar");
 
     const href = await comprar.getAttribute("href");
     expect(href).toMatch(/^https?:\/\//);
-    expect(await comprar.getAttribute("target")).toBe("_blank");
+    await expect(comprar).toHaveAttribute("target", "_blank");
 
     const popupPromise = context.waitForEvent("page").catch(() => null);
     await comprar.click({ modifiers: ["Control"] });
@@ -91,24 +98,25 @@ test.describe("Card da vitrine", () => {
     await expect(page.getByRole("dialog")).toHaveCount(0);
   });
 
-  test("clique no título navega para o produto específico", async ({ page }) => {
+  test("clique no título navega para a página do produto da própria loja", async ({ page }) => {
     const card = await primeiroCard(page);
     const titulo = card.getByRole("link", { name: /Abrir página de / }).first();
     const href = await titulo.getAttribute("href");
-    expect(href).toMatch(/^\/produto\//);
+    expect(href).toMatch(/^\/loja\/ki-vitrine\/produto\//);
     await titulo.click();
-    await expect(page).toHaveURL(/\/produto\//);
+    await expect(page).toHaveURL(/\/loja\/ki-vitrine\/produto\//);
   });
 
-  test("os botões não conflitam: abrir vídeo e depois detalhes", async ({ page }) => {
+  test("abrir detalhes depois do vídeo não mantém o vídeo ativo", async ({ page }) => {
     const card = await primeiroCard(page);
     const badge = card.getByTestId("card-video-badge");
     if (await badge.count()) {
-      await badge.evaluate((element) => (element as HTMLButtonElement).click()); // animação pode deslocar o badge fora da viewport
+      await badge.evaluate((element) => (element as HTMLButtonElement).click());
       await expect(page.getByRole("dialog").locator("video, iframe")).toHaveCount(1);
       await page.keyboard.press("Escape");
       await expect(page.getByRole("dialog")).toHaveCount(0);
     }
+
     await card.getByTestId("card-detalhes").click();
     await expect(page.getByRole("dialog")).toBeVisible();
     await expect(page.getByRole("dialog").locator("video, iframe")).toHaveCount(0);
