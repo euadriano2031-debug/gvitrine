@@ -1,0 +1,12 @@
+LOJA VITRINE / G-VITRINE — CÓDIGO-FONTE COMPLETO
+
+Banco Supabase novo: leia SUPABASE_INSTALACAO/00-LEIA-ME-ORDEM.md e execute somente os SQLs 01 a 11, um por vez.
+Antes do SQL 09, crie o usuário proprietário em Supabase Authentication > Users.
+Não execute as migrations por cima do instalador completo: supabase/migrations/ é para atualização incremental de bancos existentes.
+
+Copie .env.example para .env e configure VITE_SUPABASE_URL e VITE_SUPABASE_PUBLISHABLE_KEY com seu próprio projeto antes de compilar.
+Nunca exponha SUPABASE_SERVICE_ROLE_KEY no frontend ou em variáveis VITE_*.
+O arquivo .env real foi excluído deste pacote.
+
+O ZIP contém código e estrutura SQL, mas não é um dump dos dados privados de produção. Mídias enviadas ao Storage devem ser migradas separadamente.
+Para o site completo use Vercel ou uma hospedagem com suporte a Node/TanStack Start/Nitro; hospedagem estática simples não oferece todas as funções SSR.
