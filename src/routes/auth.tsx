@@ -1,5 +1,4 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useServerFn } from "@tanstack/react-start";
 import { useCallback, useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { ensureAdminRole } from "@/lib/admin.functions";
@@ -24,7 +23,7 @@ export const Route = createFileRoute("/auth")({
 
 function AuthPage() {
   const navigate = useNavigate();
-  const garantirAdmin = useServerFn(ensureAdminRole);
+  const garantirAdmin = ensureAdminRole;
   const [nomeLoja, setNomeLoja] = useState("");
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
