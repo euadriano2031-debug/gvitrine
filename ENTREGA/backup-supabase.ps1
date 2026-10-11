@@ -4,18 +4,18 @@
 $ErrorActionPreference = "Stop"
 
 if ([string]::IsNullOrWhiteSpace($env:SUPABASE_DB_URL)) {
-  throw @"
+  throw @'
 Defina SUPABASE_DB_URL apenas nesta sessão do PowerShell.
 Copie a connection string em Supabase Dashboard > Connect.
 Exemplo:
   $env:SUPABASE_DB_URL = 'postgresql://postgres:...@db....supabase.co:5432/postgres'
 Não coloque o valor real no Git ou neste script.
-"@
+'@
 }
 
 $root = Split-Path -Parent $PSScriptRoot
 $timestamp = Get-Date -Format "yyyyMMdd-HHmmss"
-$outDir = Join-Path $root "BACKUP-DADOS-LOCAL\$timestamp"
+$outDir = Join-Path (Join-Path $root "BACKUP-DADOS-LOCAL") $timestamp
 New-Item -ItemType Directory -Path $outDir -Force | Out-Null
 
 Write-Host "Exportando papéis..."
