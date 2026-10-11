@@ -21,17 +21,27 @@ const supabase = createClient(url, key, {
 
 const bucket = "loja";
 const outputRoot = path.resolve("BACKUP-DADOS-LOCAL", "storage", bucket);
+const pageSize = 100;
 let downloaded = 0;
 
-async function exportDirectory(prefix = "") {
-  const { data, error } = await supabase.storage.from(bucket).list(prefix, {
-    limit: 100,
-    offset: 0,
-    sortBy: { column: "name", order: "asc" },
-  });
-  if (error) throw new Error("Falha listando " + (prefix || "/") + ": " + error.message);
+async function listAll(prefix) {
+  const entries = [];
+  for (let offset = 0; ; offset += pageSize) {
+    const { data, error } = await supabase.storage.from(bucket).list(prefix, {
+      limit: pageSize,
+      offset,
+      sortBy: { column: "name", order: "asc" },
+    });
+    if (error) throw new Error("Falha listando " + (prefix || "/") + ": " + error.message);
+    entries.push(...(data ?? []));
+    if (!data || data.length < pageSize) break;
+  }
+  return entries;
+}
 
-  for (const entry of data ?? []) {
+async function exportDirectory(prefix = "") {
+  const entries = await listAll(prefix);
+  for (const entry of entries) {
     const objectPath = prefix ? prefix + "/" + entry.name : entry.name;
     const isFolder = entry.id == null && entry.metadata == null;
 
