@@ -1,0 +1,78 @@
+name: Gerar pacote de download G-Vitrine
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    name: Empacotar código-fonte e scripts Supabase
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar o código do repositório
+        uses: actions/checkout@v4
+
+      - name: Gerar ZIP seguro
+        shell: bash
+        run: |
+          python - <<'PY'
+          import os
+          import subprocess
+          import zipfile
+          from pathlib import Path
+
+          root = Path(".").resolve()
+          destination = Path(os.environ["RUNNER_TEMP"]) / "G-VITRINE-FONTE-E-BANCO-ORGANIZADO.zip"
+          tracked = subprocess.check_output(["git", "ls-files", "-z"]).decode().split("\0")
+          excluded_dirs = {
+              ".git", "node_modules", ".vercel", ".output", "dist", "dist-ssr",
+              "coverage", "playwright-report", "test-results", "BACKUP-DADOS-LOCAL"
+          }
+          packaged = []
+          skipped_secret = []
+          with zipfile.ZipFile(destination, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=6) as archive:
+              for entry in tracked:
+                  if not entry:
+                      continue
+                  relative = Path(entry)
+                  parts = relative.parts
+                  if any(part in excluded_dirs for part in parts):
+                      continue
+                  name = relative.name
+                  if name == ".env" or (name.startswith(".env.") and name != ".env.example"):
+                      skipped_secret.append(entry)
+                      continue
+                  if name.lower().endswith(".zip"):
+                      continue
+                  if not relative.is_file():
+                      continue
+                  archive.write(relative, Path("G-VITRINE") / relative)
+                  packaged.append(entry)
+              if not (root / ".env.example").exists():
+                  raise SystemExit("ERRO: .env.example não existe; pacote incompleto.")
+              if ".env" in [p for p in packaged if Path(p).name == ".env"]:
+                  raise SystemExit("ERRO: arquivo .env seria incluído no pacote.")
+              if not any(p.startswith("src/") for p in packaged):
+                  raise SystemExit("ERRO: código-fonte src/ não foi encontrado.")
+              if not any(p.startswith("SUPABASE_INSTALACAO/") for p in packaged):
+                  raise SystemExit("ERRO: scripts SQL de instalação não encontrados.")
+              bad = archive.testzip()
+              if bad:
+                  raise SystemExit("ERRO: ZIP corrompido no arquivo " + bad)
+          print("Arquivo: " + str(destination))
+          print("Arquivos incluídos: " + str(len(packaged)))
+          print("Arquivos de ambiente/segredo ignorados: " + str(len(skipped_secret)))
+          print("Tamanho (bytes): " + str(destination.stat().st_size))
+          PY
+
+      - name: Publicar artefato para download
+        uses: actions/upload-artifact@v4
+        with:
+          name: G-VITRINE-FONTE-E-BANCO-ORGANIZADO
+          path: ${{ runner.temp }}/G-VITRINE-FONTE-E-BANCO-ORGANIZADO.zip
+          if-no-files-found: error
+          retention-days: 30
