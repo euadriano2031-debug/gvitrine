@@ -45,3 +45,8 @@ lerna-debug.log*
 *.sw?
 test-results/
 playwright-report/
+
+# Local database backups may contain private production data
+BACKUP-DADOS-LOCAL/
+*.dump
+*.backup
