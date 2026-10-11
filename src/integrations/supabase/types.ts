@@ -87,47 +87,6 @@ export type Database = {
           },
         ]
       }
-      loja_backups: {
-        Row: {
-          checksum: string
-          criado_por: string | null
-          expira_em: string
-          gerado_em: string
-          id: string
-          origem: string
-          organization_id: string
-          payload: Json
-        }
-        Insert: {
-          checksum: string
-          criado_por?: string | null
-          expira_em?: string
-          gerado_em?: string
-          id?: string
-          origem?: string
-          organization_id: string
-          payload: Json
-        }
-        Update: {
-          checksum?: string
-          criado_por?: string | null
-          expira_em?: string
-          gerado_em?: string
-          id?: string
-          origem?: string
-          organization_id?: string
-          payload?: Json
-        }
-        Relationships: [
-          {
-            foreignKeyName: "loja_backups_organization_id_fkey"
-            columns: ["organization_id"]
-            isOneToOne: false
-            referencedRelation: "organizations"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       leads: {
         Row: {
           created_at: string
@@ -136,7 +95,10 @@ export type Database = {
           mensagem: string | null
           nome: string
           organization_id: string | null
+          page_url: string | null
           produto_id: string | null
+          source: string | null
+          status: string | null
           telefone: string | null
         }
         Insert: {
@@ -146,7 +108,10 @@ export type Database = {
           mensagem?: string | null
           nome: string
           organization_id?: string | null
+          page_url?: string | null
           produto_id?: string | null
+          source?: string | null
+          status?: string | null
           telefone?: string | null
         }
         Update: {
@@ -156,7 +121,10 @@ export type Database = {
           mensagem?: string | null
           nome?: string
           organization_id?: string | null
+          page_url?: string | null
           produto_id?: string | null
+          source?: string | null
+          status?: string | null
           telefone?: string | null
         }
         Relationships: [
@@ -172,6 +140,47 @@ export type Database = {
             columns: ["produto_id"]
             isOneToOne: false
             referencedRelation: "produtos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      loja_backups: {
+        Row: {
+          checksum: string
+          criado_por: string | null
+          expira_em: string
+          gerado_em: string
+          id: string
+          organization_id: string
+          origem: string
+          payload: Json
+        }
+        Insert: {
+          checksum: string
+          criado_por?: string | null
+          expira_em?: string
+          gerado_em?: string
+          id?: string
+          organization_id: string
+          origem?: string
+          payload: Json
+        }
+        Update: {
+          checksum?: string
+          criado_por?: string | null
+          expira_em?: string
+          gerado_em?: string
+          id?: string
+          organization_id?: string
+          origem?: string
+          payload?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "loja_backups_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
             referencedColumns: ["id"]
           },
         ]
@@ -345,11 +354,14 @@ export type Database = {
           tags: string[]
           titulo: string
           updated_at: string
+          video_legenda_ativa: boolean
+          video_legenda_url: string | null
           video_url: string | null
           whatsapp_compartilhar_ativo: boolean
           whatsapp_compartilhar_cor: string
           whatsapp_compartilhar_descricao: string | null
           whatsapp_compartilhar_imagem_url: string | null
+          whatsapp_compartilhar_mensagem: string | null
           whatsapp_compartilhar_texto: string
           whatsapp_compartilhar_titulo: string | null
           whatsapp_compartilhar_url: string | null
@@ -395,11 +407,14 @@ export type Database = {
           tags?: string[]
           titulo: string
           updated_at?: string
+          video_legenda_ativa?: boolean
+          video_legenda_url?: string | null
           video_url?: string | null
           whatsapp_compartilhar_ativo?: boolean
           whatsapp_compartilhar_cor?: string
           whatsapp_compartilhar_descricao?: string | null
           whatsapp_compartilhar_imagem_url?: string | null
+          whatsapp_compartilhar_mensagem?: string | null
           whatsapp_compartilhar_texto?: string
           whatsapp_compartilhar_titulo?: string | null
           whatsapp_compartilhar_url?: string | null
@@ -445,11 +460,14 @@ export type Database = {
           tags?: string[]
           titulo?: string
           updated_at?: string
+          video_legenda_ativa?: boolean
+          video_legenda_url?: string | null
           video_url?: string | null
           whatsapp_compartilhar_ativo?: boolean
           whatsapp_compartilhar_cor?: string
           whatsapp_compartilhar_descricao?: string | null
           whatsapp_compartilhar_imagem_url?: string | null
+          whatsapp_compartilhar_mensagem?: string | null
           whatsapp_compartilhar_texto?: string
           whatsapp_compartilhar_titulo?: string | null
           whatsapp_compartilhar_url?: string | null
@@ -537,13 +555,47 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      clonar_loja_modelo: { Args: { _org: string }; Returns: undefined }
+      _criar_backup_da_loja_com_origem: {
+        Args: { _organization_id: string; _origem: string }
+        Returns: string
+      }
+      criar_backup_da_loja: {
+        Args: { _organization_id: string }
+        Returns: string
+      }
+      criar_backup_pre_restauracao_da_loja: {
+        Args: { _organization_id: string }
+        Returns: string
+      }
+      criar_lead_publico: {
+        Args: {
+          _email?: string
+          _mensagem?: string
+          _nome: string
+          _organization_slug: string
+          _produto_id?: string
+          _telefone?: string
+        }
+        Returns: string
+      }
+      excluir_backup_da_loja: {
+        Args: { _backup_id: string; _organization_id: string }
+        Returns: boolean
+      }
+      gerar_payload_backup_loja: {
+        Args: { _organization_id: string }
+        Returns: Json
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
           _user_id: string
         }
         Returns: boolean
+      }
+      initialize_organization_from_legacy: {
+        Args: { _organization_id: string }
+        Returns: undefined
       }
       is_organization_active: {
         Args: { _organization_id: string }
@@ -557,23 +609,27 @@ export type Database = {
         Args: { _organization_id: string }
         Returns: boolean
       }
-      criar_backup_da_loja: {
-        Args: { _organization_id: string }
-        Returns: string
+      public_categorias_por_loja: {
+        Args: { _organization_slug: string }
+        Returns: Json[]
       }
-      criar_backup_pre_restauracao_da_loja: {
-        Args: { _organization_id: string }
-        Returns: string
+      public_configuracao_por_loja: {
+        Args: { _chave: string; _organization_slug: string }
+        Returns: Json
+      }
+      public_produto_por_loja: {
+        Args: { _organization_slug: string; _product_slug: string }
+        Returns: Json
+      }
+      public_produtos_por_loja: {
+        Args: { _organization_slug: string }
+        Returns: Json[]
       }
       restaurar_backup_da_loja: {
         Args: { _organization_id: string; _payload: Json }
         Returns: Json
       }
-      pasta_da_loja_permitida: { Args: { _name: string }; Returns: boolean }
-      public_produto_por_loja: {
-        Args: { _organization_slug: string; _product_slug: string }
-        Returns: Json
-      }
+      rotina_backups_60_dias: { Args: never; Returns: number }
       saas_usage: {
         Args: { _organization_id: string }
         Returns: {
@@ -588,6 +644,10 @@ export type Database = {
         }[]
       }
       slugify: { Args: { _txt: string }; Returns: string }
+      sync_products_from_main_store: {
+        Args: { _organization_id: string }
+        Returns: undefined
+      }
       unaccent_fallback: { Args: { _txt: string }; Returns: string }
     }
     Enums: {
