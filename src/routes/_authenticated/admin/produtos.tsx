@@ -122,8 +122,8 @@ function WhatsAppIcon({ className = "h-4 w-4" }: { className?: string }) {
 
 function ProdutosAdmin() {
   const qc = useQueryClient();
-  const { data = [], isLoading } = useQuery({ queryKey: ["produtos-admin"], queryFn: () => fetchProdutosAdmin() });
-  const { data: categorias = [] } = useQuery({ queryKey: ["categorias-admin"], queryFn: () => fetchCategoriasAdmin() });
+  const { data = [], isLoading } = useQuery({ queryKey: ["produtos-admin", getActiveOrganizationId()], queryFn: () => fetchProdutosAdmin() });
+  const { data: categorias = [] } = useQuery({ queryKey: ["categorias-admin", getActiveOrganizationId()], queryFn: () => fetchCategoriasAdmin() });
   const { data: minhasOrganizacoes = [] } = useQuery({
     queryKey: ["minhas-organizacoes"],
     queryFn: listarMinhasOrganizacoes,
@@ -159,8 +159,8 @@ function ProdutosAdmin() {
   };
 
   const invalidar = () => {
-    void qc.invalidateQueries({ queryKey: ["produtos-admin"] });
-    void qc.invalidateQueries({ queryKey: ["produtos-publicos"] });
+    void qc.invalidateQueries({ queryKey: ["produtos-admin", getActiveOrganizationId()] });
+    void qc.invalidateQueries({ queryKey: ["produtos-publicos", getActiveOrganizationSlug() ?? "legacy"] });
   };
 
   const salvar = useMutation({
