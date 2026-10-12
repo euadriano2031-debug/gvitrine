@@ -8,7 +8,7 @@ export const Route = createFileRoute("/")({
 });
 
 function HomeRoute() {
-  // Production content is stored under the VitrineMax organization, not the legacy
+  // Production content is stored under the KI-VITRINE organization, not the legacy
   // rows with organization_id = NULL. Resolve that organization first so the root
   // page loads the real catalog and its store-specific settings.
   const {
@@ -18,8 +18,8 @@ function HomeRoute() {
     error,
     refetch,
   } = useQuery({
-    queryKey: ["saas-store", "vitrinemax"],
-    queryFn: () => buscarOrganizacaoPorSlug("vitrinemax"),
+    queryKey: ["saas-store", "ki-vitrine"],
+    queryFn: () => buscarOrganizacaoPorSlug("ki-vitrine"),
     staleTime: 60_000,
     retry: 1,
   });
