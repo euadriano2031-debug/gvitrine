@@ -4,7 +4,7 @@ import * as XLSX from "xlsx";
 import {
   AlertTriangle, ArrowRight, CalendarClock, Check, CheckCircle2, CircleDollarSign,
   Clock3, Download, FileSpreadsheet, Filter, GripVertical, LayoutGrid, List,
-  Mail, MessageSquare, NotebookPen, Phone, Plus, Search, Send, Trash2,
+  Mail, MessageSquare, NotebookPen, Phone, Plus, Search, Trash2,
   TrendingUp, Users, X, Zap,
 } from "lucide-react";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
@@ -262,7 +262,6 @@ function LeadsAdmin() {
 
   const active = data.filter((lead) => !isClosedStage(normalizeStage(lead)));
   const overdue = active.filter((lead) => isOverdue(lead.crm_follow_up_at));
-  const highPriority = active.filter((lead) => ["alta", "urgente"].includes(normalizePriority(lead.crm_priority)));
   const pipelineValue = active.reduce((sum, lead) => sum + Math.max(0, Number(lead.crm_estimated_value ?? 0)), 0);
   const weightedPipelineValue = active.reduce((sum, lead) => sum + Math.max(0, Number(lead.crm_estimated_value ?? 0)) * stageProbability(normalizeStage(lead)), 0);
   const opportunitiesWithValue = active.filter((lead) => lead.crm_estimated_value != null && Number(lead.crm_estimated_value) > 0).length;
@@ -313,7 +312,7 @@ function LeadsAdmin() {
       "Página de origem": lead.page_url ?? "", "Data de entrada": formatarData(lead.created_at),
     }));
     const worksheet = XLSX.utils.json_to_sheet(rows);
-    worksheet["!cols"] = [{ wch: 24 }, { wch: 30 }, { wch: 20 }, { wch: 26 }, { wch: 20 }, { wch: 14 }, { wch: 18 }, { wch: 22 }, { wch: 40 }, { wch: 50 }, { wch: 20 }, { wch: 45 }, { wch: 20 }];
+    worksheet["!cols"] = [{ wch: 24 }, { wch: 30 }, { wch: 20 }, { wch: 26 }, { wch: 18 }, { wch: 20 }, { wch: 18 }, { wch: 14 }, { wch: 18 }, { wch: 18 }, { wch: 18 }, { wch: 18 }, { wch: 22 }, { wch: 40 }, { wch: 50 }, { wch: 20 }, { wch: 45 }, { wch: 20 }];
     const workbook = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(workbook, worksheet, "CRM");
     XLSX.writeFile(workbook, "crm-leads-" + new Date().toISOString().slice(0, 10) + ".xlsx");
   };
@@ -339,7 +338,13 @@ function LeadsAdmin() {
         <Kpi icon={<AlertTriangle className="h-5 w-5" />} label="Retornos atrasados" value={String(overdue.length)} description="Precisam de atenção" alert={overdue.length > 0} />
         <Kpi icon={<TrendingUp className="h-5 w-5" />} label="Pipeline estimado" value={currency(pipelineValue)} description={opportunitiesWithValue ? opportunitiesWithValue + " oportunidades com valor" : "Informe o valor de cada oportunidade"} />
         <Kpi icon={<TrendingUp className="h-5 w-5" />} label="Previsão ponderada" value={currency(weightedPipelineValue)} description="Estimativa ajustada pela etapa" />
-        <Kpi icon={<CircleDollarSign className="h-5 w-5" />} label="Vendas ganhas" value={currency(wonValue)} description={wonDeals.length + " negócios concluídos · valor fechado"} />
+        <Kpi icon={<CircleDollarSign className="h-5 w-5" />} label="Vendas ganhas" value={currency(wonValue)} description={wonDeals.length + " negócios · valor de fechamento registrado no CRM"} />
+      </div>
+
+      <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground">
+        <span>Preço de catálogo é apenas referência; o valor negociado pode ser diferente.</span>
+        <span>Previsão ponderada = valor estimado × probabilidade de referência da etapa.</span>
+        <span>Vendas ganhas são valores registrados no CRM, não confirmação de pagamento.</span>
       </div>
 
       <div className="flex flex-col gap-3 rounded-xl border border-border bg-card p-3 sm:p-4 lg:flex-row lg:items-center lg:justify-between">
@@ -381,7 +386,7 @@ function LeadsAdmin() {
         })}
       </div></div>
       : <div className="overflow-hidden rounded-xl border border-border bg-card"><div className="overflow-x-auto"><table className="w-full min-w-[900px] text-left text-sm">
-        <thead className="bg-muted/60 text-xs uppercase tracking-wide text-muted-foreground"><tr><th className="px-4 py-3">Contato</th><th className="px-4 py-3">Etapa</th><th className="px-4 py-3">Prioridade</th><th className="px-4 py-3">Valor</th><th className="px-4 py-3">Próximo retorno</th><th className="px-4 py-3">Entrada</th></tr></thead>
+        <thead className="bg-muted/60 text-xs uppercase tracking-wide text-muted-foreground"><tr><th className="px-4 py-3">Contato</th><th className="px-4 py-3">Etapa</th><th className="px-4 py-3">Prioridade</th><th className="px-4 py-3">Valor estimado / fechado</th><th className="px-4 py-3">Próximo retorno</th><th className="px-4 py-3">Entrada</th></tr></thead>
         <tbody className="divide-y divide-border">{filtered.map((lead) => <tr key={lead.id} className="cursor-pointer transition hover:bg-muted/40" onClick={() => setSelectedId(lead.id)}>
           <td className="px-4 py-3"><div className="font-semibold">{lead.nome}</div><div className="mt-0.5 text-xs text-muted-foreground">{lead.email || lead.telefone || "Sem contato informado"}</div></td>
           <td className="px-4 py-3"><span className="inline-flex items-center gap-2"><span className={"h-2 w-2 rounded-full " + stageInfo(normalizeStage(lead)).dot} />{stageInfo(normalizeStage(lead)).title}</span></td>
