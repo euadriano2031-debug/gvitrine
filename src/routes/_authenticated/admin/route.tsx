@@ -5,7 +5,7 @@ import { AlertTriangle, Building2, DatabaseBackup, KeyRound, LayoutDashboard, Lo
 import { supabase } from "@/integrations/supabase/client";
 import { ensureAdminRole } from "@/lib/admin.functions";
 import { Button } from "@/components/ui/button";
-import { adminHeaderPadrao, fetchConfig, type AdminHeaderConfig } from "@/lib/loja";
+import { adminHeaderPadrao, adminTemaPadrao, fetchConfig, type AdminHeaderConfig, type AdminTemaConfig } from "@/lib/loja";
 import { obterStatusCicloBackup } from "@/lib/backup";
 import { getActiveOrganizationId, getActiveOrganizationSlug, setActiveOrganization, tenantStorePath } from "@/lib/saas";
 import {
@@ -63,8 +63,14 @@ function AdminLayout() {
     status: string;
   }>>([]);
   const { data: cabecalho = adminHeaderPadrao } = useQuery<AdminHeaderConfig>({
-    queryKey: ["cfg", "admin_cabecalho", organizationId ?? "legacy"],
+    queryKey: ["cfg", "admin_cabecalho", organizationId ?? "unresolved"],
     queryFn: () => fetchConfig("admin_cabecalho", adminHeaderPadrao, organizationId),
+    enabled: Boolean(organizationId),
+  });
+  const { data: tema = adminTemaPadrao } = useQuery<AdminTemaConfig>({
+    queryKey: ["cfg", "admin_tema", organizationId ?? "unresolved"],
+    queryFn: () => fetchConfig("admin_tema", adminTemaPadrao, organizationId),
+    enabled: Boolean(organizationId),
   });
 
   // Each organization's light/dark preference is stored separately. The dark
@@ -88,15 +94,15 @@ function AdminLayout() {
   };
 
   const themeStyle = {
-    "--primary": cabecalho.tema_primaria_cor,
-    "--primary-foreground": cabecalho.tema_primaria_texto_cor,
-    "--ring": cabecalho.tema_primaria_cor,
-    "--accent": cabecalho.tema_item_ativo_cor,
-    "--accent-foreground": cabecalho.tema_item_ativo_texto_cor,
-    "--sidebar-primary": cabecalho.tema_primaria_cor,
-    "--sidebar-primary-foreground": cabecalho.tema_primaria_texto_cor,
-    "--sidebar-accent": cabecalho.tema_item_ativo_cor,
-    "--sidebar-accent-foreground": cabecalho.tema_item_ativo_texto_cor,
+    "--primary": tema.tema_primaria_cor,
+    "--primary-foreground": tema.tema_primaria_texto_cor,
+    "--ring": tema.tema_primaria_cor,
+    "--accent": tema.tema_item_ativo_cor,
+    "--accent-foreground": tema.tema_item_ativo_texto_cor,
+    "--sidebar-primary": tema.tema_primaria_cor,
+    "--sidebar-primary-foreground": tema.tema_primaria_texto_cor,
+    "--sidebar-accent": tema.tema_item_ativo_cor,
+    "--sidebar-accent-foreground": tema.tema_item_ativo_texto_cor,
   } as CSSProperties;
 
   useEffect(() => {
