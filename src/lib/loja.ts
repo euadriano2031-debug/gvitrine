@@ -663,7 +663,7 @@ export function formatBRL(valor: number) {
 export type Lead = Tables<"leads">;
 
 export type LeadComProduto = Lead & {
-  produtos?: { titulo: string } | null;
+  produtos?: { titulo: string; preco: number } | null;
   status?: string | null;
   source?: string | null;
   page_url?: string | null;
@@ -672,7 +672,7 @@ export type LeadComProduto = Lead & {
 export async function fetchLeadsAdmin(organizationId = getActiveOrganizationId()): Promise<LeadComProduto[]> {
   let query = supabase
     .from("leads")
-    .select("*, produtos:produto_id(titulo)")
+    .select("*, produtos:produto_id(titulo,preco)")
     .order("created_at", { ascending: false });
   query = escopoOrganizacao(query, organizationId);
   const { data, error } = await query;
@@ -695,7 +695,7 @@ export type CRMActivityType = "nota" | "ligacao" | "email" | "reuniao" | "tarefa
 
 export type LeadCRMFields = Pick<
   Lead,
-  "crm_stage" | "crm_priority" | "crm_notes" | "crm_follow_up_at" | "crm_estimated_value"
+  "crm_stage" | "crm_priority" | "crm_notes" | "crm_follow_up_at" | "crm_estimated_value" | "crm_final_value"
 >;
 
 function validarOrganizacaoCRM(organizationId: string | null | undefined): string {
@@ -733,6 +733,8 @@ export async function criarLeadManualCRM(
     mensagem?: string | null;
     crm_stage?: CRMStage;
     crm_priority?: CRMPriority;
+    produto_id?: string | null;
+    crm_estimated_value?: number | null;
   },
 ): Promise<Lead> {
   const orgId = validarOrganizacaoCRM(organizationId);
@@ -743,6 +745,8 @@ export async function criarLeadManualCRM(
     .insert({
       organization_id: orgId,
       nome,
+      produto_id: input.produto_id || null,
+      crm_estimated_value: input.crm_estimated_value ?? null,
       email: input.email?.trim() || null,
       telefone: input.telefone?.trim() || null,
       mensagem: input.mensagem?.trim() || null,
