@@ -146,6 +146,8 @@ function AparenciaAdmin() {
     };
 
     try {
+      // Save all panel colors separately, scoped to the confirmed organization.
+      await salvarConfig("admin_tema", tema, organizationId);
       await salvarConfig("admin_cabecalho", ajustada, organizationId);
       await salvarConfig("favicon", faviconAjustado);
       const rodapeAjustado = {
@@ -159,7 +161,8 @@ function AparenciaAdmin() {
       setCompartilhamento(compartilhamentoAjustado);
       setRodape(rodapeAjustado);
       window.dispatchEvent(new CustomEvent("favicon-updated", { detail: faviconAjustado }));
-      await qc.invalidateQueries({ queryKey: ["cfg", "admin_cabecalho", organizationId ?? "legacy"] });
+      await qc.invalidateQueries({ queryKey: ["cfg", "admin_cabecalho", organizationId] });
+      await qc.invalidateQueries({ queryKey: ["cfg", "admin_tema", organizationId] });
       await qc.invalidateQueries({ queryKey: ["cfg", "favicon"] });
       await qc.invalidateQueries({ queryKey: ["cfg", "compartilhamento"] });
       await qc.invalidateQueries({ queryKey: ["cfg", "rodape"] });
@@ -510,7 +513,7 @@ function AparenciaAdmin() {
 
       {status && <p className="mt-5 rounded-md bg-primary/10 p-3 text-sm text-primary">{status}</p>}
       <div className="mt-6 flex flex-wrap justify-end gap-2">
-        <Button type="button" variant="outline" onClick={() => { setCfg(adminHeaderPadrao); setFavicon(faviconPadrao); setCompartilhamento(compartilhamentoPadrao); setStatus(null); }}><RotateCcw /> Restaurar padrão</Button>
+        <Button type="button" variant="outline" onClick={() => { setCfg(adminHeaderPadrao); setTema(adminTemaPadrao); setFavicon(faviconPadrao); setCompartilhamento(compartilhamentoPadrao); setStatus(null); setStatusTema(null); }}><RotateCcw /> Restaurar padrão</Button>
         <Button type="button" onClick={() => void salvar()} disabled={salvando || !organizationId || !data}><Save /> {salvando ? "Salvando..." : "Salvar aparência"}</Button>
       </div>
     </div>
