@@ -30,9 +30,11 @@ function Campo({ label, children }: { label: string; children: React.ReactNode }
 
 function MarcaAdmin() {
   const qc = useQueryClient();
+  const organizationIdAtual = getActiveOrganizationId();
   const { data } = useQuery<MarcaConfig>({
-    queryKey: ["cfg", "marca"],
-    queryFn: () => fetchConfig("marca", marcaPadrao),
+    queryKey: ["cfg", "marca", organizationIdAtual ?? "unresolved"],
+    queryFn: () => fetchConfig("marca", marcaPadrao, organizationIdAtual),
+    enabled: Boolean(organizationIdAtual),
   });
   const [cfg, setCfg] = useState<MarcaConfig>(marcaPadrao);
   const [status, setStatus] = useState<string | null>(null);
@@ -78,7 +80,7 @@ function MarcaAdmin() {
     try {
       const organizationId = getActiveOrganizationId();
 
-      await salvarConfig("marca", { ...cfg, nome: cfg.nome.trim().slice(0, 60) });
+      await salvarConfig("marca", { ...cfg, nome: cfg.nome.trim().slice(0, 60) }, organizationId);
 
       if (organizationId) {
         const loja = await atualizarMinhaLoja(organizationId, {
@@ -90,7 +92,7 @@ function MarcaAdmin() {
         setSlugLoja(loja.slug);
       }
 
-      void qc.invalidateQueries({ queryKey: ["cfg", "marca"] });
+      void qc.invalidateQueries({ queryKey: ["cfg", "marca", getActiveOrganizationId() ?? "unresolved"] });
       setStatus("Marca e endereço da loja salvos com sucesso!");
     } catch (err) {
       setStatus(err instanceof Error ? err.message : "Erro ao salvar");
