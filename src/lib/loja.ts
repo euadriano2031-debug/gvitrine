@@ -192,7 +192,7 @@ export type AdminTemaConfig = {
 export const adminTemaPadrao: AdminTemaConfig = {
   tema_primaria_cor: "#16a34a",
   tema_primaria_texto_cor: "#ffffff",
-  tema_item_ativo_cor: "#dcfce7",
+  tema_item_ativo_cor: "#ebe5e5",
   tema_item_ativo_texto_cor: "#166534",
   titulo_cor: "#16a34a",
   menu_fundo_cor: "#16a34a",
@@ -229,7 +229,7 @@ export const adminHeaderPadrao: AdminHeaderConfig = {
   // Paleta aplicada somente dentro do painel administrativo desta organização.
   tema_primaria_cor: "#16a34a",
   tema_primaria_texto_cor: "#ffffff",
-  tema_item_ativo_cor: "#dcfce7",
+  tema_item_ativo_cor: "#ebe5e5",
   tema_item_ativo_texto_cor: "#166534",
 };
 
