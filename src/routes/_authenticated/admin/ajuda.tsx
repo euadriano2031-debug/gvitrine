@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { ajudaPadrao, fetchConfig, salvarConfig, uploadImagem, type AjudaConfig } from "@/lib/loja";
 import { HelpButton } from "@/components/loja/HelpButton";
 import { Button } from "@/components/ui/button";
+import { getActiveOrganizationId } from "@/lib/saas";
 
 export const Route = createFileRoute("/_authenticated/admin/ajuda")({
   head: () => ({ meta: [
@@ -30,7 +31,8 @@ function Campo({ label, children }: { label: string; children: React.ReactNode }
 
 function AjudaAdmin() {
   const qc = useQueryClient();
-  const { data } = useQuery<AjudaConfig>({ queryKey: ["cfg", "ajuda"], queryFn: () => fetchConfig("ajuda", ajudaPadrao) });
+  const organizationId = getActiveOrganizationId();
+  const { data } = useQuery<AjudaConfig>({ queryKey: ["cfg", "ajuda", organizationId ?? "unresolved"], queryFn: () => fetchConfig("ajuda", ajudaPadrao, organizationId), enabled: Boolean(organizationId) });
   const [cfg, setCfg] = useState<AjudaConfig>(ajudaPadrao);
   const [status, setStatus] = useState<string | null>(null);
   const [enviando, setEnviando] = useState(false);
@@ -43,8 +45,8 @@ function AjudaAdmin() {
     e.preventDefault();
     setStatus(null);
     try {
-      await salvarConfig("ajuda", cfg);
-      void qc.invalidateQueries({ queryKey: ["cfg", "ajuda"] });
+      await salvarConfig("ajuda", cfg, organizationId);
+      void qc.invalidateQueries({ queryKey: ["cfg", "ajuda", organizationId ?? "unresolved"] });
       setStatus("Botão salvo com sucesso!");
     } catch (err) {
       setStatus(err instanceof Error ? err.message : "Erro ao salvar");
