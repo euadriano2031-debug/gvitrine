@@ -163,7 +163,7 @@ function CategoriasAdmin() {
       };
       await salvarConfig("categoria_botoes", proximo, getActiveOrganizationId());
       setConfiguracoesBotoes(proximo);
-      await qc.invalidateQueries({ queryKey: ["cfg", "categoria_botoes", getActiveOrganizationId()] });
+      await qc.invalidateQueries({ queryKey: ["cfg", "categoria_botoes", getActiveOrganizationSlug() ?? "legacy"] });
       setStatusBotao("Personalização do botão salva com sucesso.");
     } catch (e) {
       setStatusBotao(e instanceof Error ? e.message : "Não foi possível salvar a personalização.");
@@ -179,7 +179,7 @@ function CategoriasAdmin() {
       await salvarConfig("categoria_botoes", proximo, getActiveOrganizationId());
       setConfiguracoesBotoes(proximo);
       setCfgBotao({ ...categoriaBotaoPadrao });
-      await qc.invalidateQueries({ queryKey: ["cfg", "categoria_botoes", getActiveOrganizationId()] });
+      await qc.invalidateQueries({ queryKey: ["cfg", "categoria_botoes", getActiveOrganizationSlug() ?? "legacy"] });
       setStatusBotao("Padrão restaurado para esta categoria.");
     } catch (e) {
       setStatusBotao(e instanceof Error ? e.message : "Não foi possível restaurar.");
