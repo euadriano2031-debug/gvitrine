@@ -59,16 +59,19 @@ function AparenciaAdmin() {
     enabled: Boolean(organizationId),
   });
   const { data: faviconData } = useQuery<FaviconConfig>({
-    queryKey: ["cfg", "favicon"],
-    queryFn: () => fetchConfig("favicon", faviconPadrao),
+    queryKey: ["cfg", "favicon", organizationId ?? "unresolved"],
+    queryFn: () => fetchConfig("favicon", faviconPadrao, organizationId),
+    enabled: Boolean(organizationId),
   });
   const { data: compartilhamentoData } = useQuery<CompartilhamentoConfig>({
-    queryKey: ["cfg", "compartilhamento"],
-    queryFn: () => fetchConfig("compartilhamento", compartilhamentoPadrao),
+    queryKey: ["cfg", "compartilhamento", organizationId ?? "unresolved"],
+    queryFn: () => fetchConfig("compartilhamento", compartilhamentoPadrao, organizationId),
+    enabled: Boolean(organizationId),
   });
   const { data: rodapeData } = useQuery<RodapeConfig>({
-    queryKey: ["cfg", "rodape"],
-    queryFn: () => fetchConfig("rodape", rodapePadrao),
+    queryKey: ["cfg", "rodape", organizationId ?? "unresolved"],
+    queryFn: () => fetchConfig("rodape", rodapePadrao, organizationId),
+    enabled: Boolean(organizationId),
   });
   const [cfg, setCfg] = useState(adminHeaderPadrao);
   const [tema, setTema] = useState<AdminTemaConfig>(adminTemaPadrao);
@@ -149,13 +152,13 @@ function AparenciaAdmin() {
       // Save all panel colors separately, scoped to the confirmed organization.
       await salvarConfig("admin_tema", tema, organizationId);
       await salvarConfig("admin_cabecalho", ajustada, organizationId);
-      await salvarConfig("favicon", faviconAjustado);
+      await salvarConfig("favicon", faviconAjustado, organizationId);
       const rodapeAjustado = {
         texto: rodape.texto.trim().slice(0, 180) || rodapePadrao.texto,
       };
 
-      await salvarConfig("compartilhamento", compartilhamentoAjustado);
-      await salvarConfig("rodape", rodapeAjustado);
+      await salvarConfig("compartilhamento", compartilhamentoAjustado, organizationId);
+      await salvarConfig("rodape", rodapeAjustado, organizationId);
       setCfg(ajustada);
       setFavicon(faviconAjustado);
       setCompartilhamento(compartilhamentoAjustado);
@@ -163,9 +166,9 @@ function AparenciaAdmin() {
       window.dispatchEvent(new CustomEvent("favicon-updated", { detail: faviconAjustado }));
       await qc.invalidateQueries({ queryKey: ["cfg", "admin_cabecalho", organizationId] });
       await qc.invalidateQueries({ queryKey: ["cfg", "admin_tema", organizationId] });
-      await qc.invalidateQueries({ queryKey: ["cfg", "favicon"] });
-      await qc.invalidateQueries({ queryKey: ["cfg", "compartilhamento"] });
-      await qc.invalidateQueries({ queryKey: ["cfg", "rodape"] });
+      await qc.invalidateQueries({ queryKey: ["cfg", "favicon", organizationId ?? "unresolved"] });
+      await qc.invalidateQueries({ queryKey: ["cfg", "compartilhamento", organizationId ?? "unresolved"] });
+      await qc.invalidateQueries({ queryKey: ["cfg", "rodape", organizationId ?? "unresolved"] });
       setStatus("Aparência salva com sucesso!");
     } catch (erro) {
       setStatus(erro instanceof Error ? erro.message : "Não foi possível salvar.");
