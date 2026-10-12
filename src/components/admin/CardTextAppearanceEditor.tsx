@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { RotateCcw, Save } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { getActiveOrganizationId } from "@/lib/saas";
 import { PixIcon } from "@/components/loja/PixIcon";
 import {
   cardTextPadrao,
@@ -42,9 +43,11 @@ function estilo(cor: string, tamanho: number) {
 
 export function CardTextAppearanceEditor({ onClose, produtoNome }: { onClose: () => void; produtoNome?: string }) {
   const qc = useQueryClient();
+  const organizationId = getActiveOrganizationId();
   const { data } = useQuery<CardTextConfig>({
-    queryKey: ["cfg", "card_textos"],
-    queryFn: () => fetchConfig("card_textos", cardTextPadrao),
+    queryKey: ["cfg", "card_textos", organizationId ?? "unresolved"],
+    queryFn: () => fetchConfig("card_textos", cardTextPadrao, organizationId),
+    enabled: Boolean(organizationId),
   });
   const [cfg, setCfg] = useState<CardTextConfig>(cardTextPadrao);
   const [status, setStatus] = useState<string | null>(null);
@@ -58,8 +61,8 @@ export function CardTextAppearanceEditor({ onClose, produtoNome }: { onClose: ()
     setSalvando(true);
     setStatus(null);
     try {
-      await salvarConfig("card_textos", cfg);
-      await qc.invalidateQueries({ queryKey: ["cfg", "card_textos"] });
+      await salvarConfig("card_textos", cfg, organizationId);
+      await qc.invalidateQueries({ queryKey: ["cfg", "card_textos", organizationId ?? "unresolved"] });
       setStatus("Aparência salva com sucesso!");
     } catch (erro) {
       setStatus(erro instanceof Error ? erro.message : "Não foi possível salvar.");
