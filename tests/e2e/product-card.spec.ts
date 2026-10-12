@@ -39,9 +39,9 @@ test.describe("Vitrine pública", () => {
   });
 
   test("produto de loja administrada abre pelo slug da organização e do produto", async ({ page }) => {
-    await page.goto("/loja/ki-vitrine/produto/agenda-pro", { waitUntil: "domcontentloaded" });
+    await page.goto("/loja/vitrinemax/produto/agenda-pro", { waitUntil: "domcontentloaded" });
     await expect(page.getByRole("heading", { level: 1, name: "Agenda PRO" })).toBeVisible({ timeout: 25_000 });
-    await expect(page).toHaveURL(/\/loja\/ki-vitrine\/produto\/agenda-pro$/);
+    await expect(page).toHaveURL(/\/loja\/vitrinemax\/produto\/agenda-pro$/);
     await expect(page.getByText(/Sistema de Agendamento inteligente/i)).toBeVisible();
   });
 
@@ -102,9 +102,9 @@ test.describe("Card da vitrine", () => {
     const card = await primeiroCard(page);
     const titulo = card.getByRole("link", { name: /Abrir página de / }).first();
     const href = await titulo.getAttribute("href");
-    expect(href).toMatch(/^\/loja\/ki-vitrine\/produto\//);
+    expect(href).toMatch(/^\/loja\/vitrinemax\/produto\//);
     await titulo.click();
-    await expect(page).toHaveURL(/\/loja\/ki-vitrine\/produto\//);
+    await expect(page).toHaveURL(/\/loja\/vitrinemax\/produto\//);
   });
 
   test("abrir detalhes depois do vídeo não mantém o vídeo ativo", async ({ page }) => {
