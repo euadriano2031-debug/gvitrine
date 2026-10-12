@@ -15,9 +15,9 @@ import {
   cardTextPadrao,
   categoriaBotaoPadrao,
   criarLead,
-  fetchCategorias,
-  fetchConfig,
-  fetchProdutosPublicos,
+  fetchCategoriasPublicasPorSlug,
+  fetchConfigPublicaPorSlug,
+  fetchProdutosPublicosPorSlug,
   marcaPadrao,
   rodapePadrao,
   categoriaBotoesPadrao,
@@ -55,7 +55,7 @@ const PRODUTOS_INICIAIS = 10;
 const PRODUTOS_POR_CARGA = 10;
 
 
-function LeadCapture({ organizationId }: { organizationId?: string | null }) {
+function LeadCapture({ organizationSlug }: { organizationSlug?: string | null }) {
   const qc = useQueryClient();
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
@@ -65,7 +65,7 @@ function LeadCapture({ organizationId }: { organizationId?: string | null }) {
   const [ok, setOk] = useState(false);
   const [linkWhats, setLinkWhats] = useState("");
 
-  const ajuda = useQuery<AjudaConfig>({ queryKey: ["cfg", "ajuda", organizationId ?? "legacy"], queryFn: () => fetchConfig("ajuda", ajudaPadrao, organizationId ?? null) });
+  const ajuda = useQuery<AjudaConfig>({ queryKey: ["cfg", "ajuda", organizationSlug ?? "legacy"], queryFn: () => fetchConfigPublicaPorSlug("ajuda", ajudaPadrao, organizationSlug ?? null) });
 
   const enviar = useMutation({
     mutationFn: async () => {
@@ -75,7 +75,7 @@ function LeadCapture({ organizationId }: { organizationId?: string | null }) {
         telefone: telefone.trim() || null,
         mensagem: mensagem.trim() || null,
       };
-      await criarLead(dados, organizationId ?? null);
+      await criarLead(dados, organizationSlug ?? null);
       return dados;
     },
     onSuccess: (dados) => {
@@ -219,27 +219,27 @@ export function LojaVitrine({
   const [mounted, setMounted] = useState(false);
   const queryClient = useQueryClient();
 
-  const produtos = useQuery({ queryKey: ["produtos-publicos", organizationId ?? "legacy"], queryFn: () => fetchProdutosPublicos(organizationId ?? null) });
-  const categorias = useQuery<Categoria[]>({ queryKey: ["categorias-publicas", organizationId ?? "legacy"], queryFn: () => fetchCategorias(organizationId ?? null) });
-  const banner = useQuery<BannerConfig>({ queryKey: ["cfg", "banner", organizationId ?? "legacy"], queryFn: () => fetchConfig("banner", bannerPadrao, organizationId ?? null) });
-  const ajuda = useQuery<AjudaConfig>({ queryKey: ["cfg", "ajuda", organizationId ?? "legacy"], queryFn: () => fetchConfig("ajuda", ajudaPadrao, organizationId ?? null) });
-  const marca = useQuery<MarcaConfig>({ queryKey: ["cfg", "marca", organizationId ?? "legacy"], queryFn: () => fetchConfig("marca", marcaPadrao, organizationId ?? null) });
-  const cardTextos = useQuery<CardTextConfig>({ queryKey: ["cfg", "card_textos", organizationId ?? "legacy"], queryFn: () => fetchConfig("card_textos", cardTextPadrao, organizationId ?? null) });
+  const produtos = useQuery({ queryKey: ["produtos-publicos", organizationSlug ?? "legacy"], queryFn: () => fetchProdutosPublicosPorSlug(organizationSlug ?? null) });
+  const categorias = useQuery<Categoria[]>({ queryKey: ["categorias-publicas", organizationSlug ?? "legacy"], queryFn: () => fetchCategoriasPublicasPorSlug(organizationSlug ?? null) });
+  const banner = useQuery<BannerConfig>({ queryKey: ["cfg", "banner", organizationSlug ?? "legacy"], queryFn: () => fetchConfigPublicaPorSlug("banner", bannerPadrao, organizationSlug ?? null) });
+  const ajuda = useQuery<AjudaConfig>({ queryKey: ["cfg", "ajuda", organizationSlug ?? "legacy"], queryFn: () => fetchConfigPublicaPorSlug("ajuda", ajudaPadrao, organizationSlug ?? null) });
+  const marca = useQuery<MarcaConfig>({ queryKey: ["cfg", "marca", organizationSlug ?? "legacy"], queryFn: () => fetchConfigPublicaPorSlug("marca", marcaPadrao, organizationSlug ?? null) });
+  const cardTextos = useQuery<CardTextConfig>({ queryKey: ["cfg", "card_textos", organizationSlug ?? "legacy"], queryFn: () => fetchConfigPublicaPorSlug("card_textos", cardTextPadrao, organizationSlug ?? null) });
   const titulosSecoes = useQuery<TitulosSecoesConfig>({
-    queryKey: ["cfg", "titulos_secoes", organizationId ?? "legacy"],
-    queryFn: () => fetchConfig("titulos_secoes", iconosTitulosSecoesPadrao, organizationId ?? null),
+    queryKey: ["cfg", "titulos_secoes", organizationSlug ?? "legacy"],
+    queryFn: () => fetchConfigPublicaPorSlug("titulos_secoes", iconosTitulosSecoesPadrao, organizationSlug ?? null),
   });
   const rodape = useQuery<RodapeConfig>({
-    queryKey: ["cfg", "rodape", organizationId ?? "legacy"],
-    queryFn: () => fetchConfig("rodape", rodapePadrao, organizationId ?? null),
+    queryKey: ["cfg", "rodape", organizationSlug ?? "legacy"],
+    queryFn: () => fetchConfigPublicaPorSlug("rodape", rodapePadrao, organizationSlug ?? null),
   });
   const botaoVerMais = useQuery<BotaoVerMaisConfig>({
-    queryKey: ["cfg", "botao_ver_mais", organizationId ?? "legacy"],
-    queryFn: () => fetchConfig("botao_ver_mais", botaoVerMaisPadrao, organizationId ?? null),
+    queryKey: ["cfg", "botao_ver_mais", organizationSlug ?? "legacy"],
+    queryFn: () => fetchConfigPublicaPorSlug("botao_ver_mais", botaoVerMaisPadrao, organizationSlug ?? null),
   });
   const categoriaBotoes = useQuery<CategoriaBotoesConfig>({
-    queryKey: ["cfg", "categoria_botoes", organizationId ?? "legacy"],
-    queryFn: () => fetchConfig("categoria_botoes", categoriaBotoesPadrao, organizationId ?? null),
+    queryKey: ["cfg", "categoria_botoes", organizationSlug ?? "legacy"],
+    queryFn: () => fetchConfigPublicaPorSlug("categoria_botoes", categoriaBotoesPadrao, organizationSlug ?? null),
   });
 
   useEffect(() => {
@@ -258,7 +258,7 @@ export function LojaVitrine({
           const chave = (payload.new as { chave?: string } | null)?.chave ?? (payload.old as { chave?: string } | null)?.chave;
           if (!chave) return;
           void queryClient.invalidateQueries({
-            queryKey: ["cfg", chave, organizationId],
+            queryKey: ["cfg", chave, organizationSlug ?? "legacy"],
           });
         },
       )
@@ -621,7 +621,7 @@ export function LojaVitrine({
         </div>
       </section>
 
-      <LeadCapture organizationId={organizationId} />
+      <LeadCapture organizationSlug={organizationSlug} />
 
       <footer className="border-t border-border">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-center gap-4 px-6 py-8 text-center text-sm text-muted-foreground">
