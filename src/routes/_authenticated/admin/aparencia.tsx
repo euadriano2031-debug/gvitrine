@@ -3,6 +3,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { Building2, Menu, RotateCcw, Save, ShoppingBag, Store } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { getActiveOrganizationId } from "@/lib/saas";
 import {
   adminHeaderPadrao,
   fetchConfig,
@@ -37,9 +38,17 @@ function Campo({ label, children }: { label: string; children: React.ReactNode }
 
 function AparenciaAdmin() {
   const qc = useQueryClient();
+  const [organizationId, setOrganizationId] = useState<string | null>(() => getActiveOrganizationId());
+
+  useEffect(() => {
+    const atualizarOrganizacao = () => setOrganizationId(getActiveOrganizationId());
+    window.addEventListener("saas-organization-changed", atualizarOrganizacao);
+    return () => window.removeEventListener("saas-organization-changed", atualizarOrganizacao);
+  }, []);
+
   const { data } = useQuery<AdminHeaderConfig>({
-    queryKey: ["cfg", "admin_cabecalho"],
-    queryFn: () => fetchConfig("admin_cabecalho", adminHeaderPadrao),
+    queryKey: ["cfg", "admin_cabecalho", organizationId ?? "legacy"],
+    queryFn: () => fetchConfig("admin_cabecalho", adminHeaderPadrao, organizationId),
   });
   const { data: faviconData } = useQuery<FaviconConfig>({
     queryKey: ["cfg", "favicon"],
@@ -111,7 +120,7 @@ function AparenciaAdmin() {
     };
 
     try {
-      await salvarConfig("admin_cabecalho", ajustada);
+      await salvarConfig("admin_cabecalho", ajustada, organizationId);
       await salvarConfig("favicon", faviconAjustado);
       const rodapeAjustado = {
         texto: rodape.texto.trim().slice(0, 180) || rodapePadrao.texto,
@@ -124,7 +133,7 @@ function AparenciaAdmin() {
       setCompartilhamento(compartilhamentoAjustado);
       setRodape(rodapeAjustado);
       window.dispatchEvent(new CustomEvent("favicon-updated", { detail: faviconAjustado }));
-      await qc.invalidateQueries({ queryKey: ["cfg", "admin_cabecalho"] });
+      await qc.invalidateQueries({ queryKey: ["cfg", "admin_cabecalho", organizationId ?? "legacy"] });
       await qc.invalidateQueries({ queryKey: ["cfg", "favicon"] });
       await qc.invalidateQueries({ queryKey: ["cfg", "compartilhamento"] });
       await qc.invalidateQueries({ queryKey: ["cfg", "rodape"] });
@@ -146,6 +155,36 @@ function AparenciaAdmin() {
     <div className="max-w-4xl">
       <h1 className="text-2xl font-bold">Aparência do painel</h1>
       <p className="mt-1 text-sm text-muted-foreground">Personalize o cabeçalho exibido em todas as páginas administrativas.</p>
+
+      <fieldset className="mt-6 rounded-md border border-border p-4">
+        <legend className="px-1 text-sm font-semibold">Tema deste painel administrativo</legend>
+        <p className="mb-4 text-xs text-muted-foreground">
+          Estas cores são salvas somente para a loja/painel selecionado. Alterá-las não muda o tema dos outros painéis nem o tema da vitrine pública.
+        </p>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {cor("Cor principal do painel", "tema_primaria_cor")}
+          {cor("Texto sobre a cor principal", "tema_primaria_texto_cor")}
+          {cor("Fundo do item selecionado no menu", "tema_item_ativo_cor")}
+          {cor("Texto do item selecionado no menu", "tema_item_ativo_texto_cor")}
+        </div>
+        <div className="mt-4 rounded-lg border border-border bg-background p-3">
+          <p className="mb-2 text-xs font-semibold text-muted-foreground">Pré-visualização das cores</p>
+          <div className="flex flex-wrap items-center gap-2">
+            <span
+              className="rounded-md px-3 py-2 text-sm font-semibold"
+              style={{ backgroundColor: cfg.tema_primaria_cor, color: cfg.tema_primaria_texto_cor }}
+            >
+              Botão principal
+            </span>
+            <span
+              className="rounded-md px-3 py-2 text-sm font-semibold"
+              style={{ backgroundColor: cfg.tema_item_ativo_cor, color: cfg.tema_item_ativo_texto_cor }}
+            >
+              Menu selecionado
+            </span>
+          </div>
+        </div>
+      </fieldset>
 
       <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_360px]">
         <div className="space-y-5">
