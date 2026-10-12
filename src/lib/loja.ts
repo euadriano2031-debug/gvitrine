@@ -171,6 +171,20 @@ export type AdminHeaderConfig = {
   tema_item_ativo_texto_cor: string;
 };
 
+export type AdminTemaConfig = {
+  tema_primaria_cor: string;
+  tema_primaria_texto_cor: string;
+  tema_item_ativo_cor: string;
+  tema_item_ativo_texto_cor: string;
+};
+
+export const adminTemaPadrao: AdminTemaConfig = {
+  tema_primaria_cor: "#16a34a",
+  tema_primaria_texto_cor: "#ffffff",
+  tema_item_ativo_cor: "#dcfce7",
+  tema_item_ativo_texto_cor: "#166534",
+};
+
 export const adminHeaderPadrao: AdminHeaderConfig = {
   titulo: "Painel da Loja",
   titulo_cor: "#16a34a",
@@ -334,6 +348,10 @@ export async function fetchConfig<T>(
   padrao: T,
   organizationId = getActiveOrganizationId(),
 ): Promise<T> {
+  // The admin theme is tenant-only. Never read the legacy NULL-organization
+  // config as a fallback; that would make panels appear to share one palette.
+  if (chave === "admin_tema" && !organizationId) return padrao;
+
   let query = supabase.from("configuracoes").select("valor").eq("chave", chave);
   query = escopoOrganizacao(query, organizationId);
   const { data, error } = await query.maybeSingle();
@@ -347,6 +365,17 @@ export async function salvarConfig(
   valor: unknown,
   organizationId = getActiveOrganizationId(),
 ) {
+  // Fail closed for theme customization: an unresolved or stale tenant ID must
+  // never create/update the shared legacy row where organization_id IS NULL.
+  if (chave === "admin_tema") {
+    if (!organizationId) {
+      throw new Error("Não foi possível identificar a loja ativa. Atualize a página antes de salvar o tema.");
+    }
+    if (typeof window !== "undefined" && getActiveOrganizationId() !== organizationId) {
+      throw new Error("A loja ativa mudou. Atualize a personalização antes de salvar.");
+    }
+  }
+
   if (organizationId) {
     const { error } = await supabase
       .from("configuracoes")
