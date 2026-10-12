@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { getActiveOrganizationId } from "@/lib/saas";
 import * as XLSX from "xlsx";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
@@ -28,16 +29,17 @@ const POR_PAGINA = 12;
 
 function LeadsAdmin() {
   const qc = useQueryClient();
+  const organizationId = getActiveOrganizationId();
   const { data = [], isLoading } = useQuery({
-    queryKey: ["leads-admin"],
-    queryFn: () => fetchLeadsAdmin(),
+    queryKey: ["leads-admin", organizationId],
+    queryFn: () => fetchLeadsAdmin(organizationId),
   });
   const [busca, setBusca] = useState("");
   const [pagina, setPagina] = useState(1);
   const [erro, setErro] = useState<string | null>(null);
 
   const invalidar = () => {
-    void qc.invalidateQueries({ queryKey: ["leads-admin"] });
+    void qc.invalidateQueries({ queryKey: ["leads-admin", organizationId] });
   };
 
   const excluir = useMutation({
