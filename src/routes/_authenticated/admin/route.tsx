@@ -141,12 +141,15 @@ function AdminLayout() {
 
 
   const sair = async () => {
+    // Leave the tenant-themed admin layout before clearing its cached theme.
+    // Clearing the cache while this layout is still mounted temporarily swaps
+    // the tenant colors for the global defaults, causing a wrong-color flash.
     await queryClient.cancelQueries();
-    queryClient.clear();
     await supabase.auth.signOut();
-    setActiveOrganization(null);
-    router.invalidate();
     await navigate({ to: "/auth", replace: true });
+    setActiveOrganization(null);
+    queryClient.clear();
+    router.invalidate();
   };
 
   if (verificandoAcesso) {
