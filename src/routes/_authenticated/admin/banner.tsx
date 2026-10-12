@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { Upload } from "lucide-react";
+import { getActiveOrganizationId } from "@/lib/saas";
 import { bannerPadrao, fetchConfig, salvarConfig, uploadImagem, type BannerConfig } from "@/lib/loja";
 import { VideoBanner } from "@/components/loja/VideoBanner";
 
@@ -30,7 +31,8 @@ function Campo({ label, children }: { label: string; children: React.ReactNode }
 
 function BannerAdmin() {
   const qc = useQueryClient();
-  const { data } = useQuery<BannerConfig>({ queryKey: ["cfg", "banner"], queryFn: () => fetchConfig("banner", bannerPadrao) });
+  const organizationId = getActiveOrganizationId();
+  const { data } = useQuery<BannerConfig>({ queryKey: ["cfg", "banner", organizationId ?? "unresolved"], queryFn: () => fetchConfig("banner", bannerPadrao, organizationId), enabled: Boolean(organizationId) });
   const [cfg, setCfg] = useState<BannerConfig>(bannerPadrao);
   const [status, setStatus] = useState<string | null>(null);
   const [enviandoSelo, setEnviandoSelo] = useState(false);
@@ -43,8 +45,8 @@ function BannerAdmin() {
     e.preventDefault();
     setStatus(null);
     try {
-      await salvarConfig("banner", cfg);
-      void qc.invalidateQueries({ queryKey: ["cfg", "banner"] });
+      await salvarConfig("banner", cfg, organizationId);
+      void qc.invalidateQueries({ queryKey: ["cfg", "banner", organizationId ?? "unresolved"] });
       setStatus("Banner salvo com sucesso!");
     } catch (err) {
       setStatus(err instanceof Error ? err.message : "Erro ao salvar");
