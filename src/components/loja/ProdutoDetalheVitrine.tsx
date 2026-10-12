@@ -7,8 +7,8 @@ import {
   ajudaPadrao,
   comParams,
   criarLead,
-  fetchCategorias,
-  fetchConfig,
+  fetchCategoriasPublicasPorSlug,
+  fetchConfigPublicaPorSlug,
   formatBRL,
   linkExterno,
   mensagemLeadWhatsapp,
@@ -65,7 +65,7 @@ function Midia({ p, parte }: { p: Produto; parte: "imagem" | "video" }) {
     </div>
   );
 }
-function FormularioInteresse({ produto, organizationId }: { produto: Produto; organizationId?: string | null }) {
+function FormularioInteresse({ produto, organizationSlug }: { produto: Produto; organizationSlug?: string | null }) {
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [telefone, setTelefone] = useState("");
@@ -73,7 +73,7 @@ function FormularioInteresse({ produto, organizationId }: { produto: Produto; or
   const [ok, setOk] = useState(false);
   const [linkWhats, setLinkWhats] = useState("");
 
-  const ajuda = useQuery<AjudaConfig>({ queryKey: ["cfg", "ajuda", organizationId ?? "legacy"], queryFn: () => fetchConfig("ajuda", ajudaPadrao, organizationId ?? null) });
+  const ajuda = useQuery<AjudaConfig>({ queryKey: ["cfg", "ajuda", organizationSlug ?? "legacy"], queryFn: () => fetchConfigPublicaPorSlug("ajuda", ajudaPadrao, organizationSlug ?? null) });
   const enviar = useMutation({
     mutationFn: async () => {
       const dados = {
@@ -83,7 +83,7 @@ function FormularioInteresse({ produto, organizationId }: { produto: Produto; or
         mensagem: `Interesse no produto: ${produto.titulo}`,
         produto_id: produto.id,
       };
-      await criarLead(dados, organizationId ?? null);
+      await criarLead(dados, organizationSlug ?? null);
       return dados;
     },
     onSuccess: (dados) => {
@@ -175,15 +175,14 @@ export type ProdutoDetalheVitrineProps = {
 
 export function ProdutoDetalheVitrine({
   produto: p,
-  organizationId = null,
   organizationSlug = null,
   organizationName = null,
 }: ProdutoDetalheVitrineProps) {
 
-  const categorias = useQuery<Categoria[]>({ queryKey: ["categorias-publicas", organizationId ?? "legacy"], queryFn: () => fetchCategorias(organizationId ?? null) });
+  const categorias = useQuery<Categoria[]>({ queryKey: ["categorias-publicas", organizationSlug ?? "legacy"], queryFn: () => fetchCategoriasPublicasPorSlug(organizationSlug ?? null) });
   const beneficios = useQuery<ProductBenefitsConfig>({
-    queryKey: ["cfg", "produto_beneficios", organizationId ?? "legacy"],
-    queryFn: () => fetchConfig("produto_beneficios", productBenefitsPadrao, organizationId ?? null),
+    queryKey: ["cfg", "produto_beneficios", organizationSlug ?? "legacy"],
+    queryFn: () => fetchConfigPublicaPorSlug("produto_beneficios", productBenefitsPadrao, organizationSlug ?? null),
   });
   if (!p) return <ProdutoNaoEncontrado organizationSlug={organizationSlug} />;
 
@@ -309,7 +308,7 @@ export function ProdutoDetalheVitrine({
               </ul>
             </div>
 
-            <FormularioInteresse produto={p} organizationId={organizationId} />
+            <FormularioInteresse produto={p} organizationSlug={organizationSlug} />
           </aside>
         </div>
       </div>
