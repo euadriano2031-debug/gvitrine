@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { RotateCcw, Save, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { getActiveOrganizationId } from "@/lib/saas";
 import {
   botaoVerMaisPadrao,
   fetchConfig,
@@ -13,14 +14,26 @@ const inputCls =
   "w-full rounded-md border border-border bg-background px-3 py-2 text-sm outline-none focus:border-primary";
 
 export function LoadMoreButtonEditor({ onClose }: { onClose: () => void }) {
+  const [organizationId, setOrganizationId] = useState<string | null>(() => getActiveOrganizationId());
   const [cfg, setCfg] = useState<BotaoVerMaisConfig>(botaoVerMaisPadrao);
   const [status, setStatus] = useState<string | null>(null);
   const [salvando, setSalvando] = useState(false);
   const [enviandoImagem, setEnviandoImagem] = useState(false);
 
   useEffect(() => {
+    const atualizarOrganizacao = () => setOrganizationId(getActiveOrganizationId());
+    window.addEventListener("saas-organization-changed", atualizarOrganizacao);
+    return () => window.removeEventListener("saas-organization-changed", atualizarOrganizacao);
+  }, []);
+
+  useEffect(() => {
     let ativo = true;
-    void fetchConfig("botao_ver_mais", botaoVerMaisPadrao)
+    if (!organizationId) {
+      setCfg(botaoVerMaisPadrao);
+      setStatus("Nenhuma loja ativa foi confirmada.");
+      return () => { ativo = false; };
+    }
+    void fetchConfig("botao_ver_mais", botaoVerMaisPadrao, organizationId)
       .then((valor) => {
         if (ativo) setCfg(valor);
       })
@@ -30,7 +43,7 @@ export function LoadMoreButtonEditor({ onClose }: { onClose: () => void }) {
     return () => {
       ativo = false;
     };
-  }, []);
+  }, [organizationId]);
 
   const salvar = async () => {
     setSalvando(true);
@@ -42,7 +55,7 @@ export function LoadMoreButtonEditor({ onClose }: { onClose: () => void }) {
         texto: cfg.texto.trim() || botaoVerMaisPadrao.texto,
         imagem_alt: cfg.imagem_alt.trim() || botaoVerMaisPadrao.imagem_alt,
       };
-      await salvarConfig("botao_ver_mais", proximo);
+      await salvarConfig("botao_ver_mais", proximo, organizationId);
       setCfg(proximo);
       setStatus("Personalização do botão Ver mais salva com sucesso.");
     } catch (erro) {
