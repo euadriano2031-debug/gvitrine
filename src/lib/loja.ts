@@ -680,6 +680,139 @@ export async function fetchLeadsAdmin(organizationId = getActiveOrganizationId()
   return (data ?? []) as LeadComProduto[];
 }
 
+export type CRMStage =
+  | "novo"
+  | "contato"
+  | "qualificado"
+  | "proposta"
+  | "negociacao"
+  | "ganho"
+  | "perdido";
+
+export type CRMPriority = "baixa" | "media" | "alta" | "urgente";
+export type CRMActivity = Tables<"crm_activities">;
+export type CRMActivityType = "nota" | "ligacao" | "email" | "reuniao" | "tarefa" | "etapa";
+
+export type LeadCRMFields = Pick<
+  Lead,
+  "crm_stage" | "crm_priority" | "crm_notes" | "crm_follow_up_at" | "crm_estimated_value"
+>;
+
+function validarOrganizacaoCRM(organizationId: string | null | undefined): string {
+  if (!organizationId) throw new Error("Nenhuma loja ativa foi identificada.");
+  if (getActiveOrganizationId() !== organizationId) {
+    throw new Error("A loja ativa mudou. Atualize o painel antes de continuar.");
+  }
+  return organizationId;
+}
+
+export async function atualizarLeadCRM(
+  leadId: string,
+  organizationId: string | null | undefined,
+  patch: Partial<LeadCRMFields>,
+): Promise<Lead> {
+  const orgId = validarOrganizacaoCRM(organizationId);
+  const { data, error } = await supabase
+    .from("leads")
+    .update({ ...patch, crm_updated_at: new Date().toISOString() })
+    .eq("id", leadId)
+    .eq("organization_id", orgId)
+    .select("*")
+    .maybeSingle();
+  if (error) throw error;
+  if (!data) throw new Error("Contato não encontrado nesta loja ou acesso não autorizado.");
+  return data as Lead;
+}
+
+export async function criarLeadManualCRM(
+  organizationId: string | null | undefined,
+  input: {
+    nome: string;
+    email?: string | null;
+    telefone?: string | null;
+    mensagem?: string | null;
+    crm_stage?: CRMStage;
+    crm_priority?: CRMPriority;
+  },
+): Promise<Lead> {
+  const orgId = validarOrganizacaoCRM(organizationId);
+  const nome = input.nome.trim();
+  if (!nome) throw new Error("Informe o nome do contato.");
+  const { data, error } = await supabase
+    .from("leads")
+    .insert({
+      organization_id: orgId,
+      nome,
+      email: input.email?.trim() || null,
+      telefone: input.telefone?.trim() || null,
+      mensagem: input.mensagem?.trim() || null,
+      crm_stage: input.crm_stage ?? "novo",
+      crm_priority: input.crm_priority ?? "media",
+    })
+    .select("*")
+    .single();
+  if (error) throw error;
+  return data as Lead;
+}
+
+export async function buscarAtividadesCRM(
+  leadId: string,
+  organizationId: string | null | undefined,
+): Promise<CRMActivity[]> {
+  const orgId = validarOrganizacaoCRM(organizationId);
+  const { data, error } = await supabase
+    .from("crm_activities")
+    .select("*")
+    .eq("lead_id", leadId)
+    .eq("organization_id", orgId)
+    .order("created_at", { ascending: false });
+  if (error) throw error;
+  return (data ?? []) as CRMActivity[];
+}
+
+export async function criarAtividadeCRM(
+  organizationId: string | null | undefined,
+  input: {
+    leadId: string;
+    type: CRMActivityType;
+    title: string;
+    description?: string | null;
+    due_at?: string | null;
+  },
+): Promise<CRMActivity> {
+  const orgId = validarOrganizacaoCRM(organizationId);
+  const title = input.title.trim();
+  if (!title) throw new Error("Informe o título da atividade.");
+  const { data, error } = await supabase
+    .from("crm_activities")
+    .insert({
+      organization_id: orgId,
+      lead_id: input.leadId,
+      type: input.type,
+      title,
+      description: input.description?.trim() || null,
+      due_at: input.due_at || null,
+    })
+    .select("*")
+    .single();
+  if (error) throw error;
+  return data as CRMActivity;
+}
+
+export async function concluirAtividadeCRM(
+  activityId: string,
+  organizationId: string | null | undefined,
+  concluir: boolean,
+): Promise<void> {
+  const orgId = validarOrganizacaoCRM(organizationId);
+  const { error } = await supabase
+    .from("crm_activities")
+    .update({ completed_at: concluir ? new Date().toISOString() : null })
+    .eq("id", activityId)
+    .eq("organization_id", orgId);
+  if (error) throw error;
+}
+
 export async function criarLead(
   input: {
     nome: string;
