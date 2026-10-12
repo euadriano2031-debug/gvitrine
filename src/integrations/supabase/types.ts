@@ -87,9 +87,69 @@ export type Database = {
           },
         ]
       }
+      crm_activities: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          created_by: string | null
+          description: string | null
+          due_at: string | null
+          id: string
+          lead_id: string
+          organization_id: string
+          title: string
+          type: string
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          due_at?: string | null
+          id?: string
+          lead_id: string
+          organization_id: string
+          title: string
+          type?: string
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          due_at?: string | null
+          id?: string
+          lead_id?: string
+          organization_id?: string
+          title?: string
+          type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "crm_activities_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "crm_activities_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       leads: {
         Row: {
           created_at: string
+          crm_estimated_value: number | null
+          crm_follow_up_at: string | null
+          crm_notes: string | null
+          crm_priority: string | null
+          crm_stage: string | null
+          crm_updated_at: string | null
           email: string | null
           id: string
           mensagem: string | null
@@ -103,6 +163,12 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          crm_estimated_value?: number | null
+          crm_follow_up_at?: string | null
+          crm_notes?: string | null
+          crm_priority?: string | null
+          crm_stage?: string | null
+          crm_updated_at?: string | null
           email?: string | null
           id?: string
           mensagem?: string | null
@@ -116,6 +182,12 @@ export type Database = {
         }
         Update: {
           created_at?: string
+          crm_estimated_value?: number | null
+          crm_follow_up_at?: string | null
+          crm_notes?: string | null
+          crm_priority?: string | null
+          crm_stage?: string | null
+          crm_updated_at?: string | null
           email?: string | null
           id?: string
           mensagem?: string | null
