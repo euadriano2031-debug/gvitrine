@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Check, Plus, RotateCcw, Save, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { getActiveOrganizationId } from "@/lib/saas";
 import {
   fetchConfig,
   productBenefitsPadrao,
@@ -13,9 +14,11 @@ const inputCls = "w-full rounded-md border border-border bg-background px-3 py-2
 
 export function ProductBenefitsEditor({ onClose }: { onClose: () => void }) {
   const qc = useQueryClient();
+  const organizationId = getActiveOrganizationId();
   const { data } = useQuery<ProductBenefitsConfig>({
-    queryKey: ["cfg", "produto_beneficios"],
-    queryFn: () => fetchConfig("produto_beneficios", productBenefitsPadrao),
+    queryKey: ["cfg", "produto_beneficios", organizationId ?? "unresolved"],
+    queryFn: () => fetchConfig("produto_beneficios", productBenefitsPadrao, organizationId),
+    enabled: Boolean(organizationId),
   });
   const [cfg, setCfg] = useState<ProductBenefitsConfig>(productBenefitsPadrao);
   const [status, setStatus] = useState<string | null>(null);
@@ -38,9 +41,9 @@ export function ProductBenefitsEditor({ onClose }: { onClose: () => void }) {
     setStatus(null);
     try {
       const ajustada = { ...cfg, itens: cfg.itens.map((item) => item.trim()).filter(Boolean).slice(0, 8) };
-      await salvarConfig("produto_beneficios", ajustada);
+      await salvarConfig("produto_beneficios", ajustada, organizationId);
       setCfg(ajustada);
-      await qc.invalidateQueries({ queryKey: ["cfg", "produto_beneficios"] });
+      await qc.invalidateQueries({ queryKey: ["cfg", "produto_beneficios", organizationId ?? "unresolved"] });
       setStatus("Benefícios salvos com sucesso!");
     } catch (erro) {
       setStatus(erro instanceof Error ? erro.message : "Não foi possível salvar.");
