@@ -172,10 +172,21 @@ export type AdminHeaderConfig = {
 };
 
 export type AdminTemaConfig = {
+  // Cores semânticas da interface, aplicadas somente no painel desta organização.
   tema_primaria_cor: string;
   tema_primaria_texto_cor: string;
   tema_item_ativo_cor: string;
   tema_item_ativo_texto_cor: string;
+  titulo_cor: string;
+  menu_fundo_cor: string;
+  menu_icone_cor: string;
+  loja_fundo_cor: string;
+  loja_icone_cor: string;
+  loja_texto_cor: string;
+  sidebar_titulo_cor: string;
+  sidebar_subtitulo_cor: string;
+  sidebar_fundo_cor: string;
+  sidebar_icone_cor: string;
 };
 
 export const adminTemaPadrao: AdminTemaConfig = {
@@ -183,6 +194,16 @@ export const adminTemaPadrao: AdminTemaConfig = {
   tema_primaria_texto_cor: "#ffffff",
   tema_item_ativo_cor: "#dcfce7",
   tema_item_ativo_texto_cor: "#166534",
+  titulo_cor: "#16a34a",
+  menu_fundo_cor: "#16a34a",
+  menu_icone_cor: "#ffffff",
+  loja_fundo_cor: "#16a34a",
+  loja_icone_cor: "#ffffff",
+  loja_texto_cor: "#ffffff",
+  sidebar_titulo_cor: "#0f172a",
+  sidebar_subtitulo_cor: "#64748b",
+  sidebar_fundo_cor: "#16a34a",
+  sidebar_icone_cor: "#ffffff",
 };
 
 export const adminHeaderPadrao: AdminHeaderConfig = {
@@ -348,9 +369,9 @@ export async function fetchConfig<T>(
   padrao: T,
   organizationId = getActiveOrganizationId(),
 ): Promise<T> {
-  // The admin theme is tenant-only. Never read the legacy NULL-organization
-  // config as a fallback; that would make panels appear to share one palette.
-  if (chave === "admin_tema" && !organizationId) return padrao;
+  // Administrative appearance is tenant-only. Never read a legacy NULL-org row
+  // for header or theme data: it can make new panels inherit another panel's colors.
+  if ((chave === "admin_tema" || chave === "admin_cabecalho") && !organizationId) return padrao;
 
   let query = supabase.from("configuracoes").select("valor").eq("chave", chave);
   query = escopoOrganizacao(query, organizationId);
@@ -365,11 +386,11 @@ export async function salvarConfig(
   valor: unknown,
   organizationId = getActiveOrganizationId(),
 ) {
-  // Fail closed for theme customization: an unresolved or stale tenant ID must
-  // never create/update the shared legacy row where organization_id IS NULL.
-  if (chave === "admin_tema") {
+  // Fail closed for all administrative color/header configuration. These keys
+  // must never create or update the legacy shared row (organization_id IS NULL).
+  if (chave === "admin_tema" || chave === "admin_cabecalho") {
     if (!organizationId) {
-      throw new Error("Não foi possível identificar a loja ativa. Atualize a página antes de salvar o tema.");
+      throw new Error("Não foi possível identificar a loja ativa. Atualize o painel antes de salvar a personalização.");
     }
     if (typeof window !== "undefined" && getActiveOrganizationId() !== organizationId) {
       throw new Error("A loja ativa mudou. Atualize a personalização antes de salvar.");
