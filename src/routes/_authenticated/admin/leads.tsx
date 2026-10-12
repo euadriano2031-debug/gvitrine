@@ -10,7 +10,7 @@ import {
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import {
   atualizarLeadCRM, buscarAtividadesCRM, concluirAtividadeCRM, criarAtividadeCRM,
-  criarLeadManualCRM, excluirLead, fetchLeadsAdmin, fetchProdutosAdmin, formatarData, leadsParaCsv,
+  criarLeadManualCRM, excluirLead, fetchLeadsAdmin, fetchProdutosAdmin, formatarData,
   whatsappLeadLink, type CRMActivity, type CRMActivityType, type CRMPriority,
   type CRMStage, type LeadComProduto,
 } from "@/lib/loja";
@@ -128,7 +128,7 @@ function LeadsAdmin() {
     queryFn: () => fetchProdutosAdmin(organizationId),
     enabled: Boolean(organizationId),
   });
-  const availableProducts = productsQuery.data ?? [];
+  const availableProducts = (productsQuery.data ?? []).filter((product) => product.ativo);
 
   const leadsQuery = useQuery({
     queryKey: ["leads-admin", organizationId],
@@ -270,7 +270,32 @@ function LeadsAdmin() {
   const wonValue = wonDeals.reduce((sum, lead) => sum + Math.max(0, Number(lead.crm_final_value ?? 0)), 0);
 
   const exportCsv = () => {
-    const csv = leadsParaCsv(filtered);
+    const headers = [
+      "Data", "Nome", "E-mail", "Telefone", "Produto", "Preço de catálogo",
+      "Etapa", "Probabilidade de referência", "Prioridade", "Valor estimado",
+      "Valor fechado", "Previsão ponderada", "Próximo retorno", "Observações",
+      "Mensagem", "Origem", "Página de origem",
+    ];
+    const rows = filtered.map((lead) => {
+      const stage = normalizeStage(lead);
+      return [
+        formatarData(lead.created_at), lead.nome, lead.email ?? "", lead.telefone ?? "",
+        lead.produtos?.titulo ?? "", lead.produtos?.preco ?? "",
+        stageInfo(stage).title, Math.round(stageProbability(stage) * 100) + "%",
+        priorityInfo(lead.crm_priority).title, lead.crm_estimated_value ?? "",
+        lead.crm_final_value ?? "",
+        stage === "ganho"
+          ? lead.crm_final_value ?? lead.crm_estimated_value ?? ""
+          : stage === "perdido"
+            ? 0
+            : Number(lead.crm_estimated_value ?? 0) * stageProbability(stage),
+        lead.crm_follow_up_at ? formatarData(lead.crm_follow_up_at) : "",
+        lead.crm_notes ?? "", lead.mensagem ?? "", lead.source ?? "", lead.page_url ?? "",
+      ];
+    });
+    const csv = [headers, ...rows].map((row) =>
+      row.map((value) => '"' + String(value ?? "").replace(/"/g, '""') + '"').join(",")
+    ).join("\n");
     const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a"); a.href = url; a.download = "crm-leads-" + new Date().toISOString().slice(0, 10) + ".csv"; a.click(); URL.revokeObjectURL(url);
@@ -361,7 +386,7 @@ function LeadsAdmin() {
           <td className="px-4 py-3"><div className="font-semibold">{lead.nome}</div><div className="mt-0.5 text-xs text-muted-foreground">{lead.email || lead.telefone || "Sem contato informado"}</div></td>
           <td className="px-4 py-3"><span className="inline-flex items-center gap-2"><span className={"h-2 w-2 rounded-full " + stageInfo(normalizeStage(lead)).dot} />{stageInfo(normalizeStage(lead)).title}</span></td>
           <td className="px-4 py-3"><PriorityPill priority={normalizePriority(lead.crm_priority)} /></td>
-          <td className="px-4 py-3 font-semibold tabular-nums">{currency(lead.crm_estimated_value)}</td><td className="px-4 py-3"><FollowUpLabel value={lead.crm_follow_up_at} /></td><td className="px-4 py-3 text-muted-foreground">{formatarData(lead.created_at)}</td>
+          <td className="px-4 py-3 font-semibold tabular-nums">{currency(normalizeStage(lead) === "ganho" ? lead.crm_final_value ?? lead.crm_estimated_value : lead.crm_estimated_value)}</td><td className="px-4 py-3"><FollowUpLabel value={lead.crm_follow_up_at} /></td><td className="px-4 py-3 text-muted-foreground">{formatarData(lead.created_at)}</td>
         </tr>)}</tbody>
       </table></div></div>}
 
@@ -382,7 +407,7 @@ function LeadsAdmin() {
                 <label className="block text-xs font-semibold text-muted-foreground">Etapa atual<select value={draft.crm_stage} onChange={(e) => setDraft({ ...draft, crm_stage: e.target.value as CRMStage })} className={inputClass + " mt-1.5"}>{STAGES.map((stage) => <option key={stage.id} value={stage.id}>{stage.title}</option>)}</select></label>
                 <label className="block text-xs font-semibold text-muted-foreground">Prioridade<select value={draft.crm_priority} onChange={(e) => setDraft({ ...draft, crm_priority: e.target.value as CRMPriority })} className={inputClass + " mt-1.5"}>{PRIORITIES.map((priority) => <option key={priority.id} value={priority.id}>{priority.title}</option>)}</select></label>
                 <label className="block text-xs font-semibold text-muted-foreground">Valor estimado da oportunidade (R$)<input type="number" inputMode="decimal" min="0" step="0.01" value={draft.crm_estimated_value} onChange={(e) => setDraft({ ...draft, crm_estimated_value: e.target.value })} placeholder="Ex.: 1.250,00" className={inputClass + " mt-1.5"} /><span className="mt-1 block font-normal">Quanto você espera vender. Pode ser diferente do preço de catálogo.</span></label>
-                <label className="block text-xs font-semibold text-muted-foreground">Valor fechado (R$)<input type="number" inputMode="decimal" min="0" step="0.01" value={draft.crm_final_value} onChange={(e) => setDraft({ ...draft, crm_final_value: e.target.value })} placeholder="Preencha ao concluir a venda" className={inputClass + " mt-1.5"} /><span className="mt-1 block font-normal">Ao marcar como ganho, começa com a estimativa e pode ser corrigido.</span></label>
+                {draft.crm_stage === "ganho" && <label className="block text-xs font-semibold text-muted-foreground">Valor fechado (R$)<input type="number" inputMode="decimal" min="0" step="0.01" value={draft.crm_final_value} onChange={(e) => setDraft({ ...draft, crm_final_value: e.target.value })} placeholder="Preencha ao concluir a venda" className={inputClass + " mt-1.5"} /><span className="mt-1 block font-normal">Começa com a estimativa e pode ser corrigido para o valor da venda.</span></label>}
                 <label className="block text-xs font-semibold text-muted-foreground">Próximo retorno<input type="datetime-local" value={draft.crm_follow_up_at} onChange={(e) => setDraft({ ...draft, crm_follow_up_at: e.target.value })} className={inputClass + " mt-1.5"} /></label>
               </div><label className="mt-3 block text-xs font-semibold text-muted-foreground">Observações internas<textarea value={draft.crm_notes} onChange={(e) => setDraft({ ...draft, crm_notes: e.target.value })} rows={4} maxLength={12000} placeholder="Contexto, necessidades, objeções, próximos passos..." className={inputClass + " mt-1.5 resize-y"} /></label>
                 <button onClick={() => saveLead.mutate()} disabled={saveLead.isPending} className={buttonPrimary + " mt-3 w-full sm:w-auto"}><Check className="h-4 w-4" />{saveLead.isPending ? "Salvando..." : "Salvar ficha"}</button>
@@ -471,7 +496,7 @@ function LeadCard({ lead, dragged, onOpen, onDragStart, onDragEnd, onMove }: { l
     {lead.produtos?.titulo && <div className="mt-3 space-y-1 text-xs text-muted-foreground"><div className="flex items-center gap-1.5"><CircleDollarSign className="h-3.5 w-3.5 shrink-0" /><span className="truncate">{lead.produtos.titulo}</span></div><div className="pl-5 text-[11px]">Preço de catálogo: {currency(lead.produtos.preco)}</div></div>}
     {lead.mensagem && <p className="mt-2 line-clamp-2 text-xs leading-relaxed text-muted-foreground">{lead.mensagem}</p>}
     {lead.crm_notes && <p className="mt-2 line-clamp-2 border-l-2 border-primary/30 pl-2 text-xs text-muted-foreground">{lead.crm_notes}</p>}
-    <div className="mt-3 flex items-end justify-between gap-2 border-t border-border pt-3"><div className="min-w-0"><div className="text-[10px] font-medium text-muted-foreground">{stage === "ganho" ? "Valor fechado" : "Valor estimado"}</div><div className="mt-1 text-sm font-bold tabular-nums">{currency(stage === "ganho" ? lead.crm_final_value ?? lead.crm_estimated_value : lead.crm_estimated_value)}</div>{lead.crm_follow_up_at && <div className={"mt-2 flex items-center gap-1 text-[11px] font-semibold " + (late ? "text-destructive" : "text-muted-foreground")}><CalendarClock className="h-3.5 w-3.5 shrink-0" />{dateLabel(lead.crm_follow_up_at)}</div>}</div><button onClick={onOpen} className="inline-flex shrink-0 items-center gap-1 rounded-md px-2 py-1.5 text-[11px] font-bold text-primary hover:bg-primary/10">Abrir <ArrowRight className="h-3 w-3" /></button></div>
+    <div className="mt-3 flex items-end justify-between gap-2 border-t border-border pt-3"><div className="min-w-0"><div className="text-[10px] font-medium text-muted-foreground">{stage === "ganho" ? "Valor fechado" : "Valor estimado"}</div><div className="mt-1 text-sm font-bold tabular-nums">{currency(stage === "ganho" ? lead.crm_final_value ?? lead.crm_estimated_value : lead.crm_estimated_value)}</div>{!isClosedStage(stage) && <div className="mt-1 text-[10px] text-muted-foreground">Ponderado: {currency(Number(lead.crm_estimated_value ?? 0) * stageProbability(stage))}</div>}{lead.crm_follow_up_at && <div className={"mt-2 flex items-center gap-1 text-[11px] font-semibold " + (late ? "text-destructive" : "text-muted-foreground")}><CalendarClock className="h-3.5 w-3.5 shrink-0" />{dateLabel(lead.crm_follow_up_at)}</div>}</div><button onClick={onOpen} className="inline-flex shrink-0 items-center gap-1 rounded-md px-2 py-1.5 text-[11px] font-bold text-primary hover:bg-primary/10">Abrir <ArrowRight className="h-3 w-3" /></button></div>
     <label className="mt-2 block"><span className="sr-only">Mover etapa de {lead.nome}</span><select value={stage} onChange={(e) => onMove(e.target.value as CRMStage)} className="w-full rounded-md border border-border/80 bg-background px-2 py-1.5 text-[11px] text-muted-foreground outline-none focus:border-primary"><option value={stage}>Mover para: {stageInfo(stage).short}</option>{STAGES.filter((item) => item.id !== stage).map((item) => <option key={item.id} value={item.id}>Mover para: {item.short}</option>)}</select></label>
   </article>;
 }
