@@ -145,6 +145,7 @@ export type Database = {
         Row: {
           created_at: string
           crm_estimated_value: number | null
+          crm_final_value: number | null
           crm_follow_up_at: string | null
           crm_notes: string | null
           crm_priority: string | null
@@ -164,6 +165,7 @@ export type Database = {
         Insert: {
           created_at?: string
           crm_estimated_value?: number | null
+          crm_final_value?: number | null
           crm_follow_up_at?: string | null
           crm_notes?: string | null
           crm_priority?: string | null
@@ -183,6 +185,7 @@ export type Database = {
         Update: {
           created_at?: string
           crm_estimated_value?: number | null
+          crm_final_value?: number | null
           crm_follow_up_at?: string | null
           crm_notes?: string | null
           crm_priority?: string | null
