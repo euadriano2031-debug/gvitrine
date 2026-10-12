@@ -108,6 +108,11 @@ function AparenciaAdmin() {
   }, [rodapeData]);
 
   const salvar = async () => {
+    const orgConfirmada = getActiveOrganizationId();
+    if (!organizationId || orgConfirmada !== organizationId || !data) {
+      setStatus("A loja ativa ainda não foi confirmada. Atualize a página antes de salvar a aparência.");
+      return;
+    }
     setSalvando(true);
     setStatus(null);
     const ajustada = {
@@ -166,13 +171,9 @@ function AparenciaAdmin() {
     }
   };
 
-  const cor = (label: string, chave: keyof AdminHeaderConfig) => (
-    <Campo label={label}>
-      <input type="color" value={String(cfg[chave])} onChange={(e) => setCfg((atual) => ({ ...atual, [chave]: e.target.value }))} className={`${inputCls} h-10 p-1`} />
-    </Campo>
-  );
-
-  const corTema = (label: string, chave: keyof AdminTemaConfig) => (
+  // Every color picker in this screen writes to the dedicated tenant theme.
+  // admin_cabecalho stores text/sizes/icons only; color edits never touch its legacy color fields.
+  const cor = (label: string, chave: keyof AdminTemaConfig) => (
     <Campo label={label}>
       <input
         type="color"
@@ -221,10 +222,10 @@ function AparenciaAdmin() {
           Estas cores são salvas somente para a loja/painel selecionado. Alterá-las não muda o tema dos outros painéis nem o tema da vitrine pública.
         </p>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {corTema("Cor principal do painel", "tema_primaria_cor")}
-          {corTema("Texto sobre a cor principal", "tema_primaria_texto_cor")}
-          {corTema("Fundo do item selecionado no menu", "tema_item_ativo_cor")}
-          {corTema("Texto do item selecionado no menu", "tema_item_ativo_texto_cor")}
+          {cor("Cor principal do painel", "tema_primaria_cor")}
+          {cor("Texto sobre a cor principal", "tema_primaria_texto_cor")}
+          {cor("Fundo do item selecionado no menu", "tema_item_ativo_cor")}
+          {cor("Texto do item selecionado no menu", "tema_item_ativo_texto_cor")}
         </div>
         <div className="mt-4 rounded-lg border border-border bg-background p-3">
           <p className="mb-2 text-xs font-semibold text-muted-foreground">Pré-visualização das cores</p>
@@ -494,12 +495,12 @@ function AparenciaAdmin() {
           <div className="overflow-hidden rounded-md border border-border bg-card shadow-sm">
             <div className="flex h-16 items-center justify-between gap-3 border-b border-border bg-background px-3">
               <div className="flex min-w-0 items-center gap-3">
-                <span className="flex size-11 shrink-0 items-center justify-center rounded-md" style={{ backgroundColor: cfg.menu_fundo_cor, color: cfg.menu_icone_cor }}><Menu className="size-6" /></span>
-                <span className="truncate font-bold" style={{ color: cfg.titulo_cor, fontSize: `${cfg.titulo_tamanho}px` }}>{cfg.titulo || adminHeaderPadrao.titulo}</span>
+                <span className="flex size-11 shrink-0 items-center justify-center rounded-md" style={{ backgroundColor: tema.menu_fundo_cor, color: tema.menu_icone_cor }}><Menu className="size-6" /></span>
+                <span className="truncate font-bold" style={{ color: tema.titulo_cor, fontSize: `${cfg.titulo_tamanho}px` }}>{cfg.titulo || adminHeaderPadrao.titulo}</span>
               </div>
-              <span className="flex size-12 shrink-0 flex-col items-center justify-center rounded-md leading-none" style={{ backgroundColor: cfg.loja_fundo_cor }}>
-                <Store className="size-6" style={{ color: cfg.loja_icone_cor }} />
-                <span className="font-bold" style={{ color: cfg.loja_texto_cor, fontSize: `${cfg.loja_texto_tamanho}px` }}>{cfg.loja_texto || adminHeaderPadrao.loja_texto}</span>
+              <span className="flex size-12 shrink-0 flex-col items-center justify-center rounded-md leading-none" style={{ backgroundColor: tema.loja_fundo_cor }}>
+                <Store className="size-6" style={{ color: tema.loja_icone_cor }} />
+                <span className="font-bold" style={{ color: tema.loja_texto_cor, fontSize: `${cfg.loja_texto_tamanho}px` }}>{cfg.loja_texto || adminHeaderPadrao.loja_texto}</span>
               </span>
             </div>
             <div className="h-32 bg-muted/40" />
@@ -510,7 +511,7 @@ function AparenciaAdmin() {
       {status && <p className="mt-5 rounded-md bg-primary/10 p-3 text-sm text-primary">{status}</p>}
       <div className="mt-6 flex flex-wrap justify-end gap-2">
         <Button type="button" variant="outline" onClick={() => { setCfg(adminHeaderPadrao); setFavicon(faviconPadrao); setCompartilhamento(compartilhamentoPadrao); setStatus(null); }}><RotateCcw /> Restaurar padrão</Button>
-        <Button type="button" onClick={() => void salvar()} disabled={salvando}><Save /> {salvando ? "Salvando..." : "Salvar aparência"}</Button>
+        <Button type="button" onClick={() => void salvar()} disabled={salvando || !organizationId || !data}><Save /> {salvando ? "Salvando..." : "Salvar aparência"}</Button>
       </div>
     </div>
   );
