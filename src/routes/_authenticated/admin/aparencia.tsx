@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { getActiveOrganizationId } from "@/lib/saas";
 import {
   adminHeaderPadrao,
+  adminTemaPadrao,
   fetchConfig,
   faviconPadrao,
   compartilhamentoPadrao,
@@ -13,6 +14,7 @@ import {
   salvarConfig,
   uploadImagem,
   type AdminHeaderConfig,
+  type AdminTemaConfig,
   type FaviconConfig,
   type CompartilhamentoConfig,
   type RodapeConfig,
@@ -49,6 +51,12 @@ function AparenciaAdmin() {
   const { data } = useQuery<AdminHeaderConfig>({
     queryKey: ["cfg", "admin_cabecalho", organizationId ?? "legacy"],
     queryFn: () => fetchConfig("admin_cabecalho", adminHeaderPadrao, organizationId),
+    enabled: Boolean(organizationId),
+  });
+  const { data: temaData, isError: erroCarregarTema } = useQuery<AdminTemaConfig>({
+    queryKey: ["cfg", "admin_tema", organizationId ?? "unresolved"],
+    queryFn: () => fetchConfig("admin_tema", adminTemaPadrao, organizationId),
+    enabled: Boolean(organizationId),
   });
   const { data: faviconData } = useQuery<FaviconConfig>({
     queryKey: ["cfg", "favicon"],
@@ -63,6 +71,9 @@ function AparenciaAdmin() {
     queryFn: () => fetchConfig("rodape", rodapePadrao),
   });
   const [cfg, setCfg] = useState(adminHeaderPadrao);
+  const [tema, setTema] = useState<AdminTemaConfig>(adminTemaPadrao);
+  const [statusTema, setStatusTema] = useState<string | null>(null);
+  const [salvandoTema, setSalvandoTema] = useState(false);
   const [favicon, setFavicon] = useState(faviconPadrao);
   const [compartilhamento, setCompartilhamento] = useState(compartilhamentoPadrao);
   const [rodape, setRodape] = useState<RodapeConfig>(rodapePadrao);
@@ -73,6 +84,16 @@ function AparenciaAdmin() {
   useEffect(() => {
     if (data) setCfg(data);
   }, [data]);
+
+  useEffect(() => {
+    // Reset the local draft when switching tenant; load only that tenant's row.
+    setTema(adminTemaPadrao);
+    setStatusTema(null);
+  }, [organizationId]);
+
+  useEffect(() => {
+    if (temaData) setTema(temaData);
+  }, [temaData]);
 
   useEffect(() => {
     if (faviconData) setFavicon(faviconData);
@@ -151,6 +172,44 @@ function AparenciaAdmin() {
     </Campo>
   );
 
+  const corTema = (label: string, chave: keyof AdminTemaConfig) => (
+    <Campo label={label}>
+      <input
+        type="color"
+        value={tema[chave]}
+        onChange={(e) => setTema((atual) => ({ ...atual, [chave]: e.target.value }))}
+        className={`${inputCls} h-10 p-1`}
+        disabled={!organizationId || !temaData || salvandoTema}
+      />
+    </Campo>
+  );
+
+  const salvarTema = async () => {
+    const orgConfirmada = getActiveOrganizationId();
+    if (!organizationId || orgConfirmada !== organizationId) {
+      setStatusTema("A loja ativa ainda não foi confirmada. Atualize a página e tente novamente.");
+      return;
+    }
+    const valores = Object.values(tema);
+    if (valores.some((valor) => !/^#[0-9a-f]{6}$/i.test(valor))) {
+      setStatusTema("Uma ou mais cores são inválidas. Escolha as cores novamente.");
+      return;
+    }
+
+    setSalvandoTema(true);
+    setStatusTema(null);
+    try {
+      // Dedicated per-tenant key; never write theme fields to the legacy/shared config.
+      await salvarConfig("admin_tema", tema, organizationId);
+      await qc.invalidateQueries({ queryKey: ["cfg", "admin_tema", organizationId] });
+      setStatusTema("Tema deste painel salvo. Os demais painéis permanecem inalterados.");
+    } catch (erro) {
+      setStatusTema(erro instanceof Error ? erro.message : "Não foi possível salvar o tema.");
+    } finally {
+      setSalvandoTema(false);
+    }
+  };
+
   return (
     <div className="max-w-4xl">
       <h1 className="text-2xl font-bold">Aparência do painel</h1>
@@ -162,26 +221,38 @@ function AparenciaAdmin() {
           Estas cores são salvas somente para a loja/painel selecionado. Alterá-las não muda o tema dos outros painéis nem o tema da vitrine pública.
         </p>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {cor("Cor principal do painel", "tema_primaria_cor")}
-          {cor("Texto sobre a cor principal", "tema_primaria_texto_cor")}
-          {cor("Fundo do item selecionado no menu", "tema_item_ativo_cor")}
-          {cor("Texto do item selecionado no menu", "tema_item_ativo_texto_cor")}
+          {corTema("Cor principal do painel", "tema_primaria_cor")}
+          {corTema("Texto sobre a cor principal", "tema_primaria_texto_cor")}
+          {corTema("Fundo do item selecionado no menu", "tema_item_ativo_cor")}
+          {corTema("Texto do item selecionado no menu", "tema_item_ativo_texto_cor")}
         </div>
         <div className="mt-4 rounded-lg border border-border bg-background p-3">
           <p className="mb-2 text-xs font-semibold text-muted-foreground">Pré-visualização das cores</p>
           <div className="flex flex-wrap items-center gap-2">
             <span
               className="rounded-md px-3 py-2 text-sm font-semibold"
-              style={{ backgroundColor: cfg.tema_primaria_cor, color: cfg.tema_primaria_texto_cor }}
+              style={{ backgroundColor: tema.tema_primaria_cor, color: tema.tema_primaria_texto_cor }}
             >
               Botão principal
             </span>
             <span
               className="rounded-md px-3 py-2 text-sm font-semibold"
-              style={{ backgroundColor: cfg.tema_item_ativo_cor, color: cfg.tema_item_ativo_texto_cor }}
+              style={{ backgroundColor: tema.tema_item_ativo_cor, color: tema.tema_item_ativo_texto_cor }}
             >
               Menu selecionado
             </span>
+          </div>
+          {!organizationId && (
+            <p className="mt-3 text-sm text-destructive">Identificando a loja ativa. O tema ficará indisponível até a loja ser confirmada.</p>
+          )}
+          {erroCarregarTema && (
+            <p className="mt-3 text-sm text-destructive">Não foi possível carregar o tema salvo. Confira o acesso e tente novamente.</p>
+          )}
+          {statusTema && <p className="mt-3 text-sm text-muted-foreground" role="status">{statusTema}</p>}
+          <div className="mt-4 flex justify-end">
+            <Button type="button" onClick={() => void salvarTema()} disabled={!organizationId || !temaData || erroCarregarTema || salvandoTema}>
+              <Save /> {salvandoTema ? "Salvando tema..." : "Salvar tema deste painel"}
+            </Button>
           </div>
         </div>
       </fieldset>
