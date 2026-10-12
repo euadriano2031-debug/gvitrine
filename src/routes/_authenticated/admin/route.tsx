@@ -99,6 +99,9 @@ function AdminLayout() {
     "--ring": tema.tema_primaria_cor,
     "--accent": tema.tema_item_ativo_cor,
     "--accent-foreground": tema.tema_item_ativo_texto_cor,
+    "--sidebar": tema.sidebar_fundo_cor,
+    "--sidebar-foreground": tema.sidebar_titulo_cor,
+    "--sidebar-border": tema.sidebar_fundo_cor,
     "--sidebar-primary": tema.tema_primaria_cor,
     "--sidebar-primary-foreground": tema.tema_primaria_texto_cor,
     "--sidebar-accent": tema.tema_item_ativo_cor,
@@ -162,15 +165,16 @@ function AdminLayout() {
         alternarTema={alternarTema}
         sair={sair}
         cabecalho={cabecalho}
+        tema={tema}
       />
       <SidebarInset className="min-w-0">
         <header className="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-border bg-background/95 px-4 backdrop-blur md:px-6">
           <div className="flex min-w-0 items-center gap-3">
-            <SidebarTrigger className="size-11 md:size-10 [&_svg]:size-6 md:[&_svg]:size-5" style={{ backgroundColor: cabecalho.menu_fundo_cor, color: cabecalho.menu_icone_cor }} aria-label="Abrir ou recolher menu">
+            <SidebarTrigger className="size-11 md:size-10 [&_svg]:size-6 md:[&_svg]:size-5" style={{ backgroundColor: tema.menu_fundo_cor, color: tema.menu_icone_cor }} aria-label="Abrir ou recolher menu">
               <Menu />
             </SidebarTrigger>
             <div className="min-w-0">
-              <p className="truncate font-bold" style={{ color: theme === "dark" ? "#ffffff" : "#000000", fontSize: `${cabecalho.titulo_tamanho}px` }}>{cabecalho.titulo}</p>
+              <p className="truncate font-bold" style={{ color: tema.titulo_cor, fontSize: `${cabecalho.titulo_tamanho}px` }}>{cabecalho.titulo}</p>
               <p className="hidden text-xs text-muted-foreground sm:block">Gerencie sua vitrine</p>
             </div>
           </div>
@@ -180,9 +184,9 @@ function AdminLayout() {
               aria-label="Ver minha loja"
               title="Ver minha loja"
               className="flex size-9 shrink-0 items-center justify-center rounded-md border border-transparent p-0 shadow-sm transition hover:opacity-90 md:size-8"
-              style={{ backgroundColor: cabecalho.loja_fundo_cor }}
+              style={{ backgroundColor: tema.loja_fundo_cor }}
             >
-              <Store className="size-4" style={{ color: cabecalho.loja_icone_cor }} />
+              <Store className="size-4" style={{ color: tema.loja_icone_cor }} />
               <span className="sr-only">{cabecalho.loja_texto}</span>
             </a>
 
@@ -259,28 +263,30 @@ function AdminNavigation({
   theme,
   alternarTema,
   sair,
-  cabecalho
+  cabecalho,
+  tema
 }: {
   theme: "light" | "dark";
   alternarTema: () => void;
   sair: () => Promise<void>;
   cabecalho: AdminHeaderConfig;
+  tema: AdminTemaConfig;
 }) {
   const pathname = useRouterState({ select: (state) => state.location.pathname });
   const { setOpenMobile, state } = useSidebar();
   const collapsed = state === "collapsed";
 
   return (
-    <Sidebar collapsible="icon">
+    <Sidebar collapsible="icon" style={{ backgroundColor: tema.sidebar_fundo_cor, color: tema.sidebar_titulo_cor, "--sidebar": tema.sidebar_fundo_cor, "--sidebar-foreground": tema.sidebar_titulo_cor } as CSSProperties}>
       <SidebarHeader className="border-b border-sidebar-border p-3">
         <div className="flex h-11 items-center gap-3 overflow-hidden px-1">
-          <div className="flex size-9 shrink-0 items-center justify-center rounded-md" style={{ backgroundColor: cabecalho.sidebar_fundo_cor, color: cabecalho.sidebar_icone_cor }}>
+          <div className="flex size-9 shrink-0 items-center justify-center rounded-md" style={{ backgroundColor: tema.sidebar_fundo_cor, color: tema.sidebar_icone_cor }}>
             {cabecalho.sidebar_icone === "building" ? <Building2 className="size-5" /> : cabecalho.sidebar_icone === "shopping-bag" ? <ShoppingBag className="size-5" /> : <Store className="size-5" />}
           </div>
           {!collapsed && (
             <div className="min-w-0">
-              <p className="truncate font-bold" style={{ color: theme === "dark" ? "#ffffff" : "#000000", fontSize: `${cabecalho.sidebar_titulo_tamanho}px` }}>{cabecalho.sidebar_titulo}</p>
-              <p className="truncate" style={{ color: theme === "dark" ? "#ffffff" : "#000000", fontSize: `${cabecalho.sidebar_subtitulo_tamanho}px` }}>{cabecalho.sidebar_subtitulo}</p>
+              <p className="truncate font-bold" style={{ color: tema.sidebar_titulo_cor, fontSize: `${cabecalho.sidebar_titulo_tamanho}px` }}>{cabecalho.sidebar_titulo}</p>
+              <p className="truncate" style={{ color: tema.sidebar_subtitulo_cor, fontSize: `${cabecalho.sidebar_subtitulo_tamanho}px` }}>{cabecalho.sidebar_subtitulo}</p>
             </div>
           )}
         </div>
