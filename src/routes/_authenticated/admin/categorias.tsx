@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
 import { Palette, Pencil, Plus, Trash2, Upload, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { getActiveOrganizationId, getActiveOrganizationSlug } from "@/lib/saas";
 import {
   atualizarCategoria,
   criarCategoria,
@@ -54,7 +55,7 @@ function Campo({ label, children }: { label: string; children: React.ReactNode }
 function CategoriasAdmin() {
   const qc = useQueryClient();
   const { data = [], isLoading } = useQuery({
-    queryKey: ["categorias-admin"],
+    queryKey: ["categorias-admin", getActiveOrganizationId()],
     queryFn: () => fetchCategoriasAdmin(),
   });
   const [form, setForm] = useState<Partial<Categoria> | null>(null);
@@ -66,10 +67,10 @@ function CategoriasAdmin() {
   const [enviandoImagemBotao, setEnviandoImagemBotao] = useState(false);
 
   const invalidar = () => {
-    void qc.invalidateQueries({ queryKey: ["categorias-admin"] });
-    void qc.invalidateQueries({ queryKey: ["categorias-publicas"] });
-    void qc.invalidateQueries({ queryKey: ["produtos-publicos"] });
-    void qc.invalidateQueries({ queryKey: ["produtos-admin"] });
+    void qc.invalidateQueries({ queryKey: ["categorias-admin", getActiveOrganizationId()] });
+    void qc.invalidateQueries({ queryKey: ["categorias-publicas", getActiveOrganizationSlug() ?? "legacy"] });
+    void qc.invalidateQueries({ queryKey: ["produtos-publicos", getActiveOrganizationSlug() ?? "legacy"] });
+    void qc.invalidateQueries({ queryKey: ["produtos-admin", getActiveOrganizationId()] });
   };
 
   const salvar = useMutation({
@@ -106,7 +107,7 @@ function CategoriasAdmin() {
     setCategoriaBotao(categoria);
     setStatusBotao(null);
     try {
-      const atual = await fetchConfig("categoria_botoes", categoriaBotoesPadrao);
+      const atual = await fetchConfig("categoria_botoes", categoriaBotoesPadrao, getActiveOrganizationId());
       setConfiguracoesBotoes(atual);
       setCfgBotao({
         ...categoriaBotaoPadrao,
@@ -160,9 +161,9 @@ function CategoriasAdmin() {
           imagem_alt: cfgBotao.imagem_alt.trim(),
         },
       };
-      await salvarConfig("categoria_botoes", proximo);
+      await salvarConfig("categoria_botoes", proximo, getActiveOrganizationId());
       setConfiguracoesBotoes(proximo);
-      await qc.invalidateQueries({ queryKey: ["cfg", "categoria_botoes"] });
+      await qc.invalidateQueries({ queryKey: ["cfg", "categoria_botoes", getActiveOrganizationId()] });
       setStatusBotao("Personalização do botão salva com sucesso.");
     } catch (e) {
       setStatusBotao(e instanceof Error ? e.message : "Não foi possível salvar a personalização.");
@@ -175,10 +176,10 @@ function CategoriasAdmin() {
     try {
       const proximo = { ...configuracoesBotoes };
       delete proximo[categoriaBotao.id];
-      await salvarConfig("categoria_botoes", proximo);
+      await salvarConfig("categoria_botoes", proximo, getActiveOrganizationId());
       setConfiguracoesBotoes(proximo);
       setCfgBotao({ ...categoriaBotaoPadrao });
-      await qc.invalidateQueries({ queryKey: ["cfg", "categoria_botoes"] });
+      await qc.invalidateQueries({ queryKey: ["cfg", "categoria_botoes", getActiveOrganizationId()] });
       setStatusBotao("Padrão restaurado para esta categoria.");
     } catch (e) {
       setStatusBotao(e instanceof Error ? e.message : "Não foi possível restaurar.");
