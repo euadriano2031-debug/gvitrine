@@ -1,6 +1,6 @@
 import { createFileRoute, Link, Outlet, useNavigate, useRouter, useRouterState } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type CSSProperties } from "react";
 import { AlertTriangle, Building2, DatabaseBackup, KeyRound, LayoutDashboard, LogOut, Package, PlayCircle, LifeBuoy, Store, Inbox, Sparkles, Sun, Moon, Tags, Menu, Paintbrush, ShoppingBag } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { ensureAdminRole } from "@/lib/admin.functions";
@@ -49,6 +49,8 @@ function AdminLayout() {
   const queryClient = useQueryClient();
   const garantirAdmin = ensureAdminRole;
   const [theme, setTheme] = useState<"light" | "dark">("light");
+  const [organizationId, setOrganizationId] = useState<string | null>(() => getActiveOrganizationId());
+  const themeStorageKey = `gvitrine_admin_theme:${organizationId ?? "legacy"}`;
   const [verificandoAcesso, setVerificandoAcesso] = useState(true);
   const [administradorGlobal, setAdministradorGlobal] = useState(false);
   const [organizacoes, setOrganizacoes] = useState<Array<{
@@ -61,23 +63,41 @@ function AdminLayout() {
     status: string;
   }>>([]);
   const { data: cabecalho = adminHeaderPadrao } = useQuery<AdminHeaderConfig>({
-    queryKey: ["cfg", "admin_cabecalho"],
-    queryFn: () => fetchConfig("admin_cabecalho", adminHeaderPadrao),
+    queryKey: ["cfg", "admin_cabecalho", organizationId ?? "legacy"],
+    queryFn: () => fetchConfig("admin_cabecalho", adminHeaderPadrao, organizationId),
   });
 
+  // Each organization's light/dark preference is stored separately. The dark
+  // class is applied only to this admin layout, never to the public storefront.
   useEffect(() => {
-    const saved = window.localStorage.getItem("theme");
+    const atualizarOrganizacao = () => setOrganizationId(getActiveOrganizationId());
+    window.addEventListener("saas-organization-changed", atualizarOrganizacao);
+    return () => window.removeEventListener("saas-organization-changed", atualizarOrganizacao);
+  }, []);
+
+  useEffect(() => {
+    const saved = window.localStorage.getItem(themeStorageKey);
     const inicial = saved === "light" || saved === "dark" ? saved : "light";
     setTheme(inicial);
-    document.documentElement.classList.toggle("dark", inicial === "dark");
-  }, []);
+  }, [themeStorageKey]);
 
   const alternarTema = () => {
     const proximo = theme === "dark" ? "light" : "dark";
     setTheme(proximo);
-    document.documentElement.classList.toggle("dark", proximo === "dark");
-    window.localStorage.setItem("theme", proximo);
+    window.localStorage.setItem(themeStorageKey, proximo);
   };
+
+  const themeStyle = {
+    "--primary": cabecalho.tema_primaria_cor,
+    "--primary-foreground": cabecalho.tema_primaria_texto_cor,
+    "--ring": cabecalho.tema_primaria_cor,
+    "--accent": cabecalho.tema_item_ativo_cor,
+    "--accent-foreground": cabecalho.tema_item_ativo_texto_cor,
+    "--sidebar-primary": cabecalho.tema_primaria_cor,
+    "--sidebar-primary-foreground": cabecalho.tema_primaria_texto_cor,
+    "--sidebar-accent": cabecalho.tema_item_ativo_cor,
+    "--sidebar-accent-foreground": cabecalho.tema_item_ativo_texto_cor,
+  } as CSSProperties;
 
   useEffect(() => {
     void garantirAdmin()
@@ -125,7 +145,12 @@ function AdminLayout() {
   }
 
   return (
-    <SidebarProvider>
+    <div
+      className={theme === "dark" ? "dark min-h-screen bg-background text-foreground" : "min-h-screen bg-background text-foreground"}
+      style={themeStyle}
+      data-admin-organization={organizationId ?? "legacy"}
+    >
+      <SidebarProvider>
       <AdminNavigation
         theme={theme}
         alternarTema={alternarTema}
@@ -183,7 +208,8 @@ function AdminLayout() {
           </div>
         </main>
       </SidebarInset>
-    </SidebarProvider>
+      </SidebarProvider>
+    </div>
   );
 }
 
