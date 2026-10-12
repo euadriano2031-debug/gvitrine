@@ -451,6 +451,43 @@ export async function fetchProdutosPublicos(organizationId = getActiveOrganizati
   return (data ?? []) as Produto[];
 }
 
+/**
+ * Consultas públicas usam RPCs limitadas ao slug da loja. Assim, a chave
+ * organization_id não é um filtro confiado apenas ao cliente/navegador.
+ */
+export async function fetchProdutosPublicosPorSlug(organizationSlug: string | null): Promise<Produto[]> {
+  if (!organizationSlug) return [];
+  const { data, error } = await supabase.rpc("public_produtos_por_loja", {
+    _organization_slug: organizationSlug,
+  });
+  if (error) throw error;
+  return (data ?? []) as unknown as Produto[];
+}
+
+export async function fetchCategoriasPublicasPorSlug(organizationSlug: string | null): Promise<Categoria[]> {
+  if (!organizationSlug) return [];
+  const { data, error } = await supabase.rpc("public_categorias_por_loja", {
+    _organization_slug: organizationSlug,
+  });
+  if (error) throw error;
+  return (data ?? []) as unknown as Categoria[];
+}
+
+export async function fetchConfigPublicaPorSlug<T>(
+  chave: string,
+  padrao: T,
+  organizationSlug: string | null,
+): Promise<T> {
+  if (!organizationSlug) return padrao;
+  const { data, error } = await supabase.rpc("public_configuracao_por_loja", {
+    _organization_slug: organizationSlug,
+    _chave: chave,
+  });
+  if (error) throw error;
+  if (!data || typeof data !== "object" || Array.isArray(data)) return padrao;
+  return { ...padrao, ...(data as object) } as T;
+}
+
 export async function fetchProdutosAdmin(organizationId = getActiveOrganizationId()) {
   let query = supabase.from("produtos").select("*").order("ordem", { ascending: true });
   query = escopoOrganizacao(query, organizationId);
@@ -651,13 +688,23 @@ export async function criarLead(
     mensagem?: string | null;
     produto_id?: string | null;
   },
-  organizationId = getActiveOrganizationId(),
+  organizationSlug: string | null,
 ) {
-  const { error } = await supabase.from("leads").insert({
-    ...input,
-    organization_id: organizationId,
+  if (!organizationSlug) {
+    throw new Error("Não foi possível identificar a loja. Atualize a página e tente novamente.");
+  }
+
+  const { data, error } = await supabase.rpc("criar_lead_publico", {
+    _organization_slug: organizationSlug,
+    _nome: input.nome.trim(),
+    _email: input.email ?? null,
+    _telefone: input.telefone ?? null,
+    _mensagem: input.mensagem ?? null,
+    _produto_id: input.produto_id ?? null,
   });
   if (error) throw error;
+  if (!data) throw new Error("O contato não foi registrado. Tente novamente.");
+  return data;
 }
 
 export async function excluirLead(id: string, organizationId = getActiveOrganizationId()) {
