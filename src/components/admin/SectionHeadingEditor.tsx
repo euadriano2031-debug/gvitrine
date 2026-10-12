@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { RotateCcw, Save, Tag, Star, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { getActiveOrganizationId } from "@/lib/saas";
+import { getActiveOrganizationId, getActiveOrganizationSlug } from "@/lib/saas";
 import {
   iconosTitulosSecoesPadrao,
   fetchConfig,
@@ -244,7 +244,7 @@ export function SectionHeadingEditor({ onClose }: Props) {
       // "Produtos em Destaque" e "Vitrine Completa".
       const normalizado = normalizarTitulosSecoes(cfg);
       await salvarConfig("titulos_secoes", normalizado, organizationId);
-      await queryClient.invalidateQueries({ queryKey: ["cfg", "titulos_secoes", organizationId ?? "legacy"] });
+      await queryClient.invalidateQueries({ queryKey: ["cfg", "titulos_secoes", getActiveOrganizationSlug() ?? "legacy"] });
 
       // Confirma a persistência no Supabase antes de informar sucesso ao administrador.
       const salvo = normalizarTitulosSecoes(
