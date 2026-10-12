@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { CheckCircle2, ChevronRight, Inbox, Package, Star, XCircle, LayoutGrid } from "lucide-react";
 import { fetchProdutosAdmin, fetchLeadsAdmin } from "@/lib/loja";
+import { getActiveOrganizationId } from "@/lib/saas";
 
 export const Route = createFileRoute("/_authenticated/admin/")({
   head: () => ({ meta: [
@@ -34,8 +35,9 @@ function CardShell({ label, valor, icon: Icon }: { label: string; valor: number;
 }
 
 function Dashboard() {
-  const { data = [], isLoading } = useQuery({ queryKey: ["produtos-admin"], queryFn: () => fetchProdutosAdmin() });
-  const { data: leads = [] } = useQuery({ queryKey: ["leads-admin"], queryFn: () => fetchLeadsAdmin() });
+  const organizationId = getActiveOrganizationId();
+  const { data = [], isLoading } = useQuery({ queryKey: ["produtos-admin", organizationId], queryFn: () => fetchProdutosAdmin(organizationId) });
+  const { data: leads = [] } = useQuery({ queryKey: ["leads-admin", organizationId], queryFn: () => fetchLeadsAdmin(organizationId) });
 
   return (
     <div>
