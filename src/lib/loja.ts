@@ -165,6 +165,10 @@ export type AdminHeaderConfig = {
   sidebar_fundo_cor: string;
   sidebar_icone_cor: string;
   sidebar_icone: string;
+  tema_primaria_cor: string;
+  tema_primaria_texto_cor: string;
+  tema_item_ativo_cor: string;
+  tema_item_ativo_texto_cor: string;
 };
 
 export const adminHeaderPadrao: AdminHeaderConfig = {
@@ -187,6 +191,11 @@ export const adminHeaderPadrao: AdminHeaderConfig = {
   sidebar_fundo_cor: "#16a34a",
   sidebar_icone_cor: "#ffffff",
   sidebar_icone: "store",
+  // Paleta aplicada somente dentro do painel administrativo desta organização.
+  tema_primaria_cor: "#16a34a",
+  tema_primaria_texto_cor: "#ffffff",
+  tema_item_ativo_cor: "#dcfce7",
+  tema_item_ativo_texto_cor: "#166534",
 };
 
 export type CardTextConfig = {
