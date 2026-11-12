@@ -1,6 +1,6 @@
-# Exporta papéis, schema e dados do banco Supabase para uma pasta local.
-# Pré-requisitos: Node.js/npm, Docker Desktop ativo e connection string do banco.
-# Não execute este script em pipelines públicos e não comite o resultado.
+# Exporta o schema, dados e histórico de migrations do Supabase.
+# Requisitos: Node.js, Docker Desktop ativo e acesso à connection string Postgres.
+# O resultado contém dados privados; nunca envie BACKUP-DADOS-LOCAL ao Git.
 $ErrorActionPreference = "Stop"
 
 if ([string]::IsNullOrWhiteSpace($env:SUPABASE_DB_URL)) {
@@ -8,8 +8,8 @@ if ([string]::IsNullOrWhiteSpace($env:SUPABASE_DB_URL)) {
 Defina SUPABASE_DB_URL apenas nesta sessão do PowerShell.
 Copie a connection string em Supabase Dashboard > Connect.
 Exemplo:
-  $env:SUPABASE_DB_URL = 'postgresql://postgres:...@db....supabase.co:5432/postgres'
-Não coloque o valor real no Git ou neste script.
+  $env:SUPABASE_DB_URL = 'postgresql://postgres:SENHA@db.PROJECT-REF.supabase.co:5432/postgres'
+Não coloque o valor real no Git, em .env.example ou neste script.
 '@
 }
 
@@ -17,35 +17,61 @@ $root = Split-Path -Parent $PSScriptRoot
 $timestamp = Get-Date -Format "yyyyMMdd-HHmmss"
 $outDir = Join-Path (Join-Path $root "BACKUP-DADOS-LOCAL") $timestamp
 New-Item -ItemType Directory -Path $outDir -Force | Out-Null
+$remoteArg = "--remote=$($env:SUPABASE_DB_URL)"
 
-Write-Host "Exportando papéis..."
-npx supabase db dump --db-url $env:SUPABASE_DB_URL --file (Join-Path $outDir "01-roles.sql") --role-only
-if ($LASTEXITCODE -ne 0) { throw "Falha ao exportar papéis." }
+function Invoke-SupabaseDump {
+  param(
+    [Parameter(Mandatory = $true)][string[]]$Arguments,
+    [Parameter(Mandatory = $true)][string]$Description
+  )
+  Write-Host $Description
+  & npx --yes supabase db dump @Arguments
+  if ($LASTEXITCODE -ne 0) {
+    throw "Falha: $Description"
+  }
+}
 
-Write-Host "Exportando schema..."
-npx supabase db dump --db-url $env:SUPABASE_DB_URL --file (Join-Path $outDir "02-schema.sql")
-if ($LASTEXITCODE -ne 0) { throw "Falha ao exportar schema." }
+Invoke-SupabaseDump -Description "Exportando papéis PostgreSQL..." -Arguments @(
+  $remoteArg, "--file", (Join-Path $outDir "01-roles.sql"), "--role-only"
+)
 
-Write-Host "Exportando dados..."
-npx supabase db dump --db-url $env:SUPABASE_DB_URL --file (Join-Path $outDir "03-data.sql") --use-copy --data-only
-if ($LASTEXITCODE -ne 0) { throw "Falha ao exportar dados." }
+Invoke-SupabaseDump -Description "Exportando schema do banco..." -Arguments @(
+  $remoteArg, "--file", (Join-Path $outDir "02-schema.sql")
+)
+
+Invoke-SupabaseDump -Description "Exportando dados..." -Arguments @(
+  $remoteArg, "--file", (Join-Path $outDir "03-data.sql"), "--use-copy", "--data-only",
+  "--exclude", "storage.buckets_vectors", "--exclude", "storage.vector_indexes"
+)
+
+Invoke-SupabaseDump -Description "Exportando estrutura do histórico de migrations..." -Arguments @(
+  $remoteArg, "--file", (Join-Path $outDir "04-migration-history-schema.sql"), "--schema", "supabase_migrations"
+)
+
+Invoke-SupabaseDump -Description "Exportando registros do histórico de migrations..." -Arguments @(
+  $remoteArg, "--file", (Join-Path $outDir "05-migration-history-data.sql"), "--use-copy", "--data-only",
+  "--schema", "supabase_migrations"
+)
 
 @"
 G-VITRINE — BACKUP DO SUPABASE
 Gerado em: $(Get-Date -Format "yyyy-MM-dd HH:mm:ss zzz")
-Projeto: jxyhzpvgihfkeduvomlu
+Projeto de origem: jxyhzpvgihfkeduvomlu
 
 Arquivos:
-- 01-roles.sql: papéis compatíveis para dump/restauração.
-- 02-schema.sql: schema filtrado pelo Supabase CLI.
-- 03-data.sql: dados exportados com COPY.
+- 01-roles.sql: papéis PostgreSQL personalizados.
+- 02-schema.sql: schema do banco não gerenciado pelo Supabase.
+- 03-data.sql: dados das tabelas incluídas no dump.
+- 04-migration-history-schema.sql: estrutura do histórico de migrations.
+- 05-migration-history-data.sql: versões efetivamente registradas no histórico.
 
-IMPORTANTE:
-- Guarde estes arquivos em local privado.
-- A mídia do Storage é exportada separadamente por ENTREGA/exportar-storage.mjs.
-- Configurações de Auth, provedores OAuth, SMTP, secrets e API keys exigem verificação/reconfiguração separada.
-- Antes de restaurar, use um projeto de teste e confira versões/extensions.
+Limites:
+- O Supabase CLI exclui schemas gerenciados, como auth e storage, e schemas de extensões.
+- Usuários, hashes/senhas, provedores OAuth, SMTP, secrets e API keys do Auth não são exportados por estes arquivos.
+- Objetos binários do Storage precisam de exportação separada com ENTREGA/exportar-storage.mjs.
+- Guarde a pasta em local privado. Ela pode conter dados pessoais e comerciais.
+- Teste a restauração em um projeto separado antes de usar em produção.
 "@ | Set-Content -Path (Join-Path $outDir "LEIA-ME-BACKUP.txt") -Encoding UTF8
 
 Write-Host "Backup criado em: $outDir"
-Write-Host "Exportação do banco concluída. Exporte também o Storage com ENTREGA/exportar-storage.mjs."
+Write-Host "Exporte os objetos do Storage separadamente, se houver buckets/arquivos."
