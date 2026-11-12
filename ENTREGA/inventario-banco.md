@@ -1,46 +1,83 @@
 # Inventário do Supabase — G-Vitrine
 
-Verificado em 2026-10-10. Projeto ref: jxyhzpvgihfkeduvomlu.
+**Projeto:** `jxyhzpvgihfkeduvomlu`  
+**URL:** `https://jxyhzpvgihfkeduvomlu.supabase.co`  
+**Data da consulta:** 12/11/2026 (UTC)
 
-## Schema public
+> Contagens são uma fotografia do banco no momento da consulta e podem mudar com o uso do aplicativo. Este inventário não contém dados pessoais, senhas, chaves ou payloads de backup.
 
-Os totais de linhas são uma fotografia do banco no momento da consulta e podem mudar conforme o uso da aplicação.
+## Tabelas públicas
 
-| Tabela | Linhas no momento da consulta | RLS |
+| Tabela | Registros | RLS |
 |---|---:|---|
 | organizations | 2 | habilitado |
-| user_roles | 1 | habilitado |
+| user_roles | 0 | habilitado |
 | saas_plans | 1 | habilitado |
 | organization_members | 2 | habilitado |
 | organization_subscriptions | 2 | habilitado |
-| categorias | 18 | habilitado |
-| produtos | 29 | habilitado |
-| configuracoes | 14 | habilitado |
-| leads | 0 | habilitado |
-| loja_backups | 2 | habilitado |
+| categorias | 13 | habilitado |
+| produtos | 9 | habilitado |
+| configuracoes | 20 | habilitado |
+| leads | 1 | habilitado |
+| loja_backups | 10 | habilitado |
+| crm_activities | 1 | habilitado |
 
-## Relacionamentos e áreas
+Todas as 11 tabelas do schema `public` listadas estavam com Row Level Security habilitado.
 
-- organizations é a entidade central das lojas/tenants.
-- organization_members associa usuários às lojas e seus papéis.
-- user_roles guarda papéis globais da aplicação.
-- organization_subscriptions referencia organizações e planos.
-- produtos referencia categorias e organizações.
-- categorias, configuracoes, leads e loja_backups mantêm organization_id para o isolamento por loja.
-- RLS estava habilitado em todas as 10 tabelas listadas no schema public.
+## Dados separados por loja
+
+| Loja | Slug | Situação | Categorias | Produtos | Configurações | Leads | Atividades CRM | Backups |
+|---|---|---|---:|---:|---:|---:|---:|---:|
+| AP SISTEMAS | `apsistemas` | ativa | 4 | 1 | 11 | 1 | 1 | 5 |
+| KI-VITRINE | `ki-vitrine` | ativa | 9 | 8 | 9 | 0 | 0 | 5 |
+
+Os dados de cada loja estão associados ao respectivo `organization_id`. As funções e políticas de isolamento estão versionadas em `migracao-supabase/`.
 
 ## Storage
 
-| Bucket | Visibilidade | Objetos |
-|---|---|---:|
-| loja | privado | 2 |
+A consulta de inventário encontrou **0 buckets e 0 objetos** no projeto no momento da verificação. O script `ENTREGA/exportar-storage.mjs` permanece disponível para exportar mídias caso arquivos sejam adicionados futuramente.
 
-Os objetos armazenados não estão dentro dos arquivos SQL. O script ENTREGA/exportar-storage.mjs exporta arquivos do bucket para backup local quando executado com uma credencial administrativa local.
+## Histórico remoto de migrations
 
-## Migrations
+O Supabase registrou as seguintes 7 migrations:
 
-O repositório contém SQL em supabase/migrations/, mais scripts em migracao-supabase/ e SUPABASE_INSTALACAO/. A listagem de migrations remotas consultada pelo conector retornou uma lista vazia. Não interprete isso como prova de que a base esteja vazia ou sem alterações: o schema e os dados estão presentes. Compare o histórico e os scripts antes de aplicar migrations.
+| Versão remota | Nome registrado |
+|---|---|
+| 20261012073507 | tenant_admin_isolation |
+| 20261012074129 | tenant_reference_integrity |
+| 20261012074232 | isolate_public_storefront_reads |
+| 20261012080602 | restore_neutral_admin_active_tab_color |
+| 20261012085125 | crm_kanban_leads |
+| 20261012085201 | crm_manual_lead_insert |
+| 20261012092658 | crm_commercial_values |
 
-## Limites deste inventário
+O arquivo `migracao-supabase/20261012030000_isolar_tema_painel.sql` está versionado no GitHub, mas não apareceu nesta listagem de histórico remoto. Antes de reaplicá-lo, confira se as alterações correspondentes já existem no banco.
 
-Este documento é um resumo, não um dump completo do DDL. Para exportar funções, triggers, políticas, dados e papéis de forma compatível com Supabase, use o script de backup e o Supabase CLI. Credenciais, chaves JWT, configurações do Auth/SMTP, e arquivos do Storage exigem cuidado e/ou exportação separada.
+**Atenção:** o diretório `supabase/migrations/` também contém migrations legadas de datas anteriores. A listagem remota atual não mostrou essas versões. Não execute `supabase db push`, `migration repair` nem scripts de instalação sobre produção sem reconciliar primeiro o histórico local e remoto. Os 11 scripts de `SUPABASE_INSTALACAO/` são para um banco realmente novo e vazio, nunca para o banco atual.
+
+## Relatórios do Supabase Advisors
+
+A consulta de 12/11/2026 retornou avisos que ainda merecem revisão:
+
+### Segurança
+- 1 aviso: extensão `pg_net` instalada no schema `public`.
+- 8 funções `SECURITY DEFINER` executáveis por `anon` (incluindo RPCs públicas usadas pela vitrine).
+- 14 funções `SECURITY DEFINER` executáveis por `authenticated` (incluindo funções de backup e autorização).
+- Proteção de senha vazada do Supabase Auth está desativada.
+
+A existência de uma função nessas listas não prova, por si só, exploração; cada função precisa ser revisada conforme a autorização interna e o uso pretendido. Não remova permissões das RPCs públicas sem atualizar a vitrine junto, pois isso pode interromper consultas e envio de contatos.
+
+### Desempenho
+- 6 chaves estrangeiras sem índice de cobertura.
+- 32 avisos de reavaliação por linha de expressões `auth.*` em políticas RLS.
+
+Links de referência:
+- [Security Advisor — SECURITY DEFINER executável por anon](https://supabase.com/docs/guides/database/database-linter?lint=0028_anon_security_definer_function_executable)
+- [Security Advisor — SECURITY DEFINER executável por authenticated](https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable)
+- [Performance Advisor — chaves estrangeiras sem índice](https://supabase.com/docs/guides/database/database-linter?lint=0001_unindexed_foreign_keys)
+- [Performance Advisor — RLS initplan](https://supabase.com/docs/guides/database/database-linter?lint=0003_auth_rls_initplan)
+- [Supabase Auth — proteção de senhas vazadas](https://supabase.com/docs/guides/auth/password-security#password-strength-and-leaked-password-protection)
+
+## O que este inventário não representa
+
+Este documento é somente um inventário e não um dump restaurável. Para obter o backup real do banco, use `ENTREGA/backup-supabase.ps1` com a connection string PostgreSQL do projeto. O script cria exports separados de roles, schema, dados e histórico de migrations. O Storage é exportado separadamente. Usuários do Auth, hashes de senha, provedores, SMTP, secrets, API keys e configurações do projeto precisam ser recriados ou configurados no projeto de destino.
