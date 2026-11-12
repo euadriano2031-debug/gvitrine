@@ -1,0 +1,1751 @@
+{
+  "captured_at": "2026-11-12",
+  "project_id": "jxyhzpvgihfkeduvomlu",
+  "tables": [
+    {
+      "table_name": "categorias",
+      "rls_enabled": true,
+      "force_rls": false,
+      "columns": [
+        {
+          "table_name": "categorias",
+          "ordinal_position": 1,
+          "column_name": "id",
+          "type_sql": "uuid",
+          "default_sql": "gen_random_uuid()",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "categorias",
+          "ordinal_position": 2,
+          "column_name": "nome",
+          "type_sql": "text",
+          "default_sql": null,
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "categorias",
+          "ordinal_position": 3,
+          "column_name": "slug",
+          "type_sql": "text",
+          "default_sql": null,
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "categorias",
+          "ordinal_position": 4,
+          "column_name": "ordem",
+          "type_sql": "integer",
+          "default_sql": "0",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "categorias",
+          "ordinal_position": 5,
+          "column_name": "created_at",
+          "type_sql": "timestamp with time zone",
+          "default_sql": "now()",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "categorias",
+          "ordinal_position": 6,
+          "column_name": "updated_at",
+          "type_sql": "timestamp with time zone",
+          "default_sql": "now()",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "categorias",
+          "ordinal_position": 7,
+          "column_name": "organization_id",
+          "type_sql": "uuid",
+          "default_sql": null,
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        }
+      ],
+      "constraints": [
+        {
+          "table_name": "categorias",
+          "conname": "categorias_organization_id_fkey",
+          "contype": "f",
+          "definition": "FOREIGN KEY (organization_id) REFERENCES organizations(id) ON DELETE CASCADE"
+        },
+        {
+          "table_name": "categorias",
+          "conname": "categorias_organization_id_slug_key",
+          "contype": "u",
+          "definition": "UNIQUE (organization_id, slug)"
+        },
+        {
+          "table_name": "categorias",
+          "conname": "categorias_pkey",
+          "contype": "p",
+          "definition": "PRIMARY KEY (id)"
+        }
+      ]
+    },
+    {
+      "table_name": "configuracoes",
+      "rls_enabled": true,
+      "force_rls": false,
+      "columns": [
+        {
+          "table_name": "configuracoes",
+          "ordinal_position": 1,
+          "column_name": "id",
+          "type_sql": "uuid",
+          "default_sql": "gen_random_uuid()",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "configuracoes",
+          "ordinal_position": 2,
+          "column_name": "chave",
+          "type_sql": "text",
+          "default_sql": null,
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "configuracoes",
+          "ordinal_position": 3,
+          "column_name": "valor",
+          "type_sql": "jsonb",
+          "default_sql": "'{}'::jsonb",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "configuracoes",
+          "ordinal_position": 4,
+          "column_name": "created_at",
+          "type_sql": "timestamp with time zone",
+          "default_sql": "now()",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "configuracoes",
+          "ordinal_position": 5,
+          "column_name": "updated_at",
+          "type_sql": "timestamp with time zone",
+          "default_sql": "now()",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "configuracoes",
+          "ordinal_position": 6,
+          "column_name": "organization_id",
+          "type_sql": "uuid",
+          "default_sql": null,
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        }
+      ],
+      "constraints": [
+        {
+          "table_name": "configuracoes",
+          "conname": "configuracoes_organization_id_chave_key",
+          "contype": "u",
+          "definition": "UNIQUE (organization_id, chave)"
+        },
+        {
+          "table_name": "configuracoes",
+          "conname": "configuracoes_organization_id_fkey",
+          "contype": "f",
+          "definition": "FOREIGN KEY (organization_id) REFERENCES organizations(id) ON DELETE CASCADE"
+        },
+        {
+          "table_name": "configuracoes",
+          "conname": "configuracoes_pkey",
+          "contype": "p",
+          "definition": "PRIMARY KEY (id)"
+        }
+      ]
+    },
+    {
+      "table_name": "crm_activities",
+      "rls_enabled": true,
+      "force_rls": true,
+      "columns": [
+        {
+          "table_name": "crm_activities",
+          "ordinal_position": 1,
+          "column_name": "id",
+          "type_sql": "uuid",
+          "default_sql": "gen_random_uuid()",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "crm_activities",
+          "ordinal_position": 2,
+          "column_name": "lead_id",
+          "type_sql": "uuid",
+          "default_sql": null,
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "crm_activities",
+          "ordinal_position": 3,
+          "column_name": "organization_id",
+          "type_sql": "uuid",
+          "default_sql": null,
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "crm_activities",
+          "ordinal_position": 4,
+          "column_name": "type",
+          "type_sql": "text",
+          "default_sql": "'nota'::text",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "crm_activities",
+          "ordinal_position": 5,
+          "column_name": "title",
+          "type_sql": "text",
+          "default_sql": null,
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "crm_activities",
+          "ordinal_position": 6,
+          "column_name": "description",
+          "type_sql": "text",
+          "default_sql": null,
+          "not_null": false,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "crm_activities",
+          "ordinal_position": 7,
+          "column_name": "due_at",
+          "type_sql": "timestamp with time zone",
+          "default_sql": null,
+          "not_null": false,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "crm_activities",
+          "ordinal_position": 8,
+          "column_name": "completed_at",
+          "type_sql": "timestamp with time zone",
+          "default_sql": null,
+          "not_null": false,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "crm_activities",
+          "ordinal_position": 9,
+          "column_name": "created_by",
+          "type_sql": "uuid",
+          "default_sql": "auth.uid()",
+          "not_null": false,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "crm_activities",
+          "ordinal_position": 10,
+          "column_name": "created_at",
+          "type_sql": "timestamp with time zone",
+          "default_sql": "now()",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        }
+      ],
+      "constraints": [
+        {
+          "table_name": "crm_activities",
+          "conname": "crm_activities_lead_id_fkey",
+          "contype": "f",
+          "definition": "FOREIGN KEY (lead_id) REFERENCES leads(id) ON DELETE CASCADE"
+        },
+        {
+          "table_name": "crm_activities",
+          "conname": "crm_activities_organization_id_fkey",
+          "contype": "f",
+          "definition": "FOREIGN KEY (organization_id) REFERENCES organizations(id) ON DELETE CASCADE"
+        },
+        {
+          "table_name": "crm_activities",
+          "conname": "crm_activities_pkey",
+          "contype": "p",
+          "definition": "PRIMARY KEY (id)"
+        },
+        {
+          "table_name": "crm_activities",
+          "conname": "crm_activities_title_check",
+          "contype": "c",
+          "definition": "CHECK (length(TRIM(BOTH FROM title)) >= 1 AND length(TRIM(BOTH FROM title)) <= 180)"
+        },
+        {
+          "table_name": "crm_activities",
+          "conname": "crm_activities_type_check",
+          "contype": "c",
+          "definition": "CHECK (type = ANY (ARRAY['nota'::text, 'ligacao'::text, 'email'::text, 'reuniao'::text, 'tarefa'::text, 'etapa'::text]))"
+        }
+      ]
+    },
+    {
+      "table_name": "leads",
+      "rls_enabled": true,
+      "force_rls": false,
+      "columns": [
+        {
+          "table_name": "leads",
+          "ordinal_position": 1,
+          "column_name": "id",
+          "type_sql": "uuid",
+          "default_sql": "gen_random_uuid()",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "leads",
+          "ordinal_position": 2,
+          "column_name": "nome",
+          "type_sql": "text",
+          "default_sql": null,
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "leads",
+          "ordinal_position": 3,
+          "column_name": "email",
+          "type_sql": "text",
+          "default_sql": null,
+          "not_null": false,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "leads",
+          "ordinal_position": 4,
+          "column_name": "telefone",
+          "type_sql": "text",
+          "default_sql": null,
+          "not_null": false,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "leads",
+          "ordinal_position": 5,
+          "column_name": "produto_id",
+          "type_sql": "uuid",
+          "default_sql": null,
+          "not_null": false,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "leads",
+          "ordinal_position": 6,
+          "column_name": "mensagem",
+          "type_sql": "text",
+          "default_sql": null,
+          "not_null": false,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "leads",
+          "ordinal_position": 7,
+          "column_name": "created_at",
+          "type_sql": "timestamp with time zone",
+          "default_sql": "now()",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "leads",
+          "ordinal_position": 8,
+          "column_name": "organization_id",
+          "type_sql": "uuid",
+          "default_sql": null,
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "leads",
+          "ordinal_position": 9,
+          "column_name": "status",
+          "type_sql": "text",
+          "default_sql": null,
+          "not_null": false,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "leads",
+          "ordinal_position": 10,
+          "column_name": "source",
+          "type_sql": "text",
+          "default_sql": null,
+          "not_null": false,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "leads",
+          "ordinal_position": 11,
+          "column_name": "page_url",
+          "type_sql": "text",
+          "default_sql": null,
+          "not_null": false,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "leads",
+          "ordinal_position": 12,
+          "column_name": "crm_stage",
+          "type_sql": "text",
+          "default_sql": "'novo'::text",
+          "not_null": false,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "leads",
+          "ordinal_position": 13,
+          "column_name": "crm_priority",
+          "type_sql": "text",
+          "default_sql": "'media'::text",
+          "not_null": false,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "leads",
+          "ordinal_position": 14,
+          "column_name": "crm_notes",
+          "type_sql": "text",
+          "default_sql": null,
+          "not_null": false,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "leads",
+          "ordinal_position": 15,
+          "column_name": "crm_follow_up_at",
+          "type_sql": "timestamp with time zone",
+          "default_sql": null,
+          "not_null": false,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "leads",
+          "ordinal_position": 16,
+          "column_name": "crm_estimated_value",
+          "type_sql": "numeric(12,2)",
+          "default_sql": null,
+          "not_null": false,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "leads",
+          "ordinal_position": 17,
+          "column_name": "crm_updated_at",
+          "type_sql": "timestamp with time zone",
+          "default_sql": "now()",
+          "not_null": false,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "leads",
+          "ordinal_position": 18,
+          "column_name": "crm_final_value",
+          "type_sql": "numeric(12,2)",
+          "default_sql": null,
+          "not_null": false,
+          "identity_kind": "",
+          "generated_kind": ""
+        }
+      ],
+      "constraints": [
+        {
+          "table_name": "leads",
+          "conname": "leads_organization_id_fkey",
+          "contype": "f",
+          "definition": "FOREIGN KEY (organization_id) REFERENCES organizations(id) ON DELETE CASCADE"
+        },
+        {
+          "table_name": "leads",
+          "conname": "leads_pkey",
+          "contype": "p",
+          "definition": "PRIMARY KEY (id)"
+        },
+        {
+          "table_name": "leads",
+          "conname": "leads_produto_id_fkey",
+          "contype": "f",
+          "definition": "FOREIGN KEY (produto_id) REFERENCES produtos(id) ON DELETE SET NULL"
+        }
+      ]
+    },
+    {
+      "table_name": "loja_backups",
+      "rls_enabled": true,
+      "force_rls": false,
+      "columns": [
+        {
+          "table_name": "loja_backups",
+          "ordinal_position": 1,
+          "column_name": "id",
+          "type_sql": "uuid",
+          "default_sql": "gen_random_uuid()",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "loja_backups",
+          "ordinal_position": 2,
+          "column_name": "organization_id",
+          "type_sql": "uuid",
+          "default_sql": null,
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "loja_backups",
+          "ordinal_position": 3,
+          "column_name": "gerado_em",
+          "type_sql": "timestamp with time zone",
+          "default_sql": "now()",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "loja_backups",
+          "ordinal_position": 4,
+          "column_name": "expira_em",
+          "type_sql": "timestamp with time zone",
+          "default_sql": "(now() + '60 days'::interval)",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "loja_backups",
+          "ordinal_position": 5,
+          "column_name": "checksum",
+          "type_sql": "text",
+          "default_sql": null,
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "loja_backups",
+          "ordinal_position": 6,
+          "column_name": "origem",
+          "type_sql": "text",
+          "default_sql": "'manual'::text",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "loja_backups",
+          "ordinal_position": 7,
+          "column_name": "criado_por",
+          "type_sql": "uuid",
+          "default_sql": null,
+          "not_null": false,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "loja_backups",
+          "ordinal_position": 8,
+          "column_name": "payload",
+          "type_sql": "jsonb",
+          "default_sql": null,
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        }
+      ],
+      "constraints": [
+        {
+          "table_name": "loja_backups",
+          "conname": "loja_backups_criado_por_fkey",
+          "contype": "f",
+          "definition": "FOREIGN KEY (criado_por) REFERENCES auth.users(id) ON DELETE SET NULL"
+        },
+        {
+          "table_name": "loja_backups",
+          "conname": "loja_backups_organization_id_fkey",
+          "contype": "f",
+          "definition": "FOREIGN KEY (organization_id) REFERENCES organizations(id) ON DELETE CASCADE"
+        },
+        {
+          "table_name": "loja_backups",
+          "conname": "loja_backups_origem_check",
+          "contype": "c",
+          "definition": "CHECK (origem = ANY (ARRAY['automatico'::text, 'manual'::text, 'pre_restauracao'::text]))"
+        },
+        {
+          "table_name": "loja_backups",
+          "conname": "loja_backups_pkey",
+          "contype": "p",
+          "definition": "PRIMARY KEY (id)"
+        }
+      ]
+    },
+    {
+      "table_name": "organization_members",
+      "rls_enabled": true,
+      "force_rls": false,
+      "columns": [
+        {
+          "table_name": "organization_members",
+          "ordinal_position": 1,
+          "column_name": "id",
+          "type_sql": "uuid",
+          "default_sql": "gen_random_uuid()",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "organization_members",
+          "ordinal_position": 2,
+          "column_name": "organization_id",
+          "type_sql": "uuid",
+          "default_sql": null,
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "organization_members",
+          "ordinal_position": 3,
+          "column_name": "user_id",
+          "type_sql": "uuid",
+          "default_sql": null,
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "organization_members",
+          "ordinal_position": 4,
+          "column_name": "role",
+          "type_sql": "text",
+          "default_sql": "'viewer'::text",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "organization_members",
+          "ordinal_position": 5,
+          "column_name": "created_at",
+          "type_sql": "timestamp with time zone",
+          "default_sql": "now()",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        }
+      ],
+      "constraints": [
+        {
+          "table_name": "organization_members",
+          "conname": "organization_members_organization_id_fkey",
+          "contype": "f",
+          "definition": "FOREIGN KEY (organization_id) REFERENCES organizations(id) ON DELETE CASCADE"
+        },
+        {
+          "table_name": "organization_members",
+          "conname": "organization_members_organization_id_user_id_key",
+          "contype": "u",
+          "definition": "UNIQUE (organization_id, user_id)"
+        },
+        {
+          "table_name": "organization_members",
+          "conname": "organization_members_pkey",
+          "contype": "p",
+          "definition": "PRIMARY KEY (id)"
+        },
+        {
+          "table_name": "organization_members",
+          "conname": "organization_members_role_check",
+          "contype": "c",
+          "definition": "CHECK (role = ANY (ARRAY['owner'::text, 'admin'::text, 'editor'::text, 'viewer'::text]))"
+        },
+        {
+          "table_name": "organization_members",
+          "conname": "organization_members_user_id_fkey",
+          "contype": "f",
+          "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE"
+        }
+      ]
+    },
+    {
+      "table_name": "organization_subscriptions",
+      "rls_enabled": true,
+      "force_rls": false,
+      "columns": [
+        {
+          "table_name": "organization_subscriptions",
+          "ordinal_position": 1,
+          "column_name": "id",
+          "type_sql": "uuid",
+          "default_sql": "gen_random_uuid()",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "organization_subscriptions",
+          "ordinal_position": 2,
+          "column_name": "organization_id",
+          "type_sql": "uuid",
+          "default_sql": null,
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "organization_subscriptions",
+          "ordinal_position": 3,
+          "column_name": "plan_code",
+          "type_sql": "text",
+          "default_sql": "'free'::text",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "organization_subscriptions",
+          "ordinal_position": 4,
+          "column_name": "status",
+          "type_sql": "text",
+          "default_sql": "'active'::text",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "organization_subscriptions",
+          "ordinal_position": 5,
+          "column_name": "current_period_start",
+          "type_sql": "timestamp with time zone",
+          "default_sql": "now()",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "organization_subscriptions",
+          "ordinal_position": 6,
+          "column_name": "current_period_end",
+          "type_sql": "timestamp with time zone",
+          "default_sql": null,
+          "not_null": false,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "organization_subscriptions",
+          "ordinal_position": 7,
+          "column_name": "external_customer_id",
+          "type_sql": "text",
+          "default_sql": null,
+          "not_null": false,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "organization_subscriptions",
+          "ordinal_position": 8,
+          "column_name": "external_subscription_id",
+          "type_sql": "text",
+          "default_sql": null,
+          "not_null": false,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "organization_subscriptions",
+          "ordinal_position": 9,
+          "column_name": "created_at",
+          "type_sql": "timestamp with time zone",
+          "default_sql": "now()",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "organization_subscriptions",
+          "ordinal_position": 10,
+          "column_name": "updated_at",
+          "type_sql": "timestamp with time zone",
+          "default_sql": "now()",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        }
+      ],
+      "constraints": [
+        {
+          "table_name": "organization_subscriptions",
+          "conname": "organization_subscriptions_organization_id_fkey",
+          "contype": "f",
+          "definition": "FOREIGN KEY (organization_id) REFERENCES organizations(id) ON DELETE CASCADE"
+        },
+        {
+          "table_name": "organization_subscriptions",
+          "conname": "organization_subscriptions_organization_id_key",
+          "contype": "u",
+          "definition": "UNIQUE (organization_id)"
+        },
+        {
+          "table_name": "organization_subscriptions",
+          "conname": "organization_subscriptions_pkey",
+          "contype": "p",
+          "definition": "PRIMARY KEY (id)"
+        },
+        {
+          "table_name": "organization_subscriptions",
+          "conname": "organization_subscriptions_plan_code_fkey",
+          "contype": "f",
+          "definition": "FOREIGN KEY (plan_code) REFERENCES saas_plans(code)"
+        },
+        {
+          "table_name": "organization_subscriptions",
+          "conname": "organization_subscriptions_status_check",
+          "contype": "c",
+          "definition": "CHECK (status = ANY (ARRAY['trialing'::text, 'active'::text, 'past_due'::text, 'cancelled'::text]))"
+        }
+      ]
+    },
+    {
+      "table_name": "organizations",
+      "rls_enabled": true,
+      "force_rls": false,
+      "columns": [
+        {
+          "table_name": "organizations",
+          "ordinal_position": 1,
+          "column_name": "id",
+          "type_sql": "uuid",
+          "default_sql": "gen_random_uuid()",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "organizations",
+          "ordinal_position": 2,
+          "column_name": "owner_user_id",
+          "type_sql": "uuid",
+          "default_sql": null,
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "organizations",
+          "ordinal_position": 3,
+          "column_name": "name",
+          "type_sql": "text",
+          "default_sql": null,
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "organizations",
+          "ordinal_position": 4,
+          "column_name": "slug",
+          "type_sql": "text",
+          "default_sql": null,
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "organizations",
+          "ordinal_position": 5,
+          "column_name": "description",
+          "type_sql": "text",
+          "default_sql": "''::text",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "organizations",
+          "ordinal_position": 6,
+          "column_name": "logo_url",
+          "type_sql": "text",
+          "default_sql": null,
+          "not_null": false,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "organizations",
+          "ordinal_position": 7,
+          "column_name": "primary_color",
+          "type_sql": "text",
+          "default_sql": "'#16a34a'::text",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "organizations",
+          "ordinal_position": 8,
+          "column_name": "custom_domain",
+          "type_sql": "text",
+          "default_sql": null,
+          "not_null": false,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "organizations",
+          "ordinal_position": 9,
+          "column_name": "status",
+          "type_sql": "text",
+          "default_sql": "'active'::text",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "organizations",
+          "ordinal_position": 10,
+          "column_name": "created_at",
+          "type_sql": "timestamp with time zone",
+          "default_sql": "now()",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "organizations",
+          "ordinal_position": 11,
+          "column_name": "updated_at",
+          "type_sql": "timestamp with time zone",
+          "default_sql": "now()",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        }
+      ],
+      "constraints": [
+        {
+          "table_name": "organizations",
+          "conname": "organizations_owner_user_id_fkey",
+          "contype": "f",
+          "definition": "FOREIGN KEY (owner_user_id) REFERENCES auth.users(id) ON DELETE CASCADE"
+        },
+        {
+          "table_name": "organizations",
+          "conname": "organizations_pkey",
+          "contype": "p",
+          "definition": "PRIMARY KEY (id)"
+        },
+        {
+          "table_name": "organizations",
+          "conname": "organizations_slug_key",
+          "contype": "u",
+          "definition": "UNIQUE (slug)"
+        },
+        {
+          "table_name": "organizations",
+          "conname": "organizations_status_check",
+          "contype": "c",
+          "definition": "CHECK (status = ANY (ARRAY['active'::text, 'suspended'::text, 'cancelled'::text]))"
+        }
+      ]
+    },
+    {
+      "table_name": "produtos",
+      "rls_enabled": true,
+      "force_rls": false,
+      "columns": [
+        {
+          "table_name": "produtos",
+          "ordinal_position": 1,
+          "column_name": "id",
+          "type_sql": "uuid",
+          "default_sql": "gen_random_uuid()",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "produtos",
+          "ordinal_position": 2,
+          "column_name": "titulo",
+          "type_sql": "text",
+          "default_sql": null,
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "produtos",
+          "ordinal_position": 3,
+          "column_name": "slug",
+          "type_sql": "text",
+          "default_sql": null,
+          "not_null": false,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "produtos",
+          "ordinal_position": 4,
+          "column_name": "descricao",
+          "type_sql": "text",
+          "default_sql": "''::text",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "produtos",
+          "ordinal_position": 5,
+          "column_name": "imagem_url",
+          "type_sql": "text",
+          "default_sql": null,
+          "not_null": false,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "produtos",
+          "ordinal_position": 6,
+          "column_name": "preco",
+          "type_sql": "numeric(10,2)",
+          "default_sql": "0",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "produtos",
+          "ordinal_position": 7,
+          "column_name": "preco_antigo",
+          "type_sql": "numeric(10,2)",
+          "default_sql": null,
+          "not_null": false,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "produtos",
+          "ordinal_position": 8,
+          "column_name": "parcelamento",
+          "type_sql": "text",
+          "default_sql": null,
+          "not_null": false,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "produtos",
+          "ordinal_position": 9,
+          "column_name": "selo",
+          "type_sql": "text",
+          "default_sql": null,
+          "not_null": false,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "produtos",
+          "ordinal_position": 10,
+          "column_name": "desconto",
+          "type_sql": "text",
+          "default_sql": null,
+          "not_null": false,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "produtos",
+          "ordinal_position": 11,
+          "column_name": "desconto_cor",
+          "type_sql": "text",
+          "default_sql": "'#f97316'::text",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "produtos",
+          "ordinal_position": 12,
+          "column_name": "desconto_ativo",
+          "type_sql": "boolean",
+          "default_sql": "true",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "produtos",
+          "ordinal_position": 13,
+          "column_name": "categoria_id",
+          "type_sql": "uuid",
+          "default_sql": null,
+          "not_null": false,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "produtos",
+          "ordinal_position": 14,
+          "column_name": "checkout_url",
+          "type_sql": "text",
+          "default_sql": null,
+          "not_null": false,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "produtos",
+          "ordinal_position": 15,
+          "column_name": "video_url",
+          "type_sql": "text",
+          "default_sql": null,
+          "not_null": false,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "produtos",
+          "ordinal_position": 16,
+          "column_name": "demo_url",
+          "type_sql": "text",
+          "default_sql": null,
+          "not_null": false,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "produtos",
+          "ordinal_position": 17,
+          "column_name": "whatsapp_url",
+          "type_sql": "text",
+          "default_sql": null,
+          "not_null": false,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "produtos",
+          "ordinal_position": 18,
+          "column_name": "popup_video_url",
+          "type_sql": "text",
+          "default_sql": null,
+          "not_null": false,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "produtos",
+          "ordinal_position": 19,
+          "column_name": "popup_video_tipo",
+          "type_sql": "text",
+          "default_sql": "'auto'::text",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "produtos",
+          "ordinal_position": 20,
+          "column_name": "popup_imagem_url",
+          "type_sql": "text",
+          "default_sql": null,
+          "not_null": false,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "produtos",
+          "ordinal_position": 21,
+          "column_name": "secao",
+          "type_sql": "text",
+          "default_sql": "'vitrine'::text",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "produtos",
+          "ordinal_position": 22,
+          "column_name": "tags",
+          "type_sql": "text[]",
+          "default_sql": "'{}'::text[]",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "produtos",
+          "ordinal_position": 23,
+          "column_name": "comprar_texto",
+          "type_sql": "text",
+          "default_sql": "'Comprar'::text",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "produtos",
+          "ordinal_position": 24,
+          "column_name": "comprar_cor",
+          "type_sql": "text",
+          "default_sql": "'#3b82f6'::text",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "produtos",
+          "ordinal_position": 25,
+          "column_name": "comprar_provedor",
+          "type_sql": "text",
+          "default_sql": "'personalizado'::text",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "produtos",
+          "ordinal_position": 26,
+          "column_name": "comprar_ativo",
+          "type_sql": "boolean",
+          "default_sql": "true",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "produtos",
+          "ordinal_position": 27,
+          "column_name": "demo_texto",
+          "type_sql": "text",
+          "default_sql": "'Ver Demo'::text",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "produtos",
+          "ordinal_position": 28,
+          "column_name": "demo_cor",
+          "type_sql": "text",
+          "default_sql": "'#dc2626'::text",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "produtos",
+          "ordinal_position": 29,
+          "column_name": "demo_ativo",
+          "type_sql": "boolean",
+          "default_sql": "true",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "produtos",
+          "ordinal_position": 30,
+          "column_name": "destaque",
+          "type_sql": "boolean",
+          "default_sql": "false",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "produtos",
+          "ordinal_position": 31,
+          "column_name": "ativo",
+          "type_sql": "boolean",
+          "default_sql": "true",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "produtos",
+          "ordinal_position": 32,
+          "column_name": "ordem",
+          "type_sql": "integer",
+          "default_sql": "0",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "produtos",
+          "ordinal_position": 33,
+          "column_name": "created_at",
+          "type_sql": "timestamp with time zone",
+          "default_sql": "now()",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "produtos",
+          "ordinal_position": 34,
+          "column_name": "updated_at",
+          "type_sql": "timestamp with time zone",
+          "default_sql": "now()",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "produtos",
+          "ordinal_position": 35,
+          "column_name": "pix_icone",
+          "type_sql": "text",
+          "default_sql": "'pix'::text",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "produtos",
+          "ordinal_position": 36,
+          "column_name": "site_url",
+          "type_sql": "text",
+          "default_sql": null,
+          "not_null": false,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "produtos",
+          "ordinal_position": 37,
+          "column_name": "site_texto",
+          "type_sql": "text",
+          "default_sql": "'Ver Site'::text",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "produtos",
+          "ordinal_position": 38,
+          "column_name": "site_cor",
+          "type_sql": "text",
+          "default_sql": "'#16a34a'::text",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "produtos",
+          "ordinal_position": 39,
+          "column_name": "site_ativo",
+          "type_sql": "boolean",
+          "default_sql": "true",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "produtos",
+          "ordinal_position": 40,
+          "column_name": "botoes_ordem",
+          "type_sql": "text[]",
+          "default_sql": "ARRAY['comprar'::text, 'video'::text, 'site'::text, 'whatsapp'::text]",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "produtos",
+          "ordinal_position": 41,
+          "column_name": "whatsapp_compartilhar_ativo",
+          "type_sql": "boolean",
+          "default_sql": "true",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "produtos",
+          "ordinal_position": 42,
+          "column_name": "whatsapp_compartilhar_cor",
+          "type_sql": "text",
+          "default_sql": "'#25D366'::text",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "produtos",
+          "ordinal_position": 43,
+          "column_name": "whatsapp_compartilhar_texto",
+          "type_sql": "text",
+          "default_sql": "'Compartilhar no WhatsApp'::text",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "produtos",
+          "ordinal_position": 44,
+          "column_name": "whatsapp_compartilhar_url",
+          "type_sql": "text",
+          "default_sql": null,
+          "not_null": false,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "produtos",
+          "ordinal_position": 45,
+          "column_name": "whatsapp_compartilhar_titulo",
+          "type_sql": "text",
+          "default_sql": null,
+          "not_null": false,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "produtos",
+          "ordinal_position": 46,
+          "column_name": "whatsapp_compartilhar_descricao",
+          "type_sql": "text",
+          "default_sql": null,
+          "not_null": false,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "produtos",
+          "ordinal_position": 47,
+          "column_name": "whatsapp_compartilhar_imagem_url",
+          "type_sql": "text",
+          "default_sql": null,
+          "not_null": false,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "produtos",
+          "ordinal_position": 48,
+          "column_name": "organization_id",
+          "type_sql": "uuid",
+          "default_sql": null,
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "produtos",
+          "ordinal_position": 49,
+          "column_name": "whatsapp_compartilhar_mensagem",
+          "type_sql": "text",
+          "default_sql": null,
+          "not_null": false,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "produtos",
+          "ordinal_position": 50,
+          "column_name": "video_legenda_url",
+          "type_sql": "text",
+          "default_sql": null,
+          "not_null": false,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "produtos",
+          "ordinal_position": 51,
+          "column_name": "video_legenda_ativa",
+          "type_sql": "boolean",
+          "default_sql": "true",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        }
+      ],
+      "constraints": [
+        {
+          "table_name": "produtos",
+          "conname": "produtos_categoria_id_fkey",
+          "contype": "f",
+          "definition": "FOREIGN KEY (categoria_id) REFERENCES categorias(id) ON DELETE SET NULL"
+        },
+        {
+          "table_name": "produtos",
+          "conname": "produtos_organization_id_fkey",
+          "contype": "f",
+          "definition": "FOREIGN KEY (organization_id) REFERENCES organizations(id) ON DELETE CASCADE"
+        },
+        {
+          "table_name": "produtos",
+          "conname": "produtos_pkey",
+          "contype": "p",
+          "definition": "PRIMARY KEY (id)"
+        }
+      ]
+    },
+    {
+      "table_name": "saas_plans",
+      "rls_enabled": true,
+      "force_rls": false,
+      "columns": [
+        {
+          "table_name": "saas_plans",
+          "ordinal_position": 1,
+          "column_name": "code",
+          "type_sql": "text",
+          "default_sql": null,
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "saas_plans",
+          "ordinal_position": 2,
+          "column_name": "name",
+          "type_sql": "text",
+          "default_sql": null,
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "saas_plans",
+          "ordinal_position": 3,
+          "column_name": "description",
+          "type_sql": "text",
+          "default_sql": "''::text",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "saas_plans",
+          "ordinal_position": 4,
+          "column_name": "price_monthly",
+          "type_sql": "numeric(10,2)",
+          "default_sql": "0",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "saas_plans",
+          "ordinal_position": 5,
+          "column_name": "max_products",
+          "type_sql": "integer",
+          "default_sql": "20",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "saas_plans",
+          "ordinal_position": 6,
+          "column_name": "max_leads",
+          "type_sql": "integer",
+          "default_sql": "100",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "saas_plans",
+          "ordinal_position": 7,
+          "column_name": "max_members",
+          "type_sql": "integer",
+          "default_sql": "1",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "saas_plans",
+          "ordinal_position": 8,
+          "column_name": "active",
+          "type_sql": "boolean",
+          "default_sql": "true",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "saas_plans",
+          "ordinal_position": 9,
+          "column_name": "created_at",
+          "type_sql": "timestamp with time zone",
+          "default_sql": "now()",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "saas_plans",
+          "ordinal_position": 10,
+          "column_name": "updated_at",
+          "type_sql": "timestamp with time zone",
+          "default_sql": "now()",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        }
+      ],
+      "constraints": [
+        {
+          "table_name": "saas_plans",
+          "conname": "saas_plans_pkey",
+          "contype": "p",
+          "definition": "PRIMARY KEY (code)"
+        }
+      ]
+    },
+    {
+      "table_name": "user_roles",
+      "rls_enabled": true,
+      "force_rls": false,
+      "columns": [
+        {
+          "table_name": "user_roles",
+          "ordinal_position": 1,
+          "column_name": "id",
+          "type_sql": "uuid",
+          "default_sql": "gen_random_uuid()",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "user_roles",
+          "ordinal_position": 2,
+          "column_name": "user_id",
+          "type_sql": "uuid",
+          "default_sql": null,
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "user_roles",
+          "ordinal_position": 3,
+          "column_name": "role",
+          "type_sql": "app_role",
+          "default_sql": null,
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        },
+        {
+          "table_name": "user_roles",
+          "ordinal_position": 4,
+          "column_name": "created_at",
+          "type_sql": "timestamp with time zone",
+          "default_sql": "now()",
+          "not_null": true,
+          "identity_kind": "",
+          "generated_kind": ""
+        }
+      ],
+      "constraints": [
+        {
+          "table_name": "user_roles",
+          "conname": "user_roles_pkey",
+          "contype": "p",
+          "definition": "PRIMARY KEY (id)"
+        },
+        {
+          "table_name": "user_roles",
+          "conname": "user_roles_user_id_fkey",
+          "contype": "f",
+          "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE"
+        },
+        {
+          "table_name": "user_roles",
+          "conname": "user_roles_user_id_role_key",
+          "contype": "u",
+          "definition": "UNIQUE (user_id, role)"
+        }
+      ]
+    }
+  ],
+  "enums": [
+    {
+      "enum_name": "app_role",
+      "enumlabel": "admin",
+      "enumsortorder": 1
+    },
+    {
+      "enum_name": "app_role",
+      "enumlabel": "user",
+      "enumsortorder": 2
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "source_project": "jxyhzpvgihfkeduvomlu",
+  "captured_at": "2026-11-12",
+  "plans": [
+    {
+      "code": "free",
+      "name": "Free",
+      "description": "Plano inicial da G-Vitrine",
+      "price_monthly": "0.00",
+      "max_products": 20,
+      "max_leads": 100,
+      "max_members": 1,
+      "active": true,
+      "created_at": "2026-10-09 04:03:35.853627+00",
+      "updated_at": "2026-10-09 04:03:35.853627+00"
+    }
+  ]
+}

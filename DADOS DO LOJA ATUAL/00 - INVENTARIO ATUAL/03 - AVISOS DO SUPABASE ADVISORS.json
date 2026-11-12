@@ -1,0 +1,147 @@
+{
+  "captured_at": "2026-11-12",
+  "security": [
+    {
+      "name": "extension_in_public",
+      "title": "Extension in Public",
+      "level": "WARN",
+      "count": 1,
+      "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0014_extension_in_public",
+      "findings": [
+        "Extension \\`pg_net\\` is installed in the public schema. Move it to another schema."
+      ]
+    },
+    {
+      "name": "anon_security_definer_function_executable",
+      "title": "Public Can Execute SECURITY DEFINER Function",
+      "level": "WARN",
+      "count": 8,
+      "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0028_anon_security_definer_function_executable",
+      "findings": [
+        "Function `public.criar_lead_publico(_organization_slug text, _nome text, _email text, _telefone text, _mensagem text, _produto_id uuid)` can be executed by the `anon` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/criar_lead_publico`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+        "Function `public.is_organization_active(_organization_id uuid)` can be executed by the `anon` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/is_organization_active`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+        "Function `public.is_organization_admin(_organization_id uuid)` can be executed by the `anon` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/is_organization_admin`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+        "Function `public.is_organization_member(_organization_id uuid)` can be executed by the `anon` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/is_organization_member`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+        "Function `public.public_categorias_por_loja(_organization_slug text)` can be executed by the `anon` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/public_categorias_por_loja`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+        "Function `public.public_configuracao_por_loja(_organization_slug text, _chave text)` can be executed by the `anon` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/public_configuracao_por_loja`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+        "Function `public.public_produto_por_loja(_organization_slug text, _product_slug text)` can be executed by the `anon` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/public_produto_por_loja`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+        "Function `public.public_produtos_por_loja(_organization_slug text)` can be executed by the `anon` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/public_produtos_por_loja`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional."
+      ]
+    },
+    {
+      "name": "authenticated_security_definer_function_executable",
+      "title": "Signed-In Users Can Execute SECURITY DEFINER Function",
+      "level": "WARN",
+      "count": 14,
+      "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable",
+      "findings": [
+        "Function `public.criar_backup_da_loja(_organization_id uuid)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/criar_backup_da_loja`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+        "Function `public.criar_backup_pre_restauracao_da_loja(_organization_id uuid)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/criar_backup_pre_restauracao_da_loja`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+        "Function `public.criar_lead_publico(_organization_slug text, _nome text, _email text, _telefone text, _mensagem text, _produto_id uuid)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/criar_lead_publico`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+        "Function `public.excluir_backup_da_loja(_organization_id uuid, _backup_id uuid)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/excluir_backup_da_loja`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+        "Function `public.has_role(_user_id uuid, _role public.app_role)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/has_role`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+        "Function `public.is_organization_active(_organization_id uuid)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/is_organization_active`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+        "Function `public.is_organization_admin(_organization_id uuid)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/is_organization_admin`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+        "Function `public.is_organization_member(_organization_id uuid)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/is_organization_member`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+        "Function `public.public_categorias_por_loja(_organization_slug text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/public_categorias_por_loja`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+        "Function `public.public_configuracao_por_loja(_organization_slug text, _chave text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/public_configuracao_por_loja`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+        "Function `public.public_produto_por_loja(_organization_slug text, _product_slug text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/public_produto_por_loja`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+        "Function `public.public_produtos_por_loja(_organization_slug text)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/public_produtos_por_loja`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+        "Function `public.restaurar_backup_da_loja(_organization_id uuid, _payload jsonb)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/restaurar_backup_da_loja`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional.",
+        "Function `public.saas_usage(_organization_id uuid)` can be executed by the `authenticated` role as a `SECURITY DEFINER` function via `/rest/v1/rpc/saas_usage`. Revoke `EXECUTE` or switch it to `SECURITY INVOKER` if that is not intentional."
+      ]
+    },
+    {
+      "name": "auth_leaked_password_protection",
+      "title": "Leaked Password Protection Disabled",
+      "level": "WARN",
+      "count": 1,
+      "remediation": "https://supabase.com/docs/guides/auth/password-security#password-strength-and-leaked-password-protection",
+      "findings": [
+        "Supabase Auth prevents the use of compromised passwords by checking against HaveIBeenPwned.org. Enable this feature to enhance security."
+      ]
+    }
+  ],
+  "performance": [
+    {
+      "name": "unindexed_foreign_keys",
+      "title": "Unindexed foreign keys",
+      "level": "INFO",
+      "count": 6,
+      "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0001_unindexed_foreign_keys",
+      "findings": [
+        "Table \\`public.crm_activities\\` has a foreign key \\`crm_activities_lead_id_fkey\\` without a covering index. This can lead to suboptimal query performance.",
+        "Table \\`public.leads\\` has a foreign key \\`leads_produto_id_fkey\\` without a covering index. This can lead to suboptimal query performance.",
+        "Table \\`public.loja_backups\\` has a foreign key \\`loja_backups_criado_por_fkey\\` without a covering index. This can lead to suboptimal query performance.",
+        "Table \\`public.organization_members\\` has a foreign key \\`organization_members_user_id_fkey\\` without a covering index. This can lead to suboptimal query performance.",
+        "Table \\`public.organization_subscriptions\\` has a foreign key \\`organization_subscriptions_plan_code_fkey\\` without a covering index. This can lead to suboptimal query performance.",
+        "Table \\`public.organizations\\` has a foreign key \\`organizations_owner_user_id_fkey\\` without a covering index. This can lead to suboptimal query performance."
+      ]
+    },
+    {
+      "name": "auth_rls_initplan",
+      "title": "Auth RLS Initialization Plan",
+      "level": "WARN",
+      "count": 32,
+      "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0003_auth_rls_initplan",
+      "findings": [
+        "Table \\`public.user_roles\\` has a row level security policy \\`Users can view their own roles\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+        "Table \\`public.organizations\\` has a row level security policy \\`Users can create their own organization\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+        "Table \\`public.organizations\\` has a row level security policy \\`Organization owners and admins can update\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+        "Table \\`public.organizations\\` has a row level security policy \\`Organization owners can delete\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+        "Table \\`public.produtos\\` has a row level security policy \\`Authenticated products scoped to store\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+        "Table \\`public.organization_members\\` has a row level security policy \\`Organization admins manage member deletes\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+        "Table \\`public.produtos\\` has a row level security policy \\`Product admins delete\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+        "Table \\`public.produtos\\` has a row level security policy \\`Product admins insert\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+        "Table \\`public.produtos\\` has a row level security policy \\`Product admins update\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+        "Table \\`public.categorias\\` has a row level security policy \\`Authenticated categories scoped to store\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+        "Table \\`public.categorias\\` has a row level security policy \\`Category admins delete\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+        "Table \\`public.categorias\\` has a row level security policy \\`Category admins insert\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+        "Table \\`public.categorias\\` has a row level security policy \\`Category admins update\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+        "Table \\`public.configuracoes\\` has a row level security policy \\`Authenticated configs scoped to store\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+        "Table \\`public.configuracoes\\` has a row level security policy \\`Config admins delete\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+        "Table \\`public.configuracoes\\` has a row level security policy \\`Config admins insert\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+        "Table \\`public.loja_backups\\` has a row level security policy \\`Backup admins view\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+        "Table \\`public.configuracoes\\` has a row level security policy \\`Config admins update\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+        "Table \\`public.leads\\` has a row level security policy \\`Lead admins delete\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+        "Table \\`public.leads\\` has a row level security policy \\`Lead admins view\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+        "Table \\`public.loja_backups\\` has a row level security policy \\`Backup admins delete\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+        "Table \\`public.loja_backups\\` has a row level security policy \\`Backup admins insert\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+        "Table \\`public.organization_members\\` has a row level security policy \\`Organization admins manage member inserts\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+        "Table \\`public.organization_members\\` has a row level security policy \\`Organization admins manage member updates\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+        "Table \\`public.organization_members\\` has a row level security policy \\`Organization members can view members\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+        "Table \\`public.organization_subscriptions\\` has a row level security policy \\`Members can view their subscription\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+        "Table \\`public.crm_activities\\` has a row level security policy \\`CRM activities admins view\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+        "Table \\`public.crm_activities\\` has a row level security policy \\`CRM activities admins insert\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+        "Table \\`public.crm_activities\\` has a row level security policy \\`CRM activities admins update\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+        "Table \\`public.crm_activities\\` has a row level security policy \\`CRM activities admins delete\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+        "Table \\`public.leads\\` has a row level security policy \\`Lead admins update CRM\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info.",
+        "Table \\`public.leads\\` has a row level security policy \\`Lead admins insert CRM\\` that re-evaluates current_setting() or auth.<function>() for each row. This produces suboptimal query performance at scale. Resolve the issue by replacing \\`auth.<function>()\\` with \\`(select auth.<function>())\\`. See [docs](https://supabase.com/docs/guides/database/postgres/row-level-security#call-functions-with-select) for more info."
+      ]
+    },
+    {
+      "name": "unused_index",
+      "title": "Unused Index",
+      "level": "INFO",
+      "count": 4,
+      "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0005_unused_index",
+      "findings": [
+        "Index \\`produtos_categoria_idx\\` on table \\`public.produtos\\` has not been used",
+        "Index \\`loja_backups_expira_idx\\` on table \\`public.loja_backups\\` has not been used",
+        "Index \\`leads_organization_follow_up_idx\\` on table \\`public.leads\\` has not been used",
+        "Index \\`crm_activities_open_tasks_idx\\` on table \\`public.crm_activities\\` has not been used"
+      ]
+    },
+    {
+      "name": "duplicate_index",
+      "title": "Duplicate Index",
+      "level": "WARN",
+      "count": 2,
+      "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0009_duplicate_index",
+      "findings": [
+        "Table \\`public.categorias\\` has identical indexes {categorias_organization_id_slug_key,categorias_organization_id_slug_uidx}. Drop all except one of them",
+        "Table \\`public.configuracoes\\` has identical indexes {configuracoes_organization_chave_uidx,configuracoes_organization_id_chave_key,configuracoes_organization_id_chave_uidx}. Drop all except one of them"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,126 @@
+{
+  "captured_at": "2026-11-12",
+  "project_id": "jxyhzpvgihfkeduvomlu",
+  "project_url": "https://jxyhzpvgihfkeduvomlu.supabase.co",
+  "public_repository": true,
+  "site_mapping": [
+    {
+      "url": "https://vitrinemax.vercel.app",
+      "store": "KI-VITRINE",
+      "slug": "ki-vitrine",
+      "purpose": "vitrine principal; a rota / resolve essa organização"
+    },
+    {
+      "url": "https://vitrinemax.vercel.app/loja/ki-vitrine",
+      "store": "KI-VITRINE",
+      "slug": "ki-vitrine",
+      "purpose": "vitrine explícita da KI-VITRINE"
+    },
+    {
+      "url": "https://vitrinemax.vercel.app/loja/apsistemas",
+      "store": "AP SISTEMAS",
+      "slug": "apsistemas",
+      "purpose": "vitrine explícita da AP SISTEMAS"
+    }
+  ],
+  "public_tables": [
+    {
+      "table_name": "categorias",
+      "records": 13
+    },
+    {
+      "table_name": "configuracoes",
+      "records": 20
+    },
+    {
+      "table_name": "crm_activities",
+      "records": 1
+    },
+    {
+      "table_name": "leads",
+      "records": 1
+    },
+    {
+      "table_name": "loja_backups",
+      "records": 10
+    },
+    {
+      "table_name": "organization_members",
+      "records": 2
+    },
+    {
+      "table_name": "organization_subscriptions",
+      "records": 2
+    },
+    {
+      "table_name": "organizations",
+      "records": 2
+    },
+    {
+      "table_name": "produtos",
+      "records": 9
+    },
+    {
+      "table_name": "saas_plans",
+      "records": 1
+    },
+    {
+      "table_name": "user_roles",
+      "records": 0
+    }
+  ],
+  "per_store": [
+    {
+      "name": "AP SISTEMAS",
+      "slug": "apsistemas",
+      "categorias": 4,
+      "produtos": 1,
+      "configuracoes": 11,
+      "leads": 1,
+      "atividades_crm": 1,
+      "backups": 5,
+      "membros": 1,
+      "assinaturas": 1
+    },
+    {
+      "name": "KI-VITRINE",
+      "slug": "ki-vitrine",
+      "categorias": 9,
+      "produtos": 8,
+      "configuracoes": 9,
+      "leads": 0,
+      "atividades_crm": 0,
+      "backups": 5,
+      "membros": 1,
+      "assinaturas": 1
+    }
+  ],
+  "storage": [
+    {
+      "id": "loja",
+      "name": "loja",
+      "public": false,
+      "file_size_limit": null,
+      "allowed_mime_types": null,
+      "object_count": 2
+    }
+  ],
+  "data_handling": {
+    "included": [
+      "organizações sem owner_user_id",
+      "categorias",
+      "produtos",
+      "configurações da vitrine e tema com campos privados removidos",
+      "planos SaaS"
+    ],
+    "excluded": [
+      "leads e contatos pessoais",
+      "atividades CRM e notas privadas",
+      "payloads e checksums de backups",
+      "user_roles e IDs de auth.users",
+      "membros e external_customer_id/external_subscription_id de assinatura",
+      "nomes de objetos do Storage e URLs assinadas"
+    ],
+    "note": "O repositório é público; este snapshot é sanitizado e não substitui um dump privado de produção."
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "captured_at": "2026-11-12",
+  "remote_applied_migrations": [
+    {
+      "version": "20261012073507",
+      "name": "tenant_admin_isolation"
+    },
+    {
+      "version": "20261012074129",
+      "name": "tenant_reference_integrity"
+    },
+    {
+      "version": "20261012074232",
+      "name": "isolate_public_storefront_reads"
+    },
+    {
+      "version": "20261012080602",
+      "name": "restore_neutral_admin_active_tab_color"
+    },
+    {
+      "version": "20261012085125",
+      "name": "crm_kanban_leads"
+    },
+    {
+      "version": "20261012085201",
+      "name": "crm_manual_lead_insert"
+    },
+    {
+      "version": "20261012092658",
+      "name": "crm_commercial_values"
+    }
+  ]
+}

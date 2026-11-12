@@ -1,0 +1,2080 @@
+{
+  "captured_at": "2026-11-12",
+  "note": "Fotografia de privilégios observados, apenas para auditoria. Não executar grants automaticamente: revisar com RLS e permissões do Supabase.",
+  "table_privileges": [
+    {
+      "table_schema": "public",
+      "table_name": "categorias",
+      "grantee": "anon",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "categorias",
+      "grantee": "anon",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "categorias",
+      "grantee": "anon",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "categorias",
+      "grantee": "anon",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "categorias",
+      "grantee": "anon",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "categorias",
+      "grantee": "anon",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "categorias",
+      "grantee": "anon",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "categorias",
+      "grantee": "authenticated",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "categorias",
+      "grantee": "authenticated",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "categorias",
+      "grantee": "authenticated",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "categorias",
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "categorias",
+      "grantee": "authenticated",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "categorias",
+      "grantee": "authenticated",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "categorias",
+      "grantee": "authenticated",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "categorias",
+      "grantee": "service_role",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "categorias",
+      "grantee": "service_role",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "categorias",
+      "grantee": "service_role",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "categorias",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "categorias",
+      "grantee": "service_role",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "categorias",
+      "grantee": "service_role",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "categorias",
+      "grantee": "service_role",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "configuracoes",
+      "grantee": "anon",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "configuracoes",
+      "grantee": "anon",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "configuracoes",
+      "grantee": "anon",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "configuracoes",
+      "grantee": "anon",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "configuracoes",
+      "grantee": "anon",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "configuracoes",
+      "grantee": "anon",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "configuracoes",
+      "grantee": "anon",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "configuracoes",
+      "grantee": "authenticated",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "configuracoes",
+      "grantee": "authenticated",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "configuracoes",
+      "grantee": "authenticated",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "configuracoes",
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "configuracoes",
+      "grantee": "authenticated",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "configuracoes",
+      "grantee": "authenticated",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "configuracoes",
+      "grantee": "authenticated",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "configuracoes",
+      "grantee": "service_role",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "configuracoes",
+      "grantee": "service_role",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "configuracoes",
+      "grantee": "service_role",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "configuracoes",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "configuracoes",
+      "grantee": "service_role",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "configuracoes",
+      "grantee": "service_role",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "configuracoes",
+      "grantee": "service_role",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "crm_activities",
+      "grantee": "anon",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "crm_activities",
+      "grantee": "anon",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "crm_activities",
+      "grantee": "anon",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "crm_activities",
+      "grantee": "anon",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "crm_activities",
+      "grantee": "anon",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "crm_activities",
+      "grantee": "anon",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "crm_activities",
+      "grantee": "anon",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "crm_activities",
+      "grantee": "authenticated",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "crm_activities",
+      "grantee": "authenticated",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "crm_activities",
+      "grantee": "authenticated",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "crm_activities",
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "crm_activities",
+      "grantee": "authenticated",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "crm_activities",
+      "grantee": "authenticated",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "crm_activities",
+      "grantee": "authenticated",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "crm_activities",
+      "grantee": "service_role",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "crm_activities",
+      "grantee": "service_role",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "crm_activities",
+      "grantee": "service_role",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "crm_activities",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "crm_activities",
+      "grantee": "service_role",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "crm_activities",
+      "grantee": "service_role",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "crm_activities",
+      "grantee": "service_role",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "leads",
+      "grantee": "anon",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "leads",
+      "grantee": "anon",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "leads",
+      "grantee": "anon",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "leads",
+      "grantee": "anon",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "leads",
+      "grantee": "anon",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "leads",
+      "grantee": "anon",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "leads",
+      "grantee": "anon",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "leads",
+      "grantee": "authenticated",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "leads",
+      "grantee": "authenticated",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "leads",
+      "grantee": "authenticated",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "leads",
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "leads",
+      "grantee": "authenticated",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "leads",
+      "grantee": "authenticated",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "leads",
+      "grantee": "authenticated",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "leads",
+      "grantee": "service_role",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "leads",
+      "grantee": "service_role",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "leads",
+      "grantee": "service_role",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "leads",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "leads",
+      "grantee": "service_role",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "leads",
+      "grantee": "service_role",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "leads",
+      "grantee": "service_role",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "loja_backups",
+      "grantee": "anon",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "loja_backups",
+      "grantee": "anon",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "loja_backups",
+      "grantee": "anon",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "loja_backups",
+      "grantee": "anon",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "loja_backups",
+      "grantee": "anon",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "loja_backups",
+      "grantee": "anon",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "loja_backups",
+      "grantee": "anon",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "loja_backups",
+      "grantee": "authenticated",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "loja_backups",
+      "grantee": "authenticated",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "loja_backups",
+      "grantee": "authenticated",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "loja_backups",
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "loja_backups",
+      "grantee": "authenticated",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "loja_backups",
+      "grantee": "authenticated",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "loja_backups",
+      "grantee": "authenticated",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "loja_backups",
+      "grantee": "service_role",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "loja_backups",
+      "grantee": "service_role",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "loja_backups",
+      "grantee": "service_role",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "loja_backups",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "loja_backups",
+      "grantee": "service_role",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "loja_backups",
+      "grantee": "service_role",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "loja_backups",
+      "grantee": "service_role",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organization_members",
+      "grantee": "anon",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organization_members",
+      "grantee": "anon",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organization_members",
+      "grantee": "anon",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organization_members",
+      "grantee": "anon",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organization_members",
+      "grantee": "anon",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organization_members",
+      "grantee": "anon",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organization_members",
+      "grantee": "anon",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organization_members",
+      "grantee": "authenticated",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organization_members",
+      "grantee": "authenticated",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organization_members",
+      "grantee": "authenticated",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organization_members",
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organization_members",
+      "grantee": "authenticated",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organization_members",
+      "grantee": "authenticated",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organization_members",
+      "grantee": "authenticated",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organization_members",
+      "grantee": "service_role",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organization_members",
+      "grantee": "service_role",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organization_members",
+      "grantee": "service_role",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organization_members",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organization_members",
+      "grantee": "service_role",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organization_members",
+      "grantee": "service_role",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organization_members",
+      "grantee": "service_role",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organization_subscriptions",
+      "grantee": "anon",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organization_subscriptions",
+      "grantee": "anon",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organization_subscriptions",
+      "grantee": "anon",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organization_subscriptions",
+      "grantee": "anon",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organization_subscriptions",
+      "grantee": "anon",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organization_subscriptions",
+      "grantee": "anon",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organization_subscriptions",
+      "grantee": "anon",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organization_subscriptions",
+      "grantee": "authenticated",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organization_subscriptions",
+      "grantee": "authenticated",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organization_subscriptions",
+      "grantee": "authenticated",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organization_subscriptions",
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organization_subscriptions",
+      "grantee": "authenticated",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organization_subscriptions",
+      "grantee": "authenticated",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organization_subscriptions",
+      "grantee": "authenticated",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organization_subscriptions",
+      "grantee": "service_role",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organization_subscriptions",
+      "grantee": "service_role",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organization_subscriptions",
+      "grantee": "service_role",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organization_subscriptions",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organization_subscriptions",
+      "grantee": "service_role",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organization_subscriptions",
+      "grantee": "service_role",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organization_subscriptions",
+      "grantee": "service_role",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organizations",
+      "grantee": "anon",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organizations",
+      "grantee": "anon",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organizations",
+      "grantee": "anon",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organizations",
+      "grantee": "anon",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organizations",
+      "grantee": "anon",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organizations",
+      "grantee": "anon",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organizations",
+      "grantee": "anon",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organizations",
+      "grantee": "authenticated",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organizations",
+      "grantee": "authenticated",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organizations",
+      "grantee": "authenticated",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organizations",
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organizations",
+      "grantee": "authenticated",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organizations",
+      "grantee": "authenticated",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organizations",
+      "grantee": "authenticated",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organizations",
+      "grantee": "service_role",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organizations",
+      "grantee": "service_role",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organizations",
+      "grantee": "service_role",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organizations",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organizations",
+      "grantee": "service_role",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organizations",
+      "grantee": "service_role",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "organizations",
+      "grantee": "service_role",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "produtos",
+      "grantee": "anon",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "produtos",
+      "grantee": "anon",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "produtos",
+      "grantee": "anon",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "produtos",
+      "grantee": "anon",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "produtos",
+      "grantee": "anon",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "produtos",
+      "grantee": "anon",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "produtos",
+      "grantee": "anon",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "produtos",
+      "grantee": "authenticated",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "produtos",
+      "grantee": "authenticated",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "produtos",
+      "grantee": "authenticated",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "produtos",
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "produtos",
+      "grantee": "authenticated",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "produtos",
+      "grantee": "authenticated",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "produtos",
+      "grantee": "authenticated",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "produtos",
+      "grantee": "service_role",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "produtos",
+      "grantee": "service_role",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "produtos",
+      "grantee": "service_role",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "produtos",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "produtos",
+      "grantee": "service_role",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "produtos",
+      "grantee": "service_role",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "produtos",
+      "grantee": "service_role",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "saas_plans",
+      "grantee": "anon",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "saas_plans",
+      "grantee": "anon",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "saas_plans",
+      "grantee": "anon",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "saas_plans",
+      "grantee": "anon",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "saas_plans",
+      "grantee": "anon",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "saas_plans",
+      "grantee": "anon",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "saas_plans",
+      "grantee": "anon",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "saas_plans",
+      "grantee": "authenticated",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "saas_plans",
+      "grantee": "authenticated",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "saas_plans",
+      "grantee": "authenticated",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "saas_plans",
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "saas_plans",
+      "grantee": "authenticated",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "saas_plans",
+      "grantee": "authenticated",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "saas_plans",
+      "grantee": "authenticated",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "saas_plans",
+      "grantee": "service_role",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "saas_plans",
+      "grantee": "service_role",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "saas_plans",
+      "grantee": "service_role",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "saas_plans",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "saas_plans",
+      "grantee": "service_role",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "saas_plans",
+      "grantee": "service_role",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "saas_plans",
+      "grantee": "service_role",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "user_roles",
+      "grantee": "anon",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "user_roles",
+      "grantee": "anon",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "user_roles",
+      "grantee": "anon",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "user_roles",
+      "grantee": "anon",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "user_roles",
+      "grantee": "anon",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "user_roles",
+      "grantee": "anon",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "user_roles",
+      "grantee": "anon",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "user_roles",
+      "grantee": "authenticated",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "user_roles",
+      "grantee": "authenticated",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "user_roles",
+      "grantee": "authenticated",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "user_roles",
+      "grantee": "authenticated",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "user_roles",
+      "grantee": "authenticated",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "user_roles",
+      "grantee": "authenticated",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "user_roles",
+      "grantee": "authenticated",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "user_roles",
+      "grantee": "service_role",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "user_roles",
+      "grantee": "service_role",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "user_roles",
+      "grantee": "service_role",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "user_roles",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "user_roles",
+      "grantee": "service_role",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "user_roles",
+      "grantee": "service_role",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "user_roles",
+      "grantee": "service_role",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    }
+  ],
+  "function_privileges": [
+    {
+      "routine_schema": "public",
+      "routine_name": "_criar_backup_da_loja_com_origem",
+      "grantee": "service_role",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "criar_backup_da_loja",
+      "grantee": "authenticated",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "criar_backup_da_loja",
+      "grantee": "service_role",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "criar_backup_pre_restauracao_da_loja",
+      "grantee": "authenticated",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "criar_backup_pre_restauracao_da_loja",
+      "grantee": "service_role",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "criar_lead_publico",
+      "grantee": "anon",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "criar_lead_publico",
+      "grantee": "authenticated",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "criar_lead_publico",
+      "grantee": "service_role",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "crm_preencher_valores_lead",
+      "grantee": "anon",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "crm_preencher_valores_lead",
+      "grantee": "authenticated",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "crm_preencher_valores_lead",
+      "grantee": "service_role",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "excluir_backup_da_loja",
+      "grantee": "authenticated",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "excluir_backup_da_loja",
+      "grantee": "service_role",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "gerar_payload_backup_loja",
+      "grantee": "service_role",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "has_role",
+      "grantee": "authenticated",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "has_role",
+      "grantee": "service_role",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "initialize_organization_from_legacy",
+      "grantee": "service_role",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "is_organization_active",
+      "grantee": "anon",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "is_organization_active",
+      "grantee": "authenticated",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "is_organization_active",
+      "grantee": "service_role",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "is_organization_admin",
+      "grantee": "anon",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "is_organization_admin",
+      "grantee": "authenticated",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "is_organization_admin",
+      "grantee": "service_role",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "is_organization_member",
+      "grantee": "anon",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "is_organization_member",
+      "grantee": "authenticated",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "is_organization_member",
+      "grantee": "service_role",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "normalizar_campos_crm_lead",
+      "grantee": "anon",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "normalizar_campos_crm_lead",
+      "grantee": "authenticated",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "normalizar_campos_crm_lead",
+      "grantee": "service_role",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "organizations_after_insert",
+      "grantee": "service_role",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "produtos_set_slug",
+      "grantee": "service_role",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "public_categorias_por_loja",
+      "grantee": "anon",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "public_categorias_por_loja",
+      "grantee": "authenticated",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "public_categorias_por_loja",
+      "grantee": "service_role",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "public_configuracao_por_loja",
+      "grantee": "anon",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "public_configuracao_por_loja",
+      "grantee": "authenticated",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "public_configuracao_por_loja",
+      "grantee": "service_role",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "public_produto_por_loja",
+      "grantee": "anon",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "public_produto_por_loja",
+      "grantee": "authenticated",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "public_produto_por_loja",
+      "grantee": "service_role",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "public_produtos_por_loja",
+      "grantee": "anon",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "public_produtos_por_loja",
+      "grantee": "authenticated",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "public_produtos_por_loja",
+      "grantee": "service_role",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "restaurar_backup_da_loja",
+      "grantee": "authenticated",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "restaurar_backup_da_loja",
+      "grantee": "service_role",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "rotina_backups_60_dias",
+      "grantee": "service_role",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "saas_usage",
+      "grantee": "authenticated",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "saas_usage",
+      "grantee": "service_role",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "set_updated_at",
+      "grantee": "service_role",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "slugify",
+      "grantee": "anon",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "slugify",
+      "grantee": "authenticated",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "slugify",
+      "grantee": "service_role",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "sync_products_from_main_store",
+      "grantee": "service_role",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "unaccent_fallback",
+      "grantee": "anon",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "unaccent_fallback",
+      "grantee": "authenticated",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "unaccent_fallback",
+      "grantee": "service_role",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "validar_atividade_crm_mesma_loja",
+      "grantee": "anon",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "validar_atividade_crm_mesma_loja",
+      "grantee": "authenticated",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "validar_atividade_crm_mesma_loja",
+      "grantee": "service_role",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "validar_categoria_da_mesma_loja",
+      "grantee": "anon",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "validar_categoria_da_mesma_loja",
+      "grantee": "authenticated",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "validar_categoria_da_mesma_loja",
+      "grantee": "service_role",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "validar_produto_do_lead_mesma_loja",
+      "grantee": "anon",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "validar_produto_do_lead_mesma_loja",
+      "grantee": "authenticated",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    },
+    {
+      "routine_schema": "public",
+      "routine_name": "validar_produto_do_lead_mesma_loja",
+      "grantee": "service_role",
+      "privilege_type": "EXECUTE",
+      "is_grantable": "NO"
+    }
+  ]
+}

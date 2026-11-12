@@ -1,0 +1,1 @@
+-- Nenhuma view no schema public foi encontrada na consulta de 2026-11-12.

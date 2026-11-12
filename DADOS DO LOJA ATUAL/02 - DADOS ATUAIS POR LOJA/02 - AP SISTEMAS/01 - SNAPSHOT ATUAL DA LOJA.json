@@ -1,0 +1,327 @@
+{
+  "snapshot_type": "public-safe-current-store-snapshot",
+  "source_project": "jxyhzpvgihfkeduvomlu",
+  "source_url": "https://jxyhzpvgihfkeduvomlu.supabase.co",
+  "captured_at": "2026-11-12",
+  "store": {
+    "id": "c7477d7e-f16e-4a5b-8f13-e97ace0c84b7",
+    "name": "AP SISTEMAS",
+    "slug": "apsistemas",
+    "description": "Loja criada automaticamente a partir da estrutura G-Vitrine.",
+    "logo_url": null,
+    "primary_color": "#16a34a",
+    "custom_domain": null,
+    "status": "active",
+    "created_at": "2026-10-09 05:42:03.833144+00",
+    "updated_at": "2026-10-12 09:09:33.342461+00"
+  },
+  "categories": [
+    {
+      "id": "ffeea64a-891c-4a22-8fc5-b3765981be29",
+      "nome": "Sites",
+      "slug": "sites",
+      "ordem": 1,
+      "created_at": "2026-10-09 05:42:03.833144+00",
+      "updated_at": "2026-10-09 05:42:03.833144+00",
+      "organization_id": "c7477d7e-f16e-4a5b-8f13-e97ace0c84b7"
+    },
+    {
+      "id": "e94419e1-7519-4ada-ac7c-e688adb8cd26",
+      "nome": "WhatsApp",
+      "slug": "whatsapp",
+      "ordem": 3,
+      "created_at": "2026-10-09 05:42:03.833144+00",
+      "updated_at": "2026-10-09 05:42:03.833144+00",
+      "organization_id": "c7477d7e-f16e-4a5b-8f13-e97ace0c84b7"
+    },
+    {
+      "id": "90cb084c-1147-470b-a006-5e1021798c38",
+      "nome": "IA",
+      "slug": "ia",
+      "ordem": 4,
+      "created_at": "2026-10-09 05:42:03.833144+00",
+      "updated_at": "2026-10-09 05:42:03.833144+00",
+      "organization_id": "c7477d7e-f16e-4a5b-8f13-e97ace0c84b7"
+    },
+    {
+      "id": "418c5b08-26e5-4a07-928f-fdcc67fd593c",
+      "nome": "Marketing",
+      "slug": "marketing",
+      "ordem": 9,
+      "created_at": "2026-10-09 05:42:03.833144+00",
+      "updated_at": "2026-10-09 05:42:03.833144+00",
+      "organization_id": "c7477d7e-f16e-4a5b-8f13-e97ace0c84b7"
+    }
+  ],
+  "products": [
+    {
+      "id": "95dd5abf-9cbb-4b3e-a827-10d121157bcd",
+      "titulo": "Agenda PRO (cópia)",
+      "slug": "agenda-pro-copia-3",
+      "descricao": "Sistema de Agendamento inteligente. Código-fonte completo, pronto para uso.",
+      "imagem_url": "https://minio.afcode.com.br/afcode-uploads/product-covers/products/f1b9af14-fee8-4ba9-98fc-4c3652a5e6f1.webp",
+      "preco": "147.90",
+      "preco_antigo": "597.00",
+      "parcelamento": "12x de R$ 12,35",
+      "selo": "DESTAQUE",
+      "desconto": "GANHE ATÉ 50% OFF",
+      "desconto_cor": "#f97316",
+      "desconto_ativo": true,
+      "categoria_id": null,
+      "checkout_url": "[LINK WHATSAPP COM NUMERO PRIVADO OMITIDO]",
+      "video_url": "https://www.youtube.com/watch?v=aQzPU4q5rXQ",
+      "demo_url": "[LINK WHATSAPP COM NUMERO PRIVADO OMITIDO]",
+      "whatsapp_url": null,
+      "popup_video_url": "https://youtube.com/embed/aQzPU4q5rXQ",
+      "popup_video_tipo": "youtube",
+      "popup_imagem_url": "https://minio.afcode.com.br/afcode-uploads/product-covers/products/f1b9af14-fee8-4ba9-98fc-4c3652a5e6f1.webp",
+      "secao": "destaque",
+      "tags": [
+        "Micro SAAS"
+      ],
+      "comprar_texto": "Comprar",
+      "comprar_cor": "#3b82f6",
+      "comprar_provedor": "Kiwify",
+      "comprar_ativo": true,
+      "demo_texto": "Detalhes",
+      "demo_cor": "#dc2626",
+      "demo_ativo": true,
+      "destaque": true,
+      "ativo": true,
+      "ordem": 1,
+      "created_at": "2026-10-09 06:14:46.759163+00",
+      "updated_at": "2026-11-05 16:58:08.710949+00",
+      "pix_icone": "pix",
+      "site_url": null,
+      "site_texto": "Ver Site",
+      "site_cor": "#16a34a",
+      "site_ativo": true,
+      "botoes_ordem": [
+        "comprar",
+        "video",
+        "site",
+        "whatsapp"
+      ],
+      "whatsapp_compartilhar_ativo": true,
+      "whatsapp_compartilhar_cor": "#25D366",
+      "whatsapp_compartilhar_texto": "Compartilhar no WhatsApp",
+      "whatsapp_compartilhar_url": null,
+      "whatsapp_compartilhar_titulo": null,
+      "whatsapp_compartilhar_descricao": null,
+      "whatsapp_compartilhar_imagem_url": null,
+      "organization_id": "c7477d7e-f16e-4a5b-8f13-e97ace0c84b7",
+      "whatsapp_compartilhar_mensagem": null,
+      "video_legenda_url": null,
+      "video_legenda_ativa": true
+    }
+  ],
+  "configurations": [
+    {
+      "organization_id": "c7477d7e-f16e-4a5b-8f13-e97ace0c84b7",
+      "chave": "admin_cabecalho",
+      "valor": {
+        "titulo": "Painel da Loja",
+        "loja_texto": "LOJA",
+        "titulo_cor": "#1e8a00",
+        "sidebar_icone": "store",
+        "loja_fundo_cor": "#ff0000",
+        "loja_icone_cor": "#ffffff",
+        "loja_texto_cor": "#ffffff",
+        "menu_fundo_cor": "#ff0000",
+        "menu_icone_cor": "#ffffff",
+        "sidebar_titulo": "Administração",
+        "titulo_tamanho": 18,
+        "sidebar_fundo_cor": "#ff0000",
+        "sidebar_icone_cor": "#ffffff",
+        "sidebar_subtitulo": "AP SISTEMAS",
+        "tema_primaria_cor": "#0cb04b",
+        "loja_texto_tamanho": 12,
+        "sidebar_titulo_cor": "#0f172a",
+        "tema_item_ativo_cor": "#420000",
+        "sidebar_subtitulo_cor": "#279400",
+        "sidebar_titulo_tamanho": 15,
+        "tema_primaria_texto_cor": "#ffffff",
+        "sidebar_subtitulo_tamanho": 11,
+        "tema_item_ativo_texto_cor": "#008f11"
+      },
+      "created_at": "2026-10-09 05:56:22.201449+00",
+      "updated_at": "2026-11-05 17:00:06.335401+00"
+    },
+    {
+      "organization_id": "c7477d7e-f16e-4a5b-8f13-e97ace0c84b7",
+      "chave": "admin_tema",
+      "valor": {
+        "titulo_cor": "#f3e7e7",
+        "loja_fundo_cor": "#ff00ff",
+        "loja_icone_cor": "#ffffff",
+        "loja_texto_cor": "#ffffff",
+        "menu_fundo_cor": "#ff00ff",
+        "menu_icone_cor": "#ffffff",
+        "sidebar_fundo_cor": "#000e19",
+        "sidebar_icone_cor": "#ff00ff",
+        "tema_primaria_cor": "#0cb04b",
+        "sidebar_titulo_cor": "#ff00ff",
+        "tema_item_ativo_cor": "#ebe5e5",
+        "sidebar_subtitulo_cor": "#ff00ff",
+        "tema_primaria_texto_cor": "#ffffff",
+        "tema_item_ativo_texto_cor": "#008f11"
+      },
+      "created_at": "2026-10-12 06:04:06.615813+00",
+      "updated_at": "2026-11-05 17:00:06.224017+00"
+    },
+    {
+      "organization_id": "c7477d7e-f16e-4a5b-8f13-e97ace0c84b7",
+      "chave": "ajuda",
+      "valor": {
+        "ativo": true,
+        "icone": "whatsapp",
+        "texto": "Precisa de Ajuda?",
+        "numero": "[DADO PRIVADO OMITIDO DO REPOSITORIO PUBLICO]",
+        "posicao": "bottom-right",
+        "tamanho": "pequeno",
+        "mensagem": "Olá! 👋 Preciso de ajuda para escolher um produto da loja. Poderia me atender?",
+        "cor_fundo": "#25D366",
+        "cor_texto": "#ffffff",
+        "imagem_url": "[URL ASSINADA DO STORAGE OMITIDA]",
+        "url_destino": "",
+        "destino_tipo": "whatsapp"
+      },
+      "created_at": "2026-10-09 05:48:51.549798+00",
+      "updated_at": "2026-10-19 15:43:47.714097+00"
+    },
+    {
+      "organization_id": "c7477d7e-f16e-4a5b-8f13-e97ace0c84b7",
+      "chave": "banner",
+      "valor": {
+        "tipo": "youtube",
+        "ativo": true,
+        "titulo": "Códigos-fonte, automações e IA prontos para vender",
+        "mp4_url": "",
+        "posicao": "center",
+        "autoplay": false,
+        "capa_url": "",
+        "controles": true,
+        "cor_fundo": "",
+        "cor_texto": "",
+        "descricao": "Marketplace de produtos digitais premium para você lançar seu próprio negócio em minutos.",
+        "selo_tipo": "texto",
+        "subtitulo": "Lançamento",
+        "video_url": "https://www.youtube.com/embed/xFLaqcsRP40",
+        "selo_cor_fundo": "#ffffff",
+        "selo_cor_texto": "#069330",
+        "selo_icone_cor": "#ff582e",
+        "selo_icone_modo": "icone",
+        "selo_imagem_url": "",
+        "selo_icone_tamanho": 30,
+        "selo_tamanho_fonte": 28,
+        "selo_icone_imagem_url": ""
+      },
+      "created_at": "2026-10-09 05:42:03.833144+00",
+      "updated_at": "2026-10-10 08:40:17.174806+00"
+    },
+    {
+      "organization_id": "c7477d7e-f16e-4a5b-8f13-e97ace0c84b7",
+      "chave": "botao_ver_mais",
+      "valor": {
+        "modo": "botao",
+        "texto": "Ver mais produtos",
+        "tamanho": "grande",
+        "fundo_cor": "#dff2f1",
+        "texto_cor": "#3a9438",
+        "imagem_alt": "Ver mais produtos",
+        "imagem_url": ""
+      },
+      "created_at": "2026-10-09 06:11:16.17896+00",
+      "updated_at": "2026-10-10 08:49:17.664203+00"
+    },
+    {
+      "organization_id": "c7477d7e-f16e-4a5b-8f13-e97ace0c84b7",
+      "chave": "card_textos",
+      "valor": {
+        "pix_cor": "",
+        "preco_cor": "",
+        "titulo_cor": "",
+        "pix_tamanho": 12,
+        "descricao_cor": "#157d00",
+        "preco_tamanho": 26,
+        "titulo_tamanho": 24,
+        "parcelamento_cor": "",
+        "preco_antigo_cor": "",
+        "descricao_tamanho": 14,
+        "parcelamento_tamanho": 10,
+        "preco_antigo_tamanho": 14
+      },
+      "created_at": "2026-10-10 08:43:46.485272+00",
+      "updated_at": "2026-10-10 17:32:59.365484+00"
+    },
+    {
+      "organization_id": "c7477d7e-f16e-4a5b-8f13-e97ace0c84b7",
+      "chave": "compartilhamento",
+      "valor": {
+        "titulo": "AP SISTEMAS",
+        "site_url": "https://vitrinemax.vercel.app/loja/apsistemas",
+        "descricao": "Loja digital com produtos e soluções prontas para você.",
+        "imagem_url": ""
+      },
+      "created_at": "2026-10-09 05:56:23.11322+00",
+      "updated_at": "2026-11-05 17:00:06.56725+00"
+    },
+    {
+      "organization_id": "c7477d7e-f16e-4a5b-8f13-e97ace0c84b7",
+      "chave": "favicon",
+      "valor": {
+        "url": "[URL ASSINADA DO STORAGE OMITIDA]"
+      },
+      "created_at": "2026-10-09 05:56:22.490534+00",
+      "updated_at": "2026-11-05 17:00:06.446486+00"
+    },
+    {
+      "organization_id": "c7477d7e-f16e-4a5b-8f13-e97ace0c84b7",
+      "chave": "marca",
+      "valor": {
+        "nome": "AP SISTEMAS",
+        "logo_url": "",
+        "altura_logo": 45,
+        "mostrar_nome": true
+      },
+      "created_at": "2026-10-09 05:44:02.405705+00",
+      "updated_at": "2026-10-12 09:09:32.93768+00"
+    },
+    {
+      "organization_id": "c7477d7e-f16e-4a5b-8f13-e97ace0c84b7",
+      "chave": "rodape",
+      "valor": {
+        "texto": "© {{ANO}} {{LOJA}} — Todos os direitos reservados."
+      },
+      "created_at": "2026-10-09 05:56:23.343097+00",
+      "updated_at": "2026-11-05 17:00:06.868777+00"
+    },
+    {
+      "organization_id": "c7477d7e-f16e-4a5b-8f13-e97ace0c84b7",
+      "chave": "titulos_secoes",
+      "valor": {
+        "vitrine": {
+          "modo": "icone",
+          "texto": "Vitrine de Produtos",
+          "icone_cor": "#f97316",
+          "texto_cor": "",
+          "icone_tamanho": 24,
+          "texto_tamanho": 24,
+          "icone_imagem_url": ""
+        },
+        "destaque": {
+          "modo": "icone",
+          "texto": "Os melhores Lançamentos",
+          "icone_cor": "#f97316",
+          "texto_cor": "",
+          "icone_tamanho": 24,
+          "texto_tamanho": 24,
+          "icone_imagem_url": ""
+        }
+      },
+      "created_at": "2026-10-09 05:42:03.833144+00",
+      "updated_at": "2026-10-12 03:36:09.698839+00"
+    }
+  ],
+  "privacy_note": "Tokens e URLs assinadas do Storage foram removidos; campos de contato/telefone e links WhatsApp com números foram mascarados. Leads, atividades CRM, usuários, associações privadas e payloads de backup não são exportados neste snapshot público."
+}
