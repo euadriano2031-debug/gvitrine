@@ -1,56 +1,55 @@
-# Pacote de entrega — G-Vitrine
+# Entrega — G-Vitrine
 
-Projeto fonte: https://github.com/euadriano2031-debug/gvitrine
-Projeto Supabase de referência: jxyhzpvgihfkeduvomlu
-URL do Supabase: https://jxyhzpvgihfkeduvomlu.supabase.co
+**Repositório:** https://github.com/euadriano2031-debug/gvitrine  
+**Projeto Supabase de referência:** `jxyhzpvgihfkeduvomlu`  
+**URL Supabase:** `https://jxyhzpvgihfkeduvomlu.supabase.co`  
+**Snapshot de código:** commit `41b00d756fa4ae14837e7b9294ab4036e2eeb072` (12/11/2026)
 
-## O que este pacote contém
+## Pacotes e componentes
 
-- Código-fonte existente no repositório (site, painel administrativo, componentes, rotas, assets e configurações).
-- Scripts SQL de instalação inicial e migrações que já estavam versionados.
-- Tipos TypeScript sincronizados com o schema público atual do Supabase.
-- Inventário do banco verificado em 2026-10-10.
-- Scripts para fazer backup local do banco e dos objetos do Storage.
+- Código-fonte: site público, rotas, painel administrativo, CRM/Kanban, componentes, assets, testes e configurações.
+- `SUPABASE_INSTALACAO/`: instalador em etapas numeradas para um projeto Supabase novo e vazio.
+- `migracao-supabase/`: scripts incrementais de isolamento por loja, tema administrativo e CRM.
+- `supabase/migrations/`: migrations legadas já existentes no repositório.
+- `ENTREGA/`: backup local, inventário e scripts para exportar Storage.
 
-## Fonte não é um dump completo do banco
+## Instalar um projeto Supabase novo
 
-Por segurança, o ZIP de código-fonte **não contém** os registros reais do banco, credenciais, senhas, tokens nem os arquivos privados do Storage. Os scripts SQL registram estrutura e alterações, mas não substituem um backup dos dados reais em produção.
+1. Crie um projeto novo e um usuário proprietário em Authentication.
+2. Leia `SUPABASE_INSTALACAO/00-LEIA-ME-ORDEM.md`.
+3. Execute os arquivos SQL 01 a 11, um por vez, nessa ordem.
+4. Aplique as alterações incrementais listadas no guia de migração somente depois de conferir dependências, versões e histórico.
+5. Configure as variáveis do app usando `.env.example` como modelo.
+6. Rode a verificação do SQL, faça o build e teste o site e o painel em um projeto separado.
 
-Para obter o backup real, siga backup-supabase.ps1 e exportar-storage.mjs neste diretório. Os arquivos gerados são privados e devem ficar no seu computador/armazenamento seguro, não no repositório público.
+Não execute os arquivos de instalação no banco de produção que já possui tabelas e dados.
 
-## Estrutura de banco
+## Banco existente de produção
 
-- SUPABASE_INSTALACAO/: scripts numerados para criar um banco **novo** do zero.
-- supabase/migrations/: migrações incrementais versionadas junto com o projeto.
-- migracao-supabase/: auxiliares e scripts da migração.
-- banco-de-dados.sql: script SQL mais antigo incluído no projeto.
-- ENTREGA/inventario-banco.md: resumo do schema remoto verificado.
+Em 12/11/2026, o inventário encontrou 2 lojas ativas, 9 produtos, 13 categorias, 20 configurações, 1 lead, 1 atividade de CRM e 10 backups. Todas as 11 tabelas públicas estavam com RLS habilitado.
 
-**Não rode os scripts de SUPABASE_INSTALACAO em produção.** O banco atual já tem tabelas e dados. Antes de executar qualquer migration remota, confira a versão atual, a ordem e se ela já foi aplicada. A listagem de migrations do projeto retornou vazia na verificação realizada, embora o repositório contenha migrations; é necessário reconciliar o histórico antes de usar supabase db push.
+O histórico remoto listou sete migrations de tenant isolation e CRM. O repositório também possui migrations antigas em `supabase/migrations/` e um script de tema em `migracao-supabase/` que não aparece no histórico remoto. **Não use `supabase db push` ou `migration repair` até reconciliar o histórico.** Veja `ENTREGA/inventario-banco.md`.
 
-## Variáveis para desenvolvimento
+## Criar um backup real do banco
 
-Copie .env.example para .env e confira os valores. A chave VITE_SUPABASE_PUBLISHABLE_KEY é publicável; chaves SUPABASE_SECRET_KEY / SUPABASE_SERVICE_ROLE_KEY só podem existir em ambientes locais ignorados pelo Git ou nos segredos do host. Nunca preencha uma chave administrativa em .env.example.
+O código-fonte não inclui os registros privados de produção. Para gerar um dump lógico completo de schema, papéis e dados:
 
-## Instalação local no Windows
+1. Instale Node.js e Docker Desktop.
+2. Obtenha a connection string PostgreSQL em Supabase Dashboard → Connect.
+3. No PowerShell, defina a variável somente para a sessão atual:
+   `$env:SUPABASE_DB_URL = 'postgresql://...'`
+4. Execute `./ENTREGA/backup-supabase.ps1`.
 
-1. Instale Node.js 22, Git e Docker Desktop.
-2. Extraia o ZIP.
-3. Copie .env.example para .env e configure as variáveis necessárias.
-4. No PowerShell, na pasta raiz, execute: npm ci.
-5. Execute npm run dev.
-6. Verifique a compilação com npm run build.
+O script cria uma pasta privada `BACKUP-DADOS-LOCAL/<data-hora>/` com roles, schema, dados e histórico de migrations. Não envie essa pasta ao GitHub: ela pode conter dados pessoais, contatos e configurações comerciais.
 
-## Backup real do banco e Storage
+O CLI exclui schemas gerenciados (como `auth` e `storage`) do dump normal. Usuários, hashes/senhas, provedores OAuth, SMTP, secrets e API keys precisam ser recriados/configurados. Objetos binários do Storage são exportados separadamente por `ENTREGA/exportar-storage.mjs`.
 
-1. Gere a connection string no painel Supabase do projeto.
-2. Defina SUPABASE_DB_URL somente na sessão local do PowerShell.
-3. Execute ./ENTREGA/backup-supabase.ps1.
-4. Defina SUPABASE_URL e uma chave administrativa atual somente na sessão local e execute node ./ENTREGA/exportar-storage.mjs.
-5. Guarde a pasta BACKUP-DADOS-LOCAL em local seguro. Ela pode conter dados pessoais, leads, usuários, configurações e mídia privada.
+## Configurar o aplicativo
 
-O backup de dados reais ainda precisa ser executado no seu ambiente com suas credenciais. Este pacote não afirma conter os dados privados atuais, pois não é seguro publicar esses dados dentro do código-fonte público.
+Copie `.env.example` para `.env`. Configure a URL Supabase e a publishable key. Nunca exponha `service_role` ou secret keys em variáveis `VITE_*` nem no navegador.
 
-## Validação
+## Validação e avisos conhecidos
 
-O repositório inclui workflow de build/testes e workflow para gerar um ZIP de download. Veja a aba Actions e baixe o artefato mais recente após concluir os workflows.
+O código do commit acima passou nos dois builds e nos oito testes automatizados de navegação do site e acesso administrativo. Isso não é uma garantia matemática de ausência de falhas em todos os fluxos e ambientes.
+
+O Supabase Advisors ainda mostra avisos de SECURITY DEFINER, extensão `pg_net` no schema `public`, proteção de senha vazada desativada e oportunidades de indexação/otimização RLS. Eles estão descritos no inventário; precisam de revisão controlada antes de afirmar que a base não tem alertas.
